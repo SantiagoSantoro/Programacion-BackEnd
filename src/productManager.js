@@ -83,45 +83,46 @@ class ProductManager {
     console.log("Producto eliminado exitosamente.");
   }
 }
+module.exports = ProductManager;
 
 // Ejemplo de uso
-(async () => {
-  const manager = new ProductManager('Products.json');
+//   (async () => {
+//     const manager = new ProductManager('Products.json');
 
-  console.log(await manager.getProducts());
+//     console.log(await manager.getProducts());
 
-  await manager.addProduct({
-    title: "producto prueba",
-    description: "Este es un producto prueba",
-    price: 200,
-    thumbnail: "Sin imagen",
-    code: "abc123",
-    stock: 25,
-  });
+//     await manager.addProduct({
+//       title: "producto prueba",
+//       description: "Este es un producto prueba",
+//       price: 200,
+//       thumbnail: "Sin imagen",
+//       code: "abc123",
+//       stock: 25,
+//     });
 
-  console.log(await manager.getProducts());
+//     console.log(await manager.getProducts());
 
-  try {
-    const product = await manager.getProductById(1);
-    console.log("Producto encontrado:", product);
-  } catch (error) {
-    console.error(error.message);
-  }
+//     try {
+//       const product = await manager.getProductById(1);
+//       console.log("Producto encontrado:", product);
+//     } catch (error) {
+//       console.error(error.message);
+//     }
 
-  try {
-    await manager.updateProduct(1, { price: 250, stock: 30 });
-  } catch (error) {
-    console.error(error.message);
-  }
-  // Bloque comentado para que en products.json pueda visualizarse el array con el producto, sino se elimina y queda vacío.
-  // try {
-  //   await manager.deleteProduct(1);
-  // } catch (error) {
-  //   console.error(error.message);
-  // }
+//     try {
+//       await manager.updateProduct(1, { price: 250, stock: 30 });
+//     } catch (error) {
+//       console.error(error.message);
+//     }
 
-  console.log(await manager.getProducts());
-})();
+//     try {
+//       await manager.deleteProduct(1);
+//     } catch (error) {
+//       console.error(error.message);
+//     }
+
+//     console.log(await manager.getProducts());
+//   })();
 
 
 

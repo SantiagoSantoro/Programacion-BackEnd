@@ -1,7 +1,7 @@
 const fs = require('fs');
 const crypto = require('crypto')
-
 const path = 'Usuarios.json'
+
 class ManagerUsuarios {
     constructor() {
 
