@@ -15,7 +15,21 @@ class ProductManager {
       this.productId = this.calculateNextId();
     } catch (error) {
       // Si el archivo no existe o está vacío, se creará un archivo vacío
-      await fs.promises.writeFile(this.path, '[]');
+      console.error("Error al leer el archivo:", error);
+    }
+
+    // Si el archivo está vacío o no contiene productos, creamos 10 productos iniciales
+    if (this.products.length === 0) {
+      for (let i = 0; i < 10; i++) {
+        await this.addProduct({
+          title: `Producto ${i + 1}`,
+          description: `Descripción del producto ${i + 1}`,
+          price: 100 + i,
+          thumbnail: `thumbnail_${i + 1}`,
+          code: `code_${i + 1}`,
+          stock: 50 + i,
+        });
+      }
     }
   }
 
@@ -86,43 +100,43 @@ class ProductManager {
 module.exports = ProductManager;
 
 // Ejemplo de uso
-  (async () => {
-    const manager = new ProductManager('products.json');
+(async () => {
+  const manager = new ProductManager('products.json');
 
-    console.log(await manager.getProducts());
+  console.log(await manager.getProducts());
 
-    await manager.addProduct({
-      title: "producto prueba",
-      description: "Este es un producto prueba",
-      price: 200,
-      thumbnail: "Sin imagen",
-      code: "abc123",
-      stock: 25,
-    });
+  await manager.addProduct({
+    title: "producto prueba",
+    description: "Este es un producto prueba",
+    price: 200,
+    thumbnail: "Sin imagen",
+    code: "abc123",
+    stock: 25,
+  });
 
-    console.log(await manager.getProducts());
+  console.log(await manager.getProducts());
 
-    try {
-      const product = await manager.getProductById(1);
-      console.log("Producto encontrado:", product);
-    } catch (error) {
-      console.error(error.message);
-    }
+  try {
+    const product = await manager.getProductById(1);
+    console.log("Producto encontrado:", product);
+  } catch (error) {
+    console.error(error.message);
+  }
 
-    try {
-      await manager.updateProduct(1, { price: 250, stock: 30 });
-    } catch (error) {
-      console.error(error.message);
-    }
+  try {
+    await manager.updateProduct(1, { price: 250, stock: 30 });
+  } catch (error) {
+    console.error(error.message);
+  }
 
-    // try {
-    //   await manager.deleteProduct(1);
-    // } catch (error) {
-    //   console.error(error.message);
-    // }
+  // try {
+  //   await manager.deleteProduct(1);
+  // } catch (error) {
+  //   console.error(error.message);
+  // }
 
-    console.log(await manager.getProducts());
-  })();
+  console.log(await manager.getProducts());
+})();
 
 
 
