@@ -6,6 +6,11 @@ const app = express();
 const manager = new ProductManager('products.json');
 
 
+// Ruta para la raíz del servidor
+app.get('/', (req, res) => {
+  res.send('¡Bienvenido a la página principal!');
+});
+
 // Ruta para obtener todos los productos (opcional: limitar resultados con ?limit=)
 app.get('/products', async (req, res) => {
     const limit = req.query.limit; // Obtenemos el valor del query param "limit"
