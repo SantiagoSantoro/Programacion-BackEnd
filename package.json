@@ -2,8 +2,9 @@
   "name": "programacion-back-end",
   "version": "1.0.0",
   "description": "ecommerce",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
+    "start": "node src/app.js", 
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Santiago Santoro",
@@ -13,3 +14,4 @@
     "moment": "^2.29.4"
   }
 }
+
