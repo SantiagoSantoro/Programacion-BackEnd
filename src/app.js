@@ -1,42 +1,22 @@
-const express = require('express');
-const ProductManager = require('./ProductManager');
-
+import express from 'express';
+import productRoutes from './routes/productRoutes'; // Importar las rutas de productos
+import cartRoutes from './routes/cartRoutes.js'; // Importar las rutas de carritos
 
 const app = express();
-const manager = new ProductManager('products.json');
 
+// Middleware para permitir el manejo de JSON en las solicitudes
+app.use(express.json());
 
 // Ruta para la raíz del servidor
 app.get('/', (req, res) => {
   res.send('¡Bienvenido a la página principal!');
 });
 
-// Ruta para obtener todos los productos (opcional: limitar resultados con ?limit=)
-app.get('/products', async (req, res) => {
-    const limit = req.query.limit; // Obtenemos el valor del query param "limit"
-    let products = await manager.getProducts();
-  
-    // Verificamos si existe el query param "limit"
-    if (limit) {
-      // Si existe, convertimos el valor a número y limitamos los resultados según el query param
-      products = products.slice(0, parseInt(limit));
-    }
-  
-    res.json(products);
-});
+// Usar las rutas de productos bajo /api/products
+app.use('/api/products', productRoutes);
 
-  
-  // Ruta para obtener un producto por su id
-  app.get('/products/:pid', async (req, res) => {
-    const productId = parseInt(req.params.pid);
-    try {
-      const product = await manager.getProductById(productId);
-      res.json(product);
-    } catch (error) {
-      res.status(404).json({ error: 'Producto no encontrado.' });
-    }
-  });
-  
+// Usar las rutas de carritos bajo /api/carts
+app.use('/api/carts', cartRoutes);
 
 const port = 8080;
 app.listen(port, () => {
