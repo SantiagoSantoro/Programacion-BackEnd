@@ -1,8 +1,8 @@
 import express from 'express';
 const router = express.Router();
-import CartManager from '../cartManager';
+import CartManager from '../cartManager.js';
 
-const cartManager = new CartManager('cart.json'); // Ajusta el nombre del archivo JSON si es necesario
+const cartManager = new CartManager('cart.json'); 
 
 // Ruta Raiz POST /api/carts
 router.post('/', async (req, res) => {
@@ -38,6 +38,33 @@ router.post('/:cid/product/:pid', async (req, res) => {
     res.status(404).json({ error: 'Carrito o producto no encontrado.' });
   }
 });
+// Ruta PUT /api/carts/:cid/product/:pid
+router.put('/:cid/product/:pid', async (req, res) => {
+  const cartId = req.params.cid;
+  const productId = parseInt(req.params.pid);
+  const newQuantity = parseInt(req.body.quantity); // Nueva cantidad del producto
+
+  try {
+    await cartManager.updateProductQuantity(cartId, productId, newQuantity);
+    res.json({ message: 'Cantidad de producto actualizada exitosamente.' });
+  } catch (error) {
+    res.status(404).json({ error: 'Carrito o producto no encontrado.' });
+  }
+});
+
+// Ruta DELETE /api/carts/:cid/product/:pid
+router.delete('/:cid/product/:pid', async (req, res) => {
+  const cartId = req.params.cid;
+  const productId = parseInt(req.params.pid);
+
+  try {
+    await cartManager.removeProductFromCart(cartId, productId);
+    res.json({ message: 'Producto eliminado del carrito exitosamente.' });
+  } catch (error) {
+    res.status(404).json({ error: 'Carrito o producto no encontrado.' });
+  }
+});
+
 
 export default router;
 

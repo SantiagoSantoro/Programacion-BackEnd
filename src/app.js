@@ -1,5 +1,5 @@
 import express from 'express';
-import productRoutes from './routes/productRoutes'; // Importar las rutas de productos
+import productRoutes from './routes/productRoutes.js'; // Importar las rutas de productos
 import cartRoutes from './routes/cartRoutes.js'; // Importar las rutas de carritos
 
 const app = express();

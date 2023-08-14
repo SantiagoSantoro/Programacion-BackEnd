@@ -1,5 +1,6 @@
 import { promises as fs } from 'fs';
 
+
 class ProductManager {
   constructor(path) {
     this.path = path;
@@ -10,7 +11,7 @@ class ProductManager {
 
   async initializeProducts() {
     try {
-      const data = await fs.promises.readFile(this.path, 'utf-8');
+      const data = await fs.readFile(this.path, 'utf-8');
       this.products = JSON.parse(data);
       this.productId = this.calculateNextId();
     } catch (error) {
@@ -42,7 +43,7 @@ class ProductManager {
   }
 
   async saveProductsToFile() {
-    await fs.promises.writeFile(this.path, JSON.stringify(this.products, null, 2));
+    await fs.writeFile(this.path, JSON.stringify(this.products, null, 2));
   }
 
   async addProduct(product) {
