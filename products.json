@@ -88,5 +88,14 @@
     "code": "code_10",
     "stock": 59,
     "id": 10
+  },
+  {
+    "title": "Producto POSTEADO",
+    "description": "Descripción del producto POSTEADO",
+    "price": 1088,
+    "thumbnail": "thumbnail_9POSTEADO",
+    "code": "code_9_POSTEADO",
+    "stock": 70,
+    "id": 11
   }
 ]

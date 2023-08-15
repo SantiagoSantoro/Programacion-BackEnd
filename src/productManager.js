@@ -23,13 +23,16 @@ class ProductManager {
     if (this.products.length === 0) {
       for (let i = 0; i < 10; i++) {
         await this.addProduct({
+          id: `Id ${i + 1}`,
           title: `Producto ${i + 1}`,
           description: `Descripción del producto ${i + 1}`,
-          price: 100 + i,
-          thumbnail: `thumbnail_${i + 1}`,
           code: `code_${i + 1}`,
+          price: 100 + i,
+          status: true,
           stock: 50 + i,
-        });
+          category: `Categoria del producto ${i + 1}`,
+          thumbnail: `thumbnail_${i + 1}`,
+         });
       }
     }
   }
@@ -77,9 +80,7 @@ class ProductManager {
 
   async updateProduct(id, updatedFields) {
     const productIndex = this.products.findIndex((p) => p.id === id);
-    if (productIndex === -1) {
-      throw new Error("Producto no encontrado.");
-    }
+    console.log("ID del producto a actualizar:", id);
 
     const updatedProduct = { ...this.products[productIndex], ...updatedFields };
     this.products[productIndex] = updatedProduct;

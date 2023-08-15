@@ -35,8 +35,9 @@ router.post('/', async (req, res) => {
   }
 });
 
+
 router.put('/:pid', async (req, res) => {
-  const productId = parseInt(req.params.pid);
+  const productId = (req.params.pid);
   const updatedFields = req.body;
   try {
     await manager.updateProduct(productId, updatedFields);

@@ -31,20 +31,20 @@ class CartManager {
   }
 
   async addProductToCart(cartId, productId, quantity) {
-    const cart = this.carts.find(cart => cart.id === cartId);
-    if (cart) {
-      const existingProduct = cart.products.find(product => product.product === productId);
-      if (existingProduct) {
-        existingProduct.quantity += quantity;
+    const cartIndex = this.carts.findIndex(cart => cart.id === cartId);
+    if (cartIndex != -1) {
+      const existingProduct = this.carts[cartIndex].products.findIndex(product => product.product === productId);
+      if (existingProduct != -1) {
+        this.carts[cartIndex].products[existingProduct].quantity += quantity;
       } else {
-        cart.products.push({ product: productId, quantity });
+        this.carts[cartIndex].products.push({ product: productId, quantity });
       }
       await this.saveCartsToFile();
     } else {
       throw new Error('Carrito no encontrado.');
     }
   }
-  
+
   // Generar un ID único para el carrito 
   generateUniqueId() {
     return Math.random().toString(36).substr(2, 9);
