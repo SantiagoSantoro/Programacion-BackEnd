@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Real Time Products</title>
+  <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+  <h1>Vista de productos en tiempo real</h1>
+  
+  <!-- Formulario para agregar productos -->
+  <form id="addProductForm">
+    <input type="text" id="productName" placeholder="Nombre del producto" />
+    <input type="number" id="productPrice" placeholder="Precio del producto" />
+    <button type="submit">Agregar producto</button>
+  </form>
+
+  <!-- Lista de productos -->
+  <ul id="productList"></ul>
+
+  <script>
+    const socket = io(); // Conectar al servidor WebSocket
+
+    // Escuchar el evento de actualización de productos
+    socket.on('updateProducts', (product) => {
+      if (product.removedProductId) {
+        // Eliminar el producto de la lista
+        const removedProduct = document.getElementById(product.removedProductId);
+        if (removedProduct) {
+          removedProduct.remove();
+        }
+      } else {
+        // Agregar el producto a la lista
+        const productList = document.getElementById('productList');
+        const productItem = document.createElement('li');
+        productItem.id = product.id;
+        productItem.textContent = `${product.title} - $${product.price}`;
+        productList.appendChild(productItem);
+      }
+    });
+
+    // Manejar el envío del formulario para agregar productos
+    const addProductForm = document.getElementById('addProductForm');
+    addProductForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const productName = document.getElementById('productName').value;
+      const productPrice = parseFloat(document.getElementById('productPrice').value);
+      if (productName && !isNaN(productPrice)) {
+        // Emitir el evento de producto agregado al servidor
+        socket.emit('productAdded', { title: productName, price: productPrice });
+      }
+    });
+  </script>
+</body>
+</html>
