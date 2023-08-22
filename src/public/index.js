@@ -1,12 +1,12 @@
 const server = io().connect('http://localhost:8080');
 
-const render = (productos) => {
+const render = (products) => {
     let listado = document.querySelector('#listado');
-    let html = productos.map(prod => {
+    let html = products.map(prod => {
         return `
             <li>
-                <strong>Nombre: ${prod.nombre}</strong>
-                <em>Precio: ${prod.precio}</em>
+                <strong>Title: ${prod.title}</strong>
+                <em>Price: ${prod.price}</em>
             </li>
         `;
     });
@@ -14,11 +14,11 @@ const render = (productos) => {
 };
 
 const addProduct = (evt) => {
-    const nombre = document.querySelector('#nombre').value;
-    const precio = document.querySelector('#precio').value;
-    const producto = { nombre, precio };
+    const title = document.querySelector('#title').value;
+    const price = document.querySelector('#price').value;
+    const product = { title, price };
 
-    server.emit('producto-nuevo', producto, (id) => {
+    server.emit('producto-nuevo', product, (id) => {
         console.log(id);
     });
 
@@ -27,5 +27,6 @@ const addProduct = (evt) => {
 
 /* Listening for a message from the server. */
 server.on('mensaje-servidor', mensaje => {
-    render(mensaje.productos);
+    render(mensaje.products);
 });
+

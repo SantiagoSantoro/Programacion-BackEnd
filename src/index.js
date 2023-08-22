@@ -14,26 +14,26 @@ app.get('/', (req, res) => {
     res.sendFile('index.html', { root: __dirname });
 });
 
-let productos = [
-    { id: 1, nombre: 'Producto 1', precio: 100 },
-    { id: 2, nombre: 'Producto 2', precio: 200 },
-    { id: 3, nombre: 'Producto 3', precio: 300 }
+let products = [
+    { id: 1, title: 'Producto 1', price: 100 },
+    { id: 2, title: 'Producto 2', price: 200 },
+    { id: 3, title: 'Producto 3', price: 300 }
 ];
 
 io.on('connection', (socket) => {
     const mensaje = {
         mensaje: 'ok',
-        productos
+        products
     };
     
     socket.emit('mensaje-servidor', mensaje);
 
     socket.on('producto-nuevo', (producto, cb) => {
-        productos.push(producto);
+        products.push(producto);
 
         const mensaje = {
             mensaje: 'producto insertado',
-            productos
+            products
         };
 
         const id = new Date().getTime();
