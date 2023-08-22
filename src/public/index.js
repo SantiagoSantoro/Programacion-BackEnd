@@ -1,7 +1,8 @@
 const server = io().connect('http://localhost:8080');
 
 const render = (products) => {
-    let listado = document.querySelector('#listado');
+    let productList = document.querySelector('#productList');
+
     let html = products.map(prod => {
         return `
             <li>

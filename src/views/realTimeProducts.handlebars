@@ -25,7 +25,9 @@
 
   <script>
     const socket = io(); // Conectar al servidor WebSocket
-
+    socket.on('connect', () => {
+      console.log('Conexión al servidor WebSocket establecida');
+    });
     // Escuchar el evento de actualización de productos
     socket.on('updateProducts', (product) => {
       console.log('Evento updateProducts recibido:', product);
