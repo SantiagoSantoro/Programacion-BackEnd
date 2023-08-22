@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Real Time Products</title>
-  <script src="/socket.io/socket.io.js"></script>
+  <script src="./socket.io/socket.io.js"></script>
 </head>
+
 <body>
   <h1>Vista de productos en tiempo real</h1>
-  
+
   <!-- Formulario para agregar productos -->
   <form id="addProductForm">
     <input type="text" id="productName" placeholder="Nombre del producto" />
@@ -15,14 +17,20 @@
   </form>
 
   <!-- Lista de productos -->
-  <ul id="productList"></ul>
+  <ul id="productList">
+    {{#each products}}
+    <li>{{this.title}} - ${{this.price}}</li>
+    {{/each}}
+  </ul>
 
   <script>
     const socket = io(); // Conectar al servidor WebSocket
 
     // Escuchar el evento de actualización de productos
     socket.on('updateProducts', (product) => {
-      if (product.removedProductId) {
+      console.log('Evento updateProducts recibido:', product);
+
+      if (product.removedProductId !== undefined) {
         // Eliminar el producto de la lista
         const removedProduct = document.getElementById(product.removedProductId);
         if (removedProduct) {
@@ -34,9 +42,17 @@
         const productItem = document.createElement('li');
         productItem.id = product.id;
         productItem.textContent = `${product.title} - $${product.price}`;
+
+        console.log('Agregando producto:', product);
+        console.log('Nuevo elemento productItem:', productItem);
+
         productList.appendChild(productItem);
       }
+
     });
+
+    // Ejemplo de console.log para verificar la ejecución de una parte del código
+    console.log("Código para manejar eventos del formulario ejecutado.")
 
     // Manejar el envío del formulario para agregar productos
     const addProductForm = document.getElementById('addProductForm');
@@ -49,6 +65,8 @@
         socket.emit('productAdded', { title: productName, price: productPrice });
       }
     });
+
   </script>
 </body>
+
 </html>

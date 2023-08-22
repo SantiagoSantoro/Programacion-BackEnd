@@ -38,15 +38,17 @@ app.use('/api/carts', cartRoutes);
 
 const io = new Server(server);
 
+
 // Configurar Socket.IO para manejar conexiones WebSocket
 io.on('connection', (socket) => {
   console.log('Cliente conectado a través de WebSocket');
 
   // Manejar el evento cuando se agrega un producto
   socket.on('productAdded', (product) => {
-    // Emitir el evento a todos los clientes conectados
+    console.log('Evento productAdded emitido:', product);
     io.emit('updateProducts', product);
   });
+  
 
   // Manejar el evento cuando se elimina un producto
   socket.on('productRemoved', (productId) => {
