@@ -1,7 +1,7 @@
 const server = io().connect('http://localhost:8080');
 
 const render = (products) => {
-    let productList = document.querySelector('#productList');
+    let products = document.querySelector('#productList');
 
     let html = products.map(prod => {
         return `
@@ -14,7 +14,7 @@ const render = (products) => {
     listado.innerHTML = html.join(' ');
 };
 
-const addProduct = (evt) => {
+const addProductForm = (evt) => {
     const title = document.querySelector('#title').value;
     const price = document.querySelector('#price').value;
     const product = { title, price };
