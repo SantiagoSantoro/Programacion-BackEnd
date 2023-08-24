@@ -43,9 +43,13 @@
   <!-- Lista de productos -->
   <ul id="productList">
     {{#each products}}
-    <li>{{this.title}} - ${{this.price}}</li>
+    <li>
+      {{this.title}} - ${{this.price}}
+      <button class="delete-button" data-id="{{this.id}}">Eliminar</button>
+    </li>
     {{/each}}
   </ul>
+
 
   <script>
     const socket = io(); // Conectar al servidor WebSocket
@@ -58,7 +62,7 @@
 
       if (product.removedProductId !== undefined) {
         // Eliminar el producto de la lista
-        const removedProduct = document.getElementById(product.removedProductId);
+        const removedProduct = document.getElementById(`product-${product.removedProductId}`);
         if (removedProduct) {
           removedProduct.remove();
         }
@@ -66,7 +70,7 @@
         // Agregar el producto a la lista
         const productList = document.getElementById('productList');
         const productItem = document.createElement('li');
-        productItem.id = product.id;
+        productItem.id = `product-${product.id}`;
         productItem.textContent = `${product.title} - $${product.price}`;
 
         console.log('Agregando producto:', product);
@@ -74,7 +78,6 @@
 
         productList.appendChild(productItem);
       }
-
     });
 
     // Ejemplo de console.log para verificar la ejecución de una parte del código
@@ -93,6 +96,17 @@
     });
 
   </script>
+  <script>
+    const deleteButtons = document.querySelectorAll('.deleteProduct');
+
+    deleteButtons.forEach(button => {
+      button.addEventListener('click', (event) => {
+        const productId = event.target.getAttribute('data-id');
+        socket.emit('productRemoved', productId);
+      });
+    });
+  </script>
+
 </body>
 
 </html>

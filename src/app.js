@@ -63,9 +63,10 @@ const io = new Server(server);
 // Configurar Socket.IO para manejar conexiones WebSocket
 io.on('connection', (socket) => {
   console.log('Cliente conectado a través de WebSocket');
-
+  let productIdCounter = 1
   // Manejar el evento cuando se agrega un producto
   socket.on('productAdded', (product) => {
+    product.id = productIdCounter++;
     console.log('Evento productAdded emitido:', product);
     io.emit('updateProducts', product);
   });
@@ -73,7 +74,9 @@ io.on('connection', (socket) => {
 
   // Manejar el evento cuando se elimina un producto
   socket.on('productRemoved', (productId) => {
-    // Emitir el evento a todos los clientes conectados
+    // Filtrar el arreglo de productos para eliminar el producto por su ID
+    products = products.filter(product => product.id !== productId)
+    // Emitir el evento a todos los clientes conectados 
     io.emit('updateProducts', { removedProductId: productId });
   });
 });
@@ -84,7 +87,7 @@ app.get('/', (req, res) => {
 });
 // Ruta para la vista "home"
 app.get('/home', (req, res) => {
-  res.render('home');
+  res.render('home', { products: product });
 });
 // Ruta para la vista en tiempo real de productos
 app.get('/realtimeproducts', (req, res) => {
