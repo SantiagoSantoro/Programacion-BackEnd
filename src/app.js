@@ -50,13 +50,6 @@ app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
 app.set('views', path.join(__dirname, 'views'));
 
-
-// Usar las rutas de productos bajo /api/products
-app.use('/api/products', productRoutes);
-
-// Usar las rutas de carritos bajo /api/carts
-app.use('/api/carts', cartRoutes);
-
 const io = new Server(server);
 
 
@@ -73,8 +66,6 @@ io.on('connection', (socket) => {
 
   // Manejar el evento cuando se elimina un producto
   socket.on('productRemoved', (productId) => {
-    // Filtrar el arreglo de productos para eliminar el producto por su ID
-    products = products.filter(product => product.id !== productId)
     // Emitir el evento a todos los clientes conectados
     io.emit('updateProducts', { removedProductId: productId });
   });
@@ -84,14 +75,22 @@ io.on('connection', (socket) => {
 app.get('/', (req, res) => {
   res.send('¡Bienvenido a la página principal!');
 });
+
 // Ruta para la vista "home"
 app.get('/home', (req, res) => {
   res.render('home', { products: products });
 });
+
 // Ruta para la vista en tiempo real de productos
 app.get('/realtimeproducts', (req, res) => {
   res.render('realTimeProducts', { products: products });
 });
+
+// Usar las rutas de productos bajo /api/products
+app.use('/api/products', productRoutes);
+
+// Usar las rutas de carritos bajo /api/carts
+app.use('/api/carts', cartRoutes);
 
 const port = 8080;
 server.listen(port, () => {
