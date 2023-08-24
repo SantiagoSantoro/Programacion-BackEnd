@@ -10,7 +10,7 @@ import __dirname from './utils.js';
 const app = express();
 const server = http.createServer(app);
 
-const product = [
+const products = [
   {
     id: 1,
     title: "Producto 1",
@@ -71,12 +71,11 @@ io.on('connection', (socket) => {
     io.emit('updateProducts', product);
   });
 
-
   // Manejar el evento cuando se elimina un producto
   socket.on('productRemoved', (productId) => {
     // Filtrar el arreglo de productos para eliminar el producto por su ID
     products = products.filter(product => product.id !== productId)
-    // Emitir el evento a todos los clientes conectados 
+    // Emitir el evento a todos los clientes conectados
     io.emit('updateProducts', { removedProductId: productId });
   });
 });
@@ -87,11 +86,11 @@ app.get('/', (req, res) => {
 });
 // Ruta para la vista "home"
 app.get('/home', (req, res) => {
-  res.render('home', { products: product });
+  res.render('home', { products: products });
 });
 // Ruta para la vista en tiempo real de productos
 app.get('/realtimeproducts', (req, res) => {
-  res.render('realTimeProducts', { products: product });
+  res.render('realTimeProducts', { products: products });
 });
 
 const port = 8080;

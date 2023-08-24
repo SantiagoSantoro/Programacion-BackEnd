@@ -43,69 +43,69 @@
   <!-- Lista de productos -->
   <ul id="productList">
     {{#each products}}
-    <li>
+    <li id="product-{{this.id}}">
       {{this.title}} - ${{this.price}}
       <button class="delete-button" data-id="{{this.id}}">Eliminar</button>
     </li>
     {{/each}}
   </ul>
 
+ <script>
+  const socket = io(); // Conectar al servidor WebSocket
+  socket.on('connect', () => {
+    console.log('Conexión al servidor WebSocket establecida');
+  });
 
-  <script>
-    const socket = io(); // Conectar al servidor WebSocket
-    socket.on('connect', () => {
-      console.log('Conexión al servidor WebSocket establecida');
-    });
-    // Escuchar el evento de actualización de productos
-    socket.on('updateProducts', (product) => {
-      console.log('Evento updateProducts recibido:', product);
+  // Escuchar el evento de actualización de productos
+  socket.on('updateProducts', (product) => {
+    console.log('Evento updateProducts recibido:', product);
 
-      if (product.removedProductId !== undefined) {
-        // Eliminar el producto de la lista
-        const removedProduct = document.getElementById(`product-${product.removedProductId}`);
-        if (removedProduct) {
-          removedProduct.remove();
-        }
-      } else {
-        // Agregar el producto a la lista
-        const productList = document.getElementById('productList');
-        const productItem = document.createElement('li');
-        productItem.id = `product-${product.id}`;
-        productItem.textContent = `${product.title} - $${product.price}`;
-
-        console.log('Agregando producto:', product);
-        console.log('Nuevo elemento productItem:', productItem);
-
-        productList.appendChild(productItem);
+    if (product.removedProductId !== undefined) {
+      // Eliminar el producto de la lista
+      const removedProduct = document.getElementById(`product-${product.removedProductId}`);
+      if (removedProduct) {
+        removedProduct.remove();
       }
-    });
+    } else {
+      // Agregar el producto a la lista
+      const productList = document.getElementById('productList');
+      const productItem = document.createElement('li');
+      productItem.id = `product-${product.id}`;
+      productItem.textContent = `${product.title} - $${product.price}`;
 
-    // Ejemplo de console.log para verificar la ejecución de una parte del código
-    console.log("Código para manejar eventos del formulario ejecutado.")
+      console.log('Agregando producto:', product);
+      console.log('Nuevo elemento productItem:', productItem);
 
-    // Manejar el envío del formulario para agregar productos
-    const addProductForm = document.getElementById('addProductForm');
-    addProductForm.addEventListener('submit', (event) => {
-      event.preventDefault();
-      const productName = document.getElementById('productName').value;
-      const productPrice = parseFloat(document.getElementById('productPrice').value);
-      if (productName && !isNaN(productPrice)) {
-        // Emitir el evento de producto agregado al servidor
-        socket.emit('productAdded', { title: productName, price: productPrice });
-      }
-    });
+      productList.appendChild(productItem);
+    }
 
-  </script>
-  <script>
-    const deleteButtons = document.querySelectorAll('.deleteProduct');
-
+    // Manejar el evento para eliminar productos
+    const deleteButtons = document.querySelectorAll('.delete-button');
     deleteButtons.forEach(button => {
       button.addEventListener('click', (event) => {
         const productId = event.target.getAttribute('data-id');
         socket.emit('productRemoved', productId);
       });
     });
-  </script>
+  });
+
+  // Ejemplo de console.log para verificar la ejecución de una parte del código
+  console.log("Código para manejar eventos del formulario ejecutado.");
+
+  // Manejar el envío del formulario para agregar productos
+  const addProductForm = document.getElementById('addProductForm');
+  addProductForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const productName = document.getElementById('productName').value;
+    const productPrice = parseFloat(document.getElementById('productPrice').value);
+    if (productName && !isNaN(productPrice)) {
+      // Emitir el evento de producto agregado al servidor
+      socket.emit('productAdded', { title: productName, price: productPrice });
+    }
+  });
+
+</script>
+
 
 </body>
 
