@@ -1,14 +1,12 @@
 import express from 'express';
 import path from 'path';
-import http from 'http';
-import { Server } from 'socket.io';
 import exphbs from 'express-handlebars';
 import productRoutes from './routes/productRoutes.js';
 import cartRoutes from './routes/cartRoutes.js';
 import __dirname from './utils.js';
 
+
 const app = express();
-const server = http.createServer(app);
 
 const products = [
   {
@@ -50,27 +48,6 @@ app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
 app.set('views', path.join(__dirname, 'views'));
 
-const io = new Server(server);
-
-
-// Configurar Socket.IO para manejar conexiones WebSocket
-io.on('connection', (socket) => {
-  console.log('Cliente conectado a través de WebSocket');
-  let productIdCounter = 1
-  // Manejar el evento cuando se agrega un producto
-  socket.on('productAdded', (product) => {
-    product.id = productIdCounter++;
-    console.log('Evento productAdded emitido:', product);
-    io.emit('updateProducts', product);
-  });
-
-  // Manejar el evento cuando se elimina un producto
-  socket.on('productRemoved', (productId) => {
-    // Emitir el evento a todos los clientes conectados
-    io.emit('updateProducts', { removedProductId: productId });
-  });
-});
-
 // Ruta para la raíz del servidor
 app.get('/', (req, res) => {
   res.send('¡Bienvenido a la página principal!');
@@ -96,3 +73,5 @@ const port = 8080;
 server.listen(port, () => {
   console.log(`Servidor corriendo en http://localhost:${port}`);
 });
+
+export default app

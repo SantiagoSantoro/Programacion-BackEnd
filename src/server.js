@@ -1,48 +1,24 @@
-const express = require('express');
-const { Server: HttpServer } = require('http');
-const { Server: IOServer } = require('socket.io');
+import http from 'http';
+import { Server } from 'socket.io';
+import app from './app.js';
 
-const app = express();
-const httpServer = new HttpServer(app);
-const io = new IOServer(httpServer);
+const server = http.createServer(app);
+const io = new Server(server);
 
-const PORT = process.env.PORT || 4000;
-
-app.use(express.static('public'));
-
-app.get('/', (req, res) => {
-    res.sendFile('index.html', { root: __dirname });
-});
-
-let products = [
-    { id: 1, title: 'Producto 1', price: 100 },
-    { id: 2, title: 'Producto 2', price: 200 },
-    { id: 3, title: 'Producto 3', price: 300 }
-];
-
+// Configurar Socket.IO para manejar conexiones WebSocket
 io.on('connection', (socket) => {
-    const mensaje = {
-        mensaje: 'ok',
-        products
-    };
-    
-    socket.emit('mensaje-servidor', mensaje);
-
-    socket.on('producto-nuevo', (producto, cb) => {
-        products.push(producto);
-
-        const mensaje = {
-            mensaje: 'producto insertado',
-            products
-        };
-
-        const id = new Date().getTime();
-
-        io.sockets.emit('mensaje-servidor', mensaje);
-        cb(id);
+    console.log('Cliente conectado a través de WebSocket');
+    let productIdCounter = 1
+    // Manejar el evento cuando se agrega un producto
+    socket.on('productAdded', (product) => {
+        product.id = productIdCounter++;
+        console.log('Evento productAdded emitido:', product);
+        io.emit('updateProducts', product);
     });
-});
 
-httpServer.listen(PORT, () => {
-    console.log(`Server listening on port ${PORT}`);
+    // Manejar el evento cuando se elimina un producto
+    socket.on('productRemoved', (productId) => {
+        // Emitir el evento a todos los clientes conectados
+        io.emit('updateProducts', { removedProductId: productId });
+    });
 });
