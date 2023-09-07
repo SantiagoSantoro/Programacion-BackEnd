@@ -1,12 +1,21 @@
 import express from 'express';
+import http from 'http';
+import { Server } from 'socket.io';
 import path from 'path';
 import exphbs from 'express-handlebars';
 import productRoutes from './routes/productRoutes.js';
 import cartRoutes from './routes/cartRoutes.js';
 import __dirname from './utils.js';
+import mongoose from 'mongoose';
 
 
 const app = express();
+const server = http.createServer(app);
+const io = new Server(server); // Configura Socket.IO
+const port = 8080;
+
+//Conectamos a Mongoose
+const connection = mongoose.connect('mongodb+srv://santiagosantoro:Milo2017@clustercursobackend.mg6v7fe.mongodb.net/ecommerce')
 
 const products = [
   {
@@ -69,9 +78,28 @@ app.use('/api/products', productRoutes);
 // Usar las rutas de carritos bajo /api/carts
 app.use('/api/carts', cartRoutes);
 
-const port = 8080;
+
 server.listen(port, () => {
   console.log(`Servidor corriendo en http://localhost:${port}`);
 });
 
-export default app
+// Configurar Socket.IO para manejar conexiones WebSocket
+io.on('connection', (socket) => {
+  console.log('Cliente conectado a través de WebSocket');
+  let productIdCounter = 1;
+  // Manejar el evento cuando se agrega un producto
+  socket.on('productAdded', (product) => {
+    product.id = productIdCounter++;
+    console.log('Evento productAdded emitido:', product);
+    io.emit('updateProducts', product);
+  });
+
+  // Manejar el evento cuando se elimina un producto
+  socket.on('productRemoved', (productId) => {
+    // Emitir el evento a todos los clientes conectados
+    io.emit('updateProducts', { removedProductId: productId });
+  });
+});
+
+export default app;
+
