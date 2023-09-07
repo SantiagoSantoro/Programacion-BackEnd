@@ -1,40 +1,51 @@
-import { productsModel } from '../../models/products.js';
 import { cartsModel } from '../../models/carts.js';
 
 export default class Carts {
-    constructor() {
+  constructor() {}
+
+  getAll = async () => {
+    const carts = await cartsModel.find();
+    return carts.map(cart => cart.toObject());
+  }
+
+  saveCart = async (cart) => {
+    try {
+      const result = await cartsModel.create(cart);
+      return result;
+    } catch (error) {
+      throw error;
     }
+  }
 
-    getAll = async () => {
-        const carts = await cartsModel.find()
-        return carts.map(cart => cart.toObject());
+  getCartById = async (cartId) => {
+    try {
+      const cart = await cartsModel.findById(cartId);
+      if (!cart) {
+        throw new Error('Carrito no encontrado.');
+      }
+      return cart.toObject();
+    } catch (error) {
+      throw error;
     }
+  }
 
-    saveCart = async (cart) => {
-        try {
-            const result = await cartsModel.create(cart);
-            return result;
-        } catch (error) {
-            return error;
-        }
+  addProductToCart = async (cartId, productId, quantity) => {
+    try {
+      const cart = await cartsModel.findById(cartId);
+      if (!cart) {
+        throw new Error('Carrito no encontrado.');
+      }
+      
+      // Agregar el producto al carrito
+      cart.products.push({
+        product: productId,
+        quantity: quantity
+      });
+
+      await cart.save();
+      return;
+    } catch (error) {
+      throw error;
     }
-
-    addProductToCart = async (idCart, idProduct) => {
-        try {
-            const product = await productsModel.findOne({ _id: idProduct });
-            const cart = await cartsModel.findOne({ _id: idCart });
-
-            cart.products.push({
-                product: product.id,
-                quantity: 1 
-            });
-
-            await cartsModel.updateOne({ _id: idCart }, cart);
-            return;
-        } catch (error) {
-            console.error("Error al agregar producto al carrito:", error);
-            throw new Error("No se pudo agregar el producto al carrito");
-        }
-    }
-
+  }
 }

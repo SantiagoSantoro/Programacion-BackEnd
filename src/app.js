@@ -1,8 +1,8 @@
 import express from 'express';
 import http from 'http';
 import { Server } from 'socket.io';
-import path from 'path';
-import exphbs from 'express-handlebars';
+import handlebars from 'express-handlebars';
+import viewsRoutes from './routes/viewsRoutes.js'
 import productRoutes from './routes/productRoutes.js';
 import cartRoutes from './routes/cartRoutes.js';
 import __dirname from './utils.js';
@@ -14,53 +14,19 @@ const server = http.createServer(app);
 const io = new Server(server); // Configura Socket.IO
 const port = 8080;
 
-//Conectamos a Mongoose
+//Conecto a Mongoose
 const connection = mongoose.connect('mongodb+srv://santiagosantoro:Milo2017@clustercursobackend.mg6v7fe.mongodb.net/ecommerce')
 
-const products = [
-  {
-    id: 1,
-    title: "Producto 1",
-    description: "Descripción del producto 1",
-    code: "code_1",
-    price: 100,
-    status: true,
-    stock: 50,
-    category: "Categoria del producto 1",
-    thumbnail: "thumbnail_1",
-  },
-  {
-    id: 2,
-    title: "Producto 2",
-    description: "Descripción del producto 2",
-    code: "code_2",
-    price: 101,
-    status: true,
-    stock: 51,
-    category: "Categoria del producto 2",
-    thumbnail: "thumbnail_2",
-  },
-];
-
-// Middleware para permitir el manejo de JSON en las solicitudes
+//Midleware para trabajar con express
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(__dirname + '/public'))
 
-// Crear el motor de plantillas de Express Handlebars
-const handlebars = exphbs.create({
-  extname: '.handlebars',
-  defaultLayout: 'main',
-  layoutsDir: path.join(__dirname, 'views/layouts'),
-});
+//Configuro Handlebars, motor y enlace
 
-// Configurar el motor de plantillas
-app.engine('handlebars', handlebars.engine);
+app.engine('handlebars', handlebars.engine());
+app.set('views', __dirname + '/views');
 app.set('view engine', 'handlebars');
-app.set('views', path.join(__dirname, 'views'));
-
-// Ruta para la raíz del servidor
-app.get('/', (req, res) => {
-  res.send('¡Bienvenido a la página principal!');
-});
 
 // Ruta para la vista "home"
 app.get('/home', (req, res) => {
@@ -72,10 +38,9 @@ app.get('/realtimeproducts', (req, res) => {
   res.render('realTimeProducts', { products: products });
 });
 
-// Usar las rutas de productos bajo /api/products
+// Importo vistas
+app.use('/', viewsRoutes);
 app.use('/api/products', productRoutes);
-
-// Usar las rutas de carritos bajo /api/carts
 app.use('/api/carts', cartRoutes);
 
 

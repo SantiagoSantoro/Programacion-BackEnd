@@ -3,23 +3,20 @@ import mongoose from 'mongoose';
 // Define el schema para la colección "carts"
 const cartsCollection = "Carts";
 
-const cartsSchema = mongoose.Schema({
-  id: {
-    type: Number,
-    required: true,
-  },
+const cartsSchema = new mongoose.Schema({
   products: [
     {
       product: {
-        type: Number,
-        required: true,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Product',
+        required: true
       },
       quantity: {
         type: Number,
-        required: true,
-      },
-    },
-  ],
+        required: true
+      }
+    }
+  ]
 });
 
 // Creo y exporto el modelo para la colección "carts"

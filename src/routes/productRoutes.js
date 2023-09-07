@@ -28,7 +28,7 @@ router.get('/:pid', async (req, res) => {
 router.post('/', async (req, res) => {
   try {
     const newProduct = req.body;
-    await productsManager.createProduct(newProduct);
+    const result = await productsManager.saveProducts(newProduct, newProduct.photo);
     res.status(201).json({ message: 'Producto agregado exitosamente.' });
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -57,5 +57,6 @@ router.delete('/:pid', async (req, res) => {
 });
 
 export default router;
+
 
 
