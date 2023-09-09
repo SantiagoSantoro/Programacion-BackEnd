@@ -1,5 +1,6 @@
 import { Router } from "express";
 import Products from "../dao/managers/mongodb/products.js";
+import { uploader } from "../utils.js";
 
 const router = Router();
 const productsManager = new Products();
@@ -55,6 +56,7 @@ router.delete('/:pid', async (req, res) => {
     res.status(404).json({ error: 'Producto no encontrado.' });
   }
 });
+
 
 export default router;
 

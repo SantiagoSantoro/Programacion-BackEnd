@@ -8,7 +8,6 @@ import cartRoutes from './routes/cartRoutes.js';
 import __dirname from './utils.js';
 import mongoose from 'mongoose';
 
-
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server); // Configura Socket.IO
@@ -27,16 +26,6 @@ app.use(express.static(__dirname + '/public'))
 app.engine('handlebars', handlebars.engine());
 app.set('views', __dirname + '/views');
 app.set('view engine', 'handlebars');
-
-// Ruta para la vista "home"
-app.get('/home', (req, res) => {
-  res.render('home', { products: products });
-});
-
-// Ruta para la vista en tiempo real de productos
-app.get('/realtimeproducts', (req, res) => {
-  res.render('realTimeProducts', { products: products });
-});
 
 // Importo vistas
 app.use('/', viewsRoutes);
