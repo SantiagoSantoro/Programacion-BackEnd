@@ -1,0 +1,15 @@
+<!-- views/chat.handlebars -->
+<h1>Chat en Tiempo Real</h1>
+<div id="chat">
+  <ul>
+    {{#each messages}}
+    <li>
+      <strong>{{this.user}}:</strong> {{this.message}}
+    </li>
+    {{/each}}
+  </ul>
+</div>
+<form id="chatForm">
+  <input type="text" id="message" placeholder="Escribe tu mensaje..." />
+  <button type="submit">Enviar</button>
+</form>

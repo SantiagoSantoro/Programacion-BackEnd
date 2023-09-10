@@ -22,7 +22,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'))
 
 //Configuro Handlebars, motor y enlace
-
 app.engine('handlebars', handlebars.engine());
 app.set('views', __dirname + '/views');
 app.set('view engine', 'handlebars');
@@ -32,7 +31,7 @@ app.use('/', viewsRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/carts', cartRoutes);
 
-
+// Levanto servidor
 server.listen(port, () => {
   console.log(`Servidor corriendo en http://localhost:${port}`);
 });
