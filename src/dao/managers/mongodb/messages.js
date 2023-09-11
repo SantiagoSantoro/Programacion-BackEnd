@@ -1,7 +1,7 @@
 import { messagesModel } from '../../models/messages.js';
 
 
-export default class MessagesManager {
+export default class Messages {
   constructor() {
 
   }
@@ -10,7 +10,7 @@ export default class MessagesManager {
     return messages.map(message => message.toObject());
   }
 
- 
+
   saveMessage = async ({ user, message }) => {
     try {
       const result = await messagesModel.create({ user, message });

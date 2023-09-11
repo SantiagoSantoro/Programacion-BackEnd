@@ -44,8 +44,4 @@ export default class Products {
             throw error;
         }
     }
-
-
-
-
 }
