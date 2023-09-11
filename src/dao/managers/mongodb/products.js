@@ -20,5 +20,32 @@ export default class Products {
         }
 
     }
+    deleteProduct = async (productId) => {
+        try {
+            const result = await productsModel.deleteOne({ _id: productId });
+            if (result.deletedCount === 0) {
+                throw new Error('Producto no encontrado.');
+            }
+        } catch (error) {
+            throw error;
+        }
+    }
+    updateProduct = async (productId, updatedFields) => {
+        try {
+            const product = await productsModel.findOne({ _id: productId });
+            const result = await productsModel.updateOne(
+                { _id: productId },
+                { $set: updatedFields }
+            );
+            if (result.nModified === 0) {
+                throw new Error('No se realizaron cambios en el producto.');
+            }
+        } catch (error) {
+            throw error;
+        }
+    }
+
+
+
 
 }

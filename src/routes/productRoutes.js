@@ -37,7 +37,7 @@ router.post('/', async (req, res) => {
 });
 
 router.put('/:pid', async (req, res) => {
-  const productId = parseInt(req.params.pid);
+  const productId = req.params.pid; // No es necesario convertir a ObjectId
   const updatedFields = req.body;
   try {
     await productsManager.updateProduct(productId, updatedFields);
@@ -48,7 +48,7 @@ router.put('/:pid', async (req, res) => {
 });
 
 router.delete('/:pid', async (req, res) => {
-  const productId = parseInt(req.params.pid);
+  const productId = req.params.pid; // No es necesario convertir a ObjectId
   try {
     await productsManager.deleteProduct(productId);
     res.json({ message: 'Producto eliminado exitosamente.' });
@@ -56,6 +56,7 @@ router.delete('/:pid', async (req, res) => {
     res.status(404).json({ error: 'Producto no encontrado.' });
   }
 });
+
 
 
 export default router;

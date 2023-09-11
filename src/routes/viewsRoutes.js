@@ -22,7 +22,7 @@ router.get('/carts', async (req, res) => {
     res.render('carts', { carts });
 });
 
-// Ruta para la vista "home"
+// Ruta para la vista "Home"
 
 router.get('/home', async (req, res) => {
     const products = await productsManager.getAll();
@@ -38,7 +38,7 @@ router.get('/realtimeproducts', async (req, res) => {
 
 // Ruta para mostrar la vista de chat
 router.get('/chat', async (req, res) => {
-    const messages = await messagesManager.getAllMessages();
+    const messages = await messagesManager.getAll();
     res.render('chat', { messages });
 });
 

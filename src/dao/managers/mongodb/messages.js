@@ -2,25 +2,19 @@ import { messagesModel } from '../../models/messages.js';
 
 
 export default class MessagesManager {
-  constructor() {}
+  constructor() {
 
-  async getAllMessages() {
-    try {
-      const messages = await messagesModel.find();
-      return messages.map(message => message.toObject());
-    } catch (error) {
-      throw error;
-    }
+  }
+  getAll = async () => {
+    const messages = await messagesModel.find();
+    return messages.map(message => message.toObject());
   }
 
-  async saveMessage(user, message) {
+ 
+  saveMessage = async ({ user, message }) => {
     try {
-      const newMessage = new Message({
-        user,
-        message,
-      });
-      const savedMessage = await newMessage.save();
-      return savedMessage.toObject();
+      const result = await messagesModel.create({ user, message });
+      return result;
     } catch (error) {
       throw error;
     }
