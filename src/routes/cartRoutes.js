@@ -35,7 +35,7 @@ router.get('/:cid', async (req, res) => {
 
 router.post('/:cid/product/:pid', async (req, res) => {
   const cartId = req.params.cid;
-  const productId = req.params.pid; // Cambiado a string, puede ser un ObjectId
+  const productId = req.params.pid; 
   const quantity = parseInt(req.body.quantity);
   try {
     await cartsManager.addProductToCart(cartId, productId, quantity);

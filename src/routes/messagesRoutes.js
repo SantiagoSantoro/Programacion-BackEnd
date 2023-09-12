@@ -15,7 +15,7 @@ router.post('/messages', async (req, res) => {
   }
 });
 
-// Otras rutas relacionadas con los mensajes, como obtener mensajes, eliminarlos, etc.
+
 
 export default router;
 

@@ -26,7 +26,7 @@ router.get('/:pid', async (req, res) => {
   }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', uploader.single('thumbnail'), async (req, res) => {
   try {
     const newProduct = req.body;
     const result = await productsManager.saveProducts(newProduct);

@@ -5,9 +5,10 @@ import handlebars from 'express-handlebars';
 import viewsRoutes from './routes/viewsRoutes.js'
 import productRoutes from './routes/productRoutes.js';
 import cartRoutes from './routes/cartRoutes.js';
-import messagesRoutes from './routes/messagesroutes.js'; // Cambiar el nombre del archivo de rutas
+import messagesRoutes from './routes/messagesroutes.js'; 
 import __dirname from './utils.js';
 import mongoose from 'mongoose';
+import { messagesModel } from './dao/models/messages.js';
 
 
 
@@ -56,6 +57,35 @@ io.on('connection', (socket) => {
     // Emitir el evento a todos los clientes conectados
     io.emit('updateProducts', { removedProductId: productId });
   });
+
+  // Manejar cuando se envía un mensaje
+  socket.on("message", async (data) => {
+    try {
+      // Extraer los datos del objeto data
+      const { user, message } = data;
+
+      // Crear una instancia del modelo messagesModel con los datos recibidos
+      const nuevoMensaje = new messagesModel({
+        user,
+        message,
+      });
+
+      // Guardar el mensaje en la base de datos
+      const savedMessage = await nuevoMensaje.save();
+
+      console.log("Mensaje guardado en MongoDB");
+
+      // Emitir un evento para informar al cliente que el mensaje se guardó con éxito
+      io.emit("messageSaved", savedMessage);
+    } catch (error) {
+      console.error("Error al guardar el mensaje en MongoDB:", error);
+
+      // Emitir un evento de error al cliente si no se pudo guardar el mensaje
+      io.emit("messageError", { error: "No se pudo guardar el mensaje." });
+    }
+  });
+
+
 });
 
 export default app;
