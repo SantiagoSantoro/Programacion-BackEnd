@@ -18,22 +18,6 @@ class ProductManager {
       console.error("Error al leer el archivo:", error);
     }
 
-    // Si el archivo está vacío o no contiene productos, creamos 10 productos iniciales
-    if (this.products.length === 0) {
-      for (let i = 0; i < 10; i++) {
-        await this.addProduct({
-          id: `Id ${i + 1}`,
-          title: `Producto ${i + 1}`,
-          description: `Descripción del producto ${i + 1}`,
-          code: `code_${i + 1}`,
-          price: 100 + i,
-          status: true,
-          stock: 50 + i,
-          category: `Categoria del producto ${i + 1}`,
-          thumbnail: `thumbnail_${i + 1}`,
-         });
-      }
-    }
   }
 
   calculateNextId() {

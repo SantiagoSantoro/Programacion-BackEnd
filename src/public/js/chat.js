@@ -7,7 +7,7 @@ input.addEventListener('keyup', evt => {
         const message = input.value;
         
         // Envía un objeto con los campos 'user' y 'message'
-        socket.emit('message', { user, message }); git 
+        socket.emit('message', { user, message }); 
         
         input.value = "";
     }

@@ -9,6 +9,35 @@ export default class Products {
         const products = await productsModel.find()
         return products.map(product => product.toObject());
     }
+    getProductById = async (productId) => {
+        try {
+            const product = await productsModel.findById(productId);
+            if (!product) {
+                throw new Error('Producto no encontrado.');
+            }
+            return product.toObject();
+        } catch (error) {
+            throw error;
+        }
+    }
+    getByCategory = async (category) => {
+        try {
+            const productsByCategory = await productsModel.find({ category });
+            return productsByCategory.map(product => product.toObject());
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    getByAvailability = async (availability) => {
+        try {
+            const productsByAvailability = await productsModel.find({ availability });
+            return productsByAvailability.map(product => product.toObject());
+        } catch (error) {
+            throw error;
+        }
+    }
+
 
     saveProducts = async (product, photoRoute) => {
         try {
@@ -43,5 +72,6 @@ export default class Products {
         } catch (error) {
             throw error;
         }
+
     }
 }
