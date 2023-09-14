@@ -31,12 +31,13 @@ export default class Products {
 
     getByAvailability = async (availability) => {
         try {
-            const productsByAvailability = await productsModel.find({ availability });
-            return productsByAvailability.map(product => product.toObject());
+          const productsByAvailability = await productsModel.find({ stock: availability });
+          return productsByAvailability.map(product => product.toObject());
         } catch (error) {
-            throw error;
+          throw error;
         }
-    }
+      }
+      
 
 
     saveProducts = async (product, photoRoute) => {

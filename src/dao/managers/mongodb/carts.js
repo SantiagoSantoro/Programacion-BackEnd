@@ -48,4 +48,41 @@ export default class Carts {
       throw error;
     }
   }
+  updateProductInCart = async (cartId, productId, quantity) => {
+    try {
+      const cart = await cartsModel.findById(cartId);
+      if (!cart) {
+        throw new Error('Carrito no encontrado.');
+      }
+  
+      // Busca el producto en el carrito por su ID y actualiza la cantidad
+      const productIndex = cart.products.findIndex(product => product.product == productId);
+      if (productIndex !== -1) {
+        cart.products[productIndex].quantity = quantity;
+        await cart.save();
+      }
+  
+      return;
+    } catch (error) {
+      throw error;
+    }
+  }
+  
+  removeProductFromCart = async (cartId, productId) => {
+    try {
+      const cart = await cartsModel.findById(cartId);
+      if (!cart) {
+        throw new Error('Carrito no encontrado.');
+      }
+  
+      // Elimina el producto del carrito por su ID
+      cart.products = cart.products.filter(product => product.product != productId);
+      await cart.save();
+  
+      return;
+    } catch (error) {
+      throw error;
+    }
+  }
+  
 }

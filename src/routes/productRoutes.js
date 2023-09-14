@@ -125,6 +125,7 @@ router.get('/category/:category', async (req, res) => {
 router.get('/availability/:availability', async (req, res) => {
   try {
     const availability = req.params.availability; // Obtenemos la disponibilidad de los parámetros de la URL
+
     // Lógica para buscar productos por disponibilidad en la base de datos
     const productsByAvailability = await productsManager.getByAvailability(availability);
 
@@ -139,6 +140,7 @@ router.get('/availability/:availability', async (req, res) => {
     res.status(500).json({ error: 'Hubo un error al buscar productos por disponibilidad.' });
   }
 });
+
 
 
 
