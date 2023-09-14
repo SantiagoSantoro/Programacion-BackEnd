@@ -23,7 +23,9 @@ const connection = mongoose.connect('mongodb+srv://santiagosantoro:Milo2017@clus
 //Midleware para trabajar con express
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(__dirname + '/public'))
+app.use(express.static(__dirname + '/public'));
+
+
 
 //Configuro Handlebars, motor y enlace
 app.engine('handlebars', handlebars.engine());

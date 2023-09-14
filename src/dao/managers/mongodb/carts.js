@@ -84,5 +84,22 @@ export default class Carts {
       throw error;
     }
   }
+  removeAllProductsFromCart = async (cartId) => {
+    try {
+      const cart = await cartsModel.findById(cartId);
+      if (!cart) {
+        throw new Error('Carrito no encontrado.');
+      }
+  
+      // Elimina todos los productos del carrito
+      cart.products = [];
+      await cart.save();
+  
+      return;
+    } catch (error) {
+      throw error;
+    }
+  }
+  
   
 }

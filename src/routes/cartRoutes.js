@@ -77,6 +77,19 @@ router.delete('/:cid/product/:pid', async (req, res) => {
   }
 });
 
+// Eliminar todos los productos de un carrito
+router.delete('/:cid', async (req, res) => {
+  const cartId = req.params.cid;
+
+  try {
+    await cartsManager.removeAllProductsFromCart(cartId);
+    res.json({ message: 'Todos los productos del carrito han sido eliminados exitosamente.' });
+  } catch (error) {
+    res.status(404).json({ error: 'Carrito no encontrado.' });
+  }
+});
+
+
 
 export default router;
 
