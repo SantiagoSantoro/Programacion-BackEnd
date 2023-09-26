@@ -1,33 +1,33 @@
-const server = io().connect('http://localhost:8080');
+// const server = io().connect('http://localhost:8080');
 
-const render = (products) => {
-    let products = document.querySelector('#productList');
+// const render = (products) => {
+//     let products = document.querySelector('#productList');
 
-    let html = products.map(prod => {
-        return `
-            <li>
-                <strong>Title: ${prod.title}</strong>
-                <em>Price: ${prod.price}</em>
-            </li>
-        `;
-    });
-    listado.innerHTML = html.join(' ');
-};
+//     let html = products.map(prod => {
+//         return `
+//             <li>
+//                 <strong>Title: ${prod.title}</strong>
+//                 <em>Price: ${prod.price}</em>
+//             </li>
+//         `;
+//     });
+//     listado.innerHTML = html.join(' ');
+// };
 
-const addProductForm = (evt) => {
-    const title = document.querySelector('#title').value;
-    const price = document.querySelector('#price').value;
-    const product = { title, price };
+// const addProductForm = (evt) => {
+//     const title = document.querySelector('#title').value;
+//     const price = document.querySelector('#price').value;
+//     const product = { title, price };
 
-    server.emit('producto-nuevo', product, (id) => {
-        console.log(id);
-    });
+//     server.emit('producto-nuevo', product, (id) => {
+//         console.log(id);
+//     });
 
-    return false;
-};
+//     return false;
+// };
 
-/* Listening for a message from the server. */
-server.on('mensaje-servidor', mensaje => {
-    render(mensaje.products);
-});
+// /* Listening for a message from the server. */
+// server.on('mensaje-servidor', mensaje => {
+//     render(mensaje.products);
+// });
 

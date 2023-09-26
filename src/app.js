@@ -2,6 +2,7 @@ import express from 'express';
 import http from 'http';
 import { Server } from 'socket.io';
 import handlebars from 'express-handlebars';
+import routes from 'express';
 import viewsRoutes from './routes/viewsRoutes.js'
 import productRoutes from './routes/productRoutes.js';
 import cartRoutes from './routes/cartRoutes.js';
@@ -9,6 +10,9 @@ import messagesRoutes from './routes/messagesroutes.js';
 import __dirname from './utils.js';
 import mongoose from 'mongoose';
 import { messagesModel } from './dao/models/messages.js';
+import session from 'express-session';
+import MongoStore from 'connect-mongo';
+import sessionsRoutes from './routes/sessionsRoutes.js'; 
 
 
 
@@ -37,6 +41,7 @@ app.use('/', viewsRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/carts', cartRoutes);
 app.use('/api', messagesRoutes);
+app.use('/api/sessions', sessionsRoutes);
 
 // Levanto servidor
 server.listen(port, () => {
@@ -89,6 +94,22 @@ io.on('connection', (socket) => {
 
 
 });
+
+
+// Configuración de la sesión
+app.use(
+  session({
+    store: MongoStore.create({
+      mongoUrl: 'mongodb+srv://santiagosantoro:Milo2017@clustercursobackend.mg6v7fe.mongodb.net/ecommerce', // URL de la base de datos
+      dbName: 'ecommerce', // Nombre de la base de datos
+      collectionName: 'session', // Nombre de la colección de sesiones
+      ttl: 3000
+    }),
+    secret: 'CoderSecret',
+    resave: false,
+    saveUninitialized: false
+  })
+);
 
 export default app;
 
