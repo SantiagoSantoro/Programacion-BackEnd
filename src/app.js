@@ -24,11 +24,25 @@ const port = 8080;
 //Conecto a Mongoose
 const connection = mongoose.connect('mongodb+srv://santiagosantoro:Milo2017@clustercursobackend.mg6v7fe.mongodb.net/ecommerce')
 
+// Configuración de la sesión
+app.use(
+  session({
+    store: MongoStore.create({
+      mongoUrl: 'mongodb+srv://santiagosantoro:Milo2017@clustercursobackend.mg6v7fe.mongodb.net/ecommerce', // URL de la base de datos
+      dbName: 'ecommerce', // Nombre de la base de datos
+      collectionName: 'session', // Nombre de la colección de sesiones
+      ttl: 3000
+    }),
+    secret: 'CoderSecret',
+    resave: false,
+    saveUninitialized: false
+  })
+);
+
 //Midleware para trabajar con express
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
-
 
 
 //Configuro Handlebars, motor y enlace
@@ -43,10 +57,8 @@ app.use('/api/carts', cartRoutes);
 app.use('/api', messagesRoutes);
 app.use('/api/sessions', sessionsRoutes);
 
-// Levanto servidor
-server.listen(port, () => {
-  console.log(`Servidor corriendo en http://localhost:${port}`);
-});
+
+
 
 // Configurar Socket.IO para manejar conexiones WebSocket
 io.on('connection', (socket) => {
@@ -95,21 +107,10 @@ io.on('connection', (socket) => {
 
 });
 
-
-// Configuración de la sesión
-app.use(
-  session({
-    store: MongoStore.create({
-      mongoUrl: 'mongodb+srv://santiagosantoro:Milo2017@clustercursobackend.mg6v7fe.mongodb.net/ecommerce', // URL de la base de datos
-      dbName: 'ecommerce', // Nombre de la base de datos
-      collectionName: 'session', // Nombre de la colección de sesiones
-      ttl: 3000
-    }),
-    secret: 'CoderSecret',
-    resave: false,
-    saveUninitialized: false
-  })
-);
+// Levanto servidor
+server.listen(port, () => {
+  console.log(`Servidor corriendo en http://localhost:${port}`);
+});
 
 export default app;
 

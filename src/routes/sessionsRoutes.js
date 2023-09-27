@@ -7,18 +7,22 @@ const router = Router();
 // Ruta para mostrar las sessions
 
 router.post('/login', async (req, res) => {
+  
     const { email, password } = req.body;
 
-    const user = await usersModel.findOne({ email, password })
-    if (!user) return res.status(400).send({ status: "error", error: "credenciales incorrectas" });
-
+    const user = await usersModel.findOne({ email, password });
+    console.log(user)
+    console.log(req.session.user)
+    if (!user) return res.status(401).send({ status: "error", error: "credenciales incorrectas" });
+    
     req.session.user = {
         name: `${user.first_name} ${user.last_name}`,
         email: user.email,
         age: user.age
     };
     
-    res.send({ status: "success", payload: req.session.user })
+    res.send({ status: "success", payload: req.session.user });
+    
 })
 
 router.post('/register', async (req, res) => {

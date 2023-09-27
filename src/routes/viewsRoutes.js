@@ -36,9 +36,6 @@ router.get('/carts/:cid', async (req, res) => {
 });
 
 
-
-
-
 // Ruta para la vista "Home"
 
 router.get('/home', async (req, res) => {
