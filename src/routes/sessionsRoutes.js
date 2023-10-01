@@ -1,75 +1,32 @@
 import { Router } from 'express';
-import { usersModel } from '../dao/models/users.js';
-import { createHash } from '../utils.js'; // Importa la función createHash desde tu archivo de utilidades
+import { createHash, isValidPassword } from '../utils.js'; // Importo las funciónes createHash isValidPassword desde mi archivo de utilidades
+import passport from 'passport';
 
 const router = Router();
 
 // Ruta para mostrar las sessions
 
-router.post('/login', async (req, res) => {
-    const { email, password } = req.body;
-
-    try {
-        const user = await usersModel.findOne({ email });
-
-        if (!user) {
-            return res.status(401).send({ status: "error", error: "Credenciales incorrectas" });
-        }
-
-        const isPasswordValid = bcryptjs.compareSync(userPasswordHash, password);
-
-        if (!isPasswordValid) {
-            return res.status(401).send({ status: "error", error: "Credenciales incorrectas" });
-        }
-
-        // Verifica si el correo electrónico contiene "adminCoder@coder.com" para asignar el rol de administrador
-        if (user.email.includes('adminCoder@coder.com')) {
-            user.role = 'admin'; // Asigna el rol de administrador al usuario
-        }
-
-        req.session.user = {
-            name: `${user.first_name} ${user.last_name}`,
-            email: user.email,
-            age: user.age,
-            role: user.role || 'user' // Asigna el rol del usuario o 'user' si no se asigna un rol
-        };
-
-        res.send({ status: "success", payload: req.session.user });
-    } catch (error) {
-        console.error(error);
-        res.status(500).send({ status: "error", error: "Error interno del servidor" });
+router.post('/login', passport.authenticate('login', {failureRedirect: '/failLogin'}), async (req, res) => {
+    if(!req.user) {
+        return res.status(400).send({status: "error", error: "Credenciales invalidas"});
     }
+    delete req.user.password
+    req.session.user = req.user;
+    res.send({status: "success", payload: req.user})
 });
 
+router.get('/failLogin', async (req, res) => {
+    res.send({error: "Failed login"})
+})
 
-
-router.post('/register', async (req, res) => {
-    const { first_name, last_name, email, age, password } = req.body;
-    const exists = await usersModel.findOne({ email });
-    if (exists) {
-        return res.status(400).send({ status: "error", error: "Ya existe un usuario con ese email" });
-    }
-
-
-    const user = {
-        first_name, 
-        last_name, 
-        email, 
-        age, 
-        password: createHash(password) // Asigna la contraseña hasheada
-    };
-
-    try {
-        const result = await usersModel.create(user);
-        res.send({ status: "success", message: "Usuario registrado" });
-    } catch (error) {
-        console.error(error);
-        res.status(500).send({ status: "error", error: "Error interno del servidor" });
-    }
+router.post('/register', passport.authenticate('register', {failureRedirect: '/failRegister'}), async (req, res) => {
+    res.send({status: 'success', message: 'Usuario registrado'})
 });
 
-
-
+router.get('/failRegister', async (req, res) => {
+    console.log('Fallo la estrategia')
+    res.send({error: "Failed register"})
+})
 
 
 export default router;

@@ -13,7 +13,8 @@ import { messagesModel } from './dao/models/messages.js';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import sessionsRoutes from './routes/sessionsRoutes.js'; 
-
+import passport from 'passport';
+import { initializePassport } from './config/passport.js';
 
 
 const app = express();
@@ -39,11 +40,15 @@ app.use(
   })
 );
 
+//Midleware para trabajar con passport
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
+
 //Midleware para trabajar con express
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
-
 
 //Configuro Handlebars, motor y enlace
 app.engine('handlebars', handlebars.engine());
@@ -56,7 +61,6 @@ app.use('/api/products', productRoutes);
 app.use('/api/carts', cartRoutes);
 app.use('/api', messagesRoutes);
 app.use('/api/sessions', sessionsRoutes);
-
 
 
 
