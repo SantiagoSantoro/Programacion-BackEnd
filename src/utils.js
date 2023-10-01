@@ -19,9 +19,6 @@ const storage = multer.diskStorage ({
 
 export const uploader = multer({storage})
 
-// Configuración de Bcryptjs
-
-import bcryptjs from 'bcryptjs'; // Importa bcryptjs
 
 // Configuración de Bcryptjs
 
