@@ -63,12 +63,12 @@ export const initializePassport = () => {
     }, async (accessToken, refreshToken, profile, done) => {
         try {
             console.log(profile);
-            let user = await usersModel.findOne({ email: profile._json.email });
+            let user = await usersModel.findOne({ userName: profile._json.login });
             if (!user) {
-                let newUser = { first_name: profile._json.name };
+                let newUser = { first_name: profile._json.name, userName: profile._json.login };
                 let result = await usersModel.create(newUser); 
                 done(null, result);
-            } else {
+            } else { 
                 done(null, user); 
             }
         } catch (error) {
