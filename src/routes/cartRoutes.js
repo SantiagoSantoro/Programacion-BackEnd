@@ -1,5 +1,6 @@
 import { Router } from "express";
 import Carts from "../dao/managers/mongodb/carts.js"; 
+import { cartsModel } from '../dao/models/carts.js'
 
 const router = Router();
 const cartsManager = new Carts();
@@ -27,7 +28,7 @@ router.get('/:cid', async (req, res) => {
   const cartId = req.params.cid;
   try {
     // Utiliza "populate" para cargar los detalles de los productos en el carrito
-    const cart = await cartsModel.findById(cartId).populate('products.product');
+    const cart = await cartsModel.findById(cartId).populate('products');
     if (!cart) {
       throw new Error('Carrito no encontrado.');
     }
