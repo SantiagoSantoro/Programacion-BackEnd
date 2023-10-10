@@ -62,6 +62,7 @@ router.get('/login', async (req, res) => {
     res.render('login');
 })
 
+
 router.get('/register', async (req, res) => {
     res.render('register');
 })
@@ -70,6 +71,10 @@ router.get('/profile', async (req, res) => {
     res.render('profile', {
         user:req.session.user
     })
+})
+
+router.post('/logout', async (req, res) => {
+    req.session.destroy();
 })
 
 

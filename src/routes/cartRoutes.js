@@ -27,7 +27,7 @@ router.post('/', async (req, res) => {
 router.get('/:cid', async (req, res) => {
   const cartId = req.params.cid;
   try {
-    // Utiliza "populate" para cargar los detalles de los productos en el carrito
+    // Utilizo "populate" para cargar los detalles de los productos en el carrito
     const cart = await cartsModel.findById(cartId).populate('products');
     if (!cart) {
       throw new Error('Carrito no encontrado.');
@@ -89,8 +89,6 @@ router.delete('/:cid', async (req, res) => {
     res.status(404).json({ error: 'Carrito no encontrado.' });
   }
 });
-
-
 
 
 export default router;

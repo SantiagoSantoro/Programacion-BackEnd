@@ -36,9 +36,11 @@ app.use(
     }),
     secret: 'CoderSecret',
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    name: 'user-session', // Nombre de la sesión
   })
 );
+
 
 //Midleware para trabajar con passport
 initializePassport();
@@ -49,6 +51,7 @@ app.use(passport.session());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
+
 
 //Configuro Handlebars, motor y enlace
 app.engine('handlebars', handlebars.engine());

@@ -73,7 +73,9 @@ router.get('/:pid', async (req, res) => {
 
 router.post('/', uploader.single('thumbnail'), async (req, res) => {
   try {
+    console.log(req.file); // Muestra la información del archivo cargado
     const newProduct = req.body;
+    console.log(newProduct); // Muestra los datos del producto recibidos en el cuerpo de la solicitud
     const result = await productsManager.saveProducts(newProduct);
     res.status(201).json({ message: 'Producto agregado exitosamente.' });
   } catch (error) {

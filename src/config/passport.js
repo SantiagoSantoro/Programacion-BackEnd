@@ -4,6 +4,8 @@ import { usersModel } from '../dao/models/users.js';
 import { createHash, isValidPassword } from '../utils.js';
 import GitHubStrategy from 'passport-github2';
 
+
+
 const LocalStrategy = local.Strategy;
 
 
@@ -24,9 +26,11 @@ export const initializePassport = () => {
                 last_name,
                 email,
                 age,
-                password: createHash(userPassword)
+                password: createHash(userPassword),
+                role: 'user', // O 'admin' si es un administrador
+                
             };
-            let result = await usersModel.create(newUser); //ver si no es usersModel acá
+            let result = await usersModel.create(newUser);
             return done(null, result)
         } catch (error) {
             return done('Error al crear el usuario:' + error)
@@ -35,16 +39,15 @@ export const initializePassport = () => {
 
     passport.use('login', new LocalStrategy({ usernameField: 'email' }, async (username, password, done) => {
         try {
-
             const user = await usersModel.findOne({ email: username });
 
             if (!user) {
                 return done(null, false, { message: 'Usuario no encontrado' });
             }
 
-            const isValidPassword = await user.isValidPassword(password);
+            const isValid = isValidPassword(user.password, password);
 
-            if (!isValidPassword) {
+            if (!isValid) {
                 return done(null, false, { message: 'Contraseña incorrecta' });
             }
 
@@ -54,29 +57,30 @@ export const initializePassport = () => {
         }
     }));
 
+
     //Estrategia para el logeo de Github
 
     passport.use('github', new GitHubStrategy({
         clientID: "Iv1.85ade55c4e4fdab5",
         clientSecret: "d8270aa46b711f5f7cb4bb567a7222ee005f124a",
-        callbackURL: "http://localhost:8080/api/sessions/githubCallback" 
+        callbackURL: "http://localhost:8080/api/sessions/githubCallback"
     }, async (accessToken, refreshToken, profile, done) => {
         try {
             console.log(profile);
             let user = await usersModel.findOne({ userName: profile._json.login });
             if (!user) {
                 let newUser = { first_name: profile._json.name, userName: profile._json.login };
-                let result = await usersModel.create(newUser); 
+                let result = await usersModel.create(newUser);
                 done(null, result);
-            } else { 
-                done(null, user); 
+            } else {
+                done(null, user);
             }
         } catch (error) {
             return done(error);
         }
     }));
-    
-    
+
+
 
 
     passport.serializeUser(async (user, done) => {
