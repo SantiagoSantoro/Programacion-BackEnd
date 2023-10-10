@@ -2,9 +2,10 @@ import { Router } from 'express';
 import passport from 'passport';
 
 
+
 const router = Router();
 
-// Ruta para mostrar las sessions
+// Rutas para mostrar las sessions
 
 router.post('/login', passport.authenticate('login', { failureRedirect: '/failLogin' }), async (req, res) => {
     if (!req.user) {
@@ -28,7 +29,7 @@ router.get('/failRegister', async (req, res) => {
     res.send({ error: "Failed register" })
 })
 
-// Ruta para cerrar sesión   VERIFICAR PORQUE NO FUNCIONA, TAMPOCO EL PROFILE.HANDLEBARS
+
 
 // Ruta para cerrar sesión
 router.post('/logout', (req, res) => {
@@ -58,8 +59,6 @@ router.get('/current', (req, res) => {
     }
 });
 
-
-  
 // Rutas para logueo con Github
 
 router.get('/github', passport.authenticate('github', { scope: ['user.email'] }), async (req, res) => { });

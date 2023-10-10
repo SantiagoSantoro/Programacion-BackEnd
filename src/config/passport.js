@@ -40,23 +40,31 @@ export const initializePassport = () => {
     passport.use('login', new LocalStrategy({ usernameField: 'email' }, async (username, password, done) => {
         try {
             const user = await usersModel.findOne({ email: username });
-
+    
+            console.log('Usuario encontrado:', user); // Agregado para verificar el usuario encontrado
+    
             if (!user) {
+                console.log('Usuario no encontrado');
                 return done(null, false, { message: 'Usuario no encontrado' });
             }
-
+    
             const isValid = isValidPassword(user.password, password);
-
+    
+            console.log('Contraseña válida:', isValid); // Agregado para verificar si la contraseña es válida
+    
             if (!isValid) {
+                console.log('Contraseña incorrecta');
                 return done(null, false, { message: 'Contraseña incorrecta' });
             }
-
+    
+            console.log('Inicio de sesión exitoso');
             return done(null, user);
         } catch (error) {
+            console.error('Error durante la autenticación:', error); // Agregado para capturar errores
             return done(error);
         }
     }));
-
+    
 
     //Estrategia para el logeo de Github
 
