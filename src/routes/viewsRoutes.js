@@ -16,7 +16,6 @@ router.get('/products', async (req, res) => {
 });
 
 
-
 // Ruta para la vista de un carrito específico por ID de carrito
 router.get('/carts/:cid', async (req, res) => {
     const cartId = req.params.cid;

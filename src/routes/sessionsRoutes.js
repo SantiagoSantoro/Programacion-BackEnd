@@ -42,11 +42,9 @@ router.post('/logout', (req, res) => {
 });
 
 
-// Ruta para verificar la autenticación del usuario actual NO FUNCIONA DESDE EL NAVEGADOR
 router.get('/current', (req, res) => {
     console.log(req.user)
-    
-    
+     
     if (req.isAuthenticated()) {
         
         // Si el usuario está autenticado a través de sessions, obtén el usuario desde req.user

@@ -2,19 +2,20 @@ import express from 'express';
 import http from 'http';
 import { Server } from 'socket.io';
 import handlebars from 'express-handlebars';
-import routes from 'express';
 import viewsRoutes from './routes/viewsRoutes.js'
 import productRoutes from './routes/productRoutes.js';
 import cartRoutes from './routes/cartRoutes.js';
-import messagesRoutes from './routes/messagesroutes.js'; 
+import messagesRoutes from './routes/messagesroutes.js';
 import __dirname from './utils.js';
 import mongoose from 'mongoose';
 import { messagesModel } from './dao/models/messages.js';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
-import sessionsRoutes from './routes/sessionsRoutes.js'; 
+import sessionsRoutes from './routes/sessionsRoutes.js';
 import passport from 'passport';
 import { initializePassport } from './config/passport.js';
+import dotenv from 'dotenv';
+dotenv.config();  // Llamo a dotenv.config() al comienzo de la aplicación
 
 
 const app = express();
@@ -22,19 +23,21 @@ const server = http.createServer(app);
 const io = new Server(server); // Configura Socket.IO
 const port = 8080;
 
+
 //Conecto a Mongoose
-const connection = mongoose.connect('mongodb+srv://santiagosantoro:Milo2017@clustercursobackend.mg6v7fe.mongodb.net/ecommerce')
+const connection = mongoose.connect(process.env.DATABASE_URL);
+
 
 // Configuración de la sesión
 app.use(
   session({
     store: MongoStore.create({
-      mongoUrl: 'mongodb+srv://santiagosantoro:Milo2017@clustercursobackend.mg6v7fe.mongodb.net/ecommerce', // URL de la base de datos
+      mongoUrl: process.env.DATABASE_URL, // Utiliza DATABASE_URL del archivo .env
       dbName: 'ecommerce', // Nombre de la base de datos
       collectionName: 'session', // Nombre de la colección de sesiones
       ttl: 3000
     }),
-    secret: 'CoderSecret',
+    secret: process.env.SECRET_KEY, // Utiliza SECRET_KEY del archivo .env
     resave: false,
     saveUninitialized: false,
     name: 'user-session', // Nombre de la sesión
@@ -64,7 +67,6 @@ app.use('/api/products', productRoutes);
 app.use('/api/carts', cartRoutes);
 app.use('/api', messagesRoutes);
 app.use('/api/sessions', sessionsRoutes);
-
 
 
 // Configurar Socket.IO para manejar conexiones WebSocket
@@ -110,8 +112,6 @@ io.on('connection', (socket) => {
       io.emit("messageError", { error: "No se pudo guardar el mensaje." });
     }
   });
-
-
 });
 
 // Levanto servidor
