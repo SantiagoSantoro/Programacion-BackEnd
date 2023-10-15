@@ -32,12 +32,12 @@ const connection = mongoose.connect(process.env.DATABASE_URL);
 app.use(
   session({
     store: MongoStore.create({
-      mongoUrl: process.env.DATABASE_URL, // Utiliza DATABASE_URL del archivo .env
+      mongoUrl: process.env.DATABASE_URL, // Utilizo DATABASE_URL del archivo .env
       dbName: 'ecommerce', // Nombre de la base de datos
       collectionName: 'session', // Nombre de la colección de sesiones
       ttl: 3000
     }),
-    secret: process.env.SECRET_KEY, // Utiliza SECRET_KEY del archivo .env
+    secret: process.env.SECRET_KEY, // Utilizo SECRET_KEY del archivo .env
     resave: false,
     saveUninitialized: false,
     name: 'user-session', // Nombre de la sesión

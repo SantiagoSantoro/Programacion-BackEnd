@@ -4,10 +4,7 @@ import { usersModel } from '../dao/models/users.js';
 import { createHash, isValidPassword } from '../utils.js';
 import GitHubStrategy from 'passport-github2';
 
-
-
 const LocalStrategy = local.Strategy;
-
 
 export const initializePassport = () => {
     passport.use('register', new LocalStrategy({
@@ -87,7 +84,6 @@ export const initializePassport = () => {
             return done(error);
         }
     }));
-
 
 
 

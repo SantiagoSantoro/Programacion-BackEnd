@@ -1,0 +1,57 @@
+/* Estilo general para el cuerpo de la página */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0; /* Fondo en un tono de gris claro */
+    background: linear-gradient(90deg, #333, #000, #fff);
+    background-size: 300% 100%;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+ 
+}
+
+
+/* Estilo para el encabezado */
+header {
+    background-color: #333; /* Fondo oscuro para el encabezado */
+    color: #fff; /* Texto blanco en el encabezado */
+    padding: 10px;
+}
+
+/* Estilo para el contenedor del perfil */
+.profile-container {
+    background-color: #fff; /* Fondo blanco para el contenedor de perfil */
+    max-width: 400px; /* Ancho máximo del contenedor */
+    margin: 20px auto; /* Centrar el contenedor horizontalmente */
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Sombra suave */
+}
+
+/* Estilo para el título */
+.profile-container h1 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333; /* Texto oscuro */
+}
+
+/* Estilo para los párrafos */
+.profile-container p {
+    font-size: 16px;
+    font-weight: bold;
+    color: #555; /* Texto en un tono de gris oscuro */
+}
+
+/* Estilo para el botón de cierre de sesión */
+.profile-container button {
+    background-color: #333; /* Fondo oscuro para el botón */
+    color: #fff; /* Texto blanco en el botón */
+    border: none;
+    padding: 10px 20px;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+/* Cambiar el cursor al pasar sobre el botón */
+.profile-container button:hover {
+    background-color: #555; /* Fondo más oscuro al pasar sobre el botón */
+}

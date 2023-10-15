@@ -1,11 +1,24 @@
-<div>
-    <h1>Tu perfil (sin datos sensibles)</h1>
-    <p>Nombre completo: {{user.first_name}} {{user.last_name}}</p>
-    <p>Email: {{user.email}}</p>
-    <p>Edad: {{user.age}}</p>
-    <p>Rol: {{user.role}}</p>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/profile.css"> <!-- Enlaza a tu archivo profile.css -->
+    <title>Tu Perfil</title>
+</head>
+<body>
     
-    <form action="/api/sessions/logout" method="POST">
-        <button type="submit">Cerrar sesión</button>
-    </form>
-</div>
+    <div class="profile-container">
+        <h1>Tu Perfil</h1>
+        <p>Nombre completo: {{user.first_name}} {{user.last_name}}</p>
+        <p>Email: {{user.email}}</p>
+        <p>Edad: {{user.age}}</p>
+        <p>Rol: {{user.role}}</p>
+
+        <form action="/api/sessions/logout" method="POST">
+            <button type="submit">Cerrar sesión</button>
+        </form>
+    </div>
+</body>
+</html>
+
