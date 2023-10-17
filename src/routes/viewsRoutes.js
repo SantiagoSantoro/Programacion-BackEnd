@@ -74,7 +74,9 @@ router.get('/profile', async (req, res) => {
 
 router.post('/logout', async (req, res) => {
     req.session.destroy();
-})
+    res.json({ message: 'Sesión cerrada con éxito.' });
+});
+
 
 
 export default router;
