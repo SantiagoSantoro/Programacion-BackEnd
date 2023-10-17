@@ -1,0 +1,45 @@
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(45deg, #333, #000, #333, #666);
+}
+h1 {
+    text-align: center;
+    font-weight: bold;
+    color: whitesmoke;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-gap: 20px;
+    list-style: none;
+    padding: 0;
+}
+
+.product-grid li {
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.product-grid img {
+    max-width: 100%;
+    height: auto;
+    margin: 10px 0;
+}
+
+.product-grid button {
+    background: #333;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.product-grid button:hover {
+    background: #666;
+}

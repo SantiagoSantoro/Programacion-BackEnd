@@ -14,8 +14,8 @@ import MongoStore from 'connect-mongo';
 import sessionsRoutes from './routes/sessionsRoutes.js';
 import passport from 'passport';
 import { initializePassport } from './config/passport.js';
-import dotenv from 'dotenv';
-dotenv.config();  // Llamo a dotenv.config() al comienzo de la aplicación
+import { config } from './config/config.js'
+
 
 
 const app = express();
@@ -25,22 +25,22 @@ const port = 8080;
 
 
 //Conecto a Mongoose
-const connection = mongoose.connect(process.env.DATABASE_URL);
+const connection = mongoose.connect(config.databaseUrl);
 
 
 // Configuración de la sesión
 app.use(
   session({
     store: MongoStore.create({
-      mongoUrl: process.env.DATABASE_URL, // Utilizo DATABASE_URL del archivo .env
-      dbName: 'ecommerce', // Nombre de la base de datos
-      collectionName: 'session', // Nombre de la colección de sesiones
+      mongoUrl: config.databaseUrl,
+      dbName: 'ecommerce',
+      collectionName: 'session',
       ttl: 3000
     }),
-    secret: process.env.SECRET_KEY, // Utilizo SECRET_KEY del archivo .env
+    secret: config.secretKey,
     resave: false,
     saveUninitialized: false,
-    name: 'user-session', // Nombre de la sesión
+    name: 'user-session',
   })
 );
 
