@@ -1,6 +1,7 @@
 import { productsModel } from '../../models/products.js';
 
 
+
 export default class Products {
     constructor() {
 

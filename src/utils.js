@@ -1,7 +1,7 @@
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import multer from "multer"; // Importo Multer
-import bcryptjs from 'bcryptjs'; // Importo bcryptjs
+import bcryptjs from 'bcryptjs'; // Importo Bcryptjs
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
