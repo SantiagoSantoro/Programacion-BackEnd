@@ -1,5 +1,5 @@
 import Messages from '../dao/managers/mongodb/messages.js';
-
+//Chequear que las funciones se llamen igual a los de los mannagers
 
 export const getAllMessages = async (req, res) => {
   try {
