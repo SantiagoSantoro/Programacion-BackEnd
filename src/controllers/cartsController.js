@@ -1,5 +1,6 @@
 import Carts from '../dao/managers/mongodb/carts.js';
 
+
 const cartsManager = new Carts();
 
 export const getAllCarts = async (req, res) => {
@@ -38,7 +39,7 @@ export const getCartById = async (req, res) => {
 export const addProductToCart = async (req, res) => {
   try {
     const cartId = req.params.cartId;
-    const productId = req.body.productId;
+    const productId = req.body.productId; //CHEQUEAR QUE AGREGA CUALQUIER ID RANDOM AL CARRITO Y NO UNO ESPECIFICO
     const quantity = req.body.quantity;
     await cartsManager.addProductToCart(cartId, productId, quantity);
     res.json({ message: 'Producto agregado al carrito con éxito.' });

@@ -19,7 +19,7 @@ export default class Carts {
 
   getCartById = async (cartId) => {
     try {
-      const cart = await cartsModel.findById(cartId);
+      const cart = await cartsModel.findById(cartId).populate('products'); //Utilizo método "Populate"
       if (!cart) {
         throw new Error('Carrito no encontrado.');
       }
@@ -68,12 +68,13 @@ export default class Carts {
     }
   }
   
-  removeProductFromCart = async (cartId, productId) => {
+  removeProductFromCart = async (cartId, productId, quantity) => {
     try {
       const cart = await cartsModel.findById(cartId);
       if (!cart) {
         throw new Error('Carrito no encontrado.');
       }
+
   
       // Elimina el producto del carrito por su ID
       cart.products = cart.products.filter(product => product.product != productId);

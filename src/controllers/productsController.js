@@ -1,4 +1,4 @@
-import Products from '../dao/managers/mongodb/products';
+import Products from '../dao/managers/mongodb/products.js';
 
 //Chequear que las funciones se llamen igual a los de los mannagers
 
