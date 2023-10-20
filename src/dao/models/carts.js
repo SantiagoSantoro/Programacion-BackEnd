@@ -8,7 +8,7 @@ const cartsSchema = new mongoose.Schema({
     {
       product: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Product'
+        ref: 'Product', 
       },
       quantity: {
         type: Number,
@@ -17,6 +17,7 @@ const cartsSchema = new mongoose.Schema({
     }
   ]
 });
+
 
 // Creo y exporto el modelo para la colección "carts"
 export const cartsModel = mongoose.model(cartsCollection, cartsSchema);

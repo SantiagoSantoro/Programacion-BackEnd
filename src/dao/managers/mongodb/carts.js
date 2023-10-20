@@ -40,6 +40,7 @@ export default class Carts {
       cart.products.push({
         product: productId,
         quantity: quantity
+        
       });
 
       await cart.save();
@@ -74,17 +75,20 @@ export default class Carts {
       if (!cart) {
         throw new Error('Carrito no encontrado.');
       }
-
   
-      // Elimina el producto del carrito por su ID
-      cart.products = cart.products.filter(product => product.product != productId);
-      await cart.save();
+      // Busca el producto en el carrito por su ID y actualiza la cantidad
+      const productIndex = cart.products.findIndex(product => product.product == productId);
+      if (productIndex !== -1) {
+        cart.products[productIndex].quantity -= quantity; // Usar "-=" para restar la cantidad
+        await cart.save();
+      }
   
       return;
     } catch (error) {
       throw error;
     }
   }
+  
   removeAllProductsFromCart = async (cartId) => {
     try {
       const cart = await cartsModel.findById(cartId);

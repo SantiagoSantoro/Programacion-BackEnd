@@ -17,22 +17,36 @@ router.get('/products', async (req, res) => {
 
 
 // Ruta para la vista de un carrito específico por ID de carrito
-router.get('/carts/:cid', async (req, res) => {
-    const cartId = req.params.cid;
+router.get('/carts/:cartId', async (req, res) => {
+    const cartId = req.params.cartId;
     try {
         const cart = await cartsManager.getCartById(cartId);
-        
+
+        // Verifica si cart es indefinido o si cart.products no está definido
+        if (!cart || !cart.products) {
+            res.status(404).json({ error: 'Carrito no encontrado.' });
+            return;
+        }
+
         // Calcular el precio total en el controlador
         const totalPrice = cart.products.reduce((total, product) => {
-            return total + (product.product.price * product.quantity);
+            // Verifica si product.product está definido y si product.product.price está definido
+            if (product.product && product.product.price) {
+                return total + (product.product.price * product.quantity);
+            } else {
+                return total;
+            }
         }, 0);
-        
+
         res.render('cart', { cart, totalPrice });
     } catch (error) {
         console.error('Error:', error);
         res.status(404).json({ error: 'Carrito no encontrado.' });
     }
 });
+
+
+
 
 
 // Ruta para la vista "Home"
