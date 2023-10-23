@@ -1,9 +1,11 @@
 import Messages from '../dao/managers/mongodb/messages.js';
-//Chequear que las funciones se llamen igual a los de los mannagers
+
+
+const messagesManager = new Messages();
 
 export const getAllMessages = async (req, res) => {
   try {
-    const messages = await Messages.getAll();
+    const messages = await messagesManager.getAll();
     res.json(messages);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -17,7 +19,7 @@ export const saveMessage = async (req, res) => {
       return res.status(400).json({ error: 'Usuario y mensaje requeridos.' });
     }
 
-    const result = await Messages.saveMessage({ user, message });
+    const result = await messagesManager.saveMessage({ user, message });
     res.json(result);
   } catch (error) {
     res.status(500).json({ error: error.message });
