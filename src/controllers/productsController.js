@@ -72,7 +72,7 @@ export const getAllProducts = async (req, res) => {
 };
 
 export const getProductById = async (req, res) => {
-  const productId = req.params.id;
+  const productId = req.params.pid; // Cambiar a req.params.pid
 
   try {
     const product = await productsManager.getProductById(productId);
@@ -122,7 +122,7 @@ export const saveProduct = async (req, res) => {
 
 
 export const deleteProduct = async (req, res) => {
-  const productId = req.params.id;
+  const productId = req.params.pid;
 
   try {
     await productsManager.deleteProduct(productId);
@@ -133,7 +133,7 @@ export const deleteProduct = async (req, res) => {
 };
 
 export const updateProduct = async (req, res) => {
-  const productId = req.params.id;
+  const productId = req.params.pid;
   const updatedFields = req.body;
 
   try {
