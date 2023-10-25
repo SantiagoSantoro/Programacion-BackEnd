@@ -106,15 +106,20 @@ export const getProductsByAvailability = async (req, res) => {
 
 export const saveProduct = async (req, res) => {
   const product = req.body;
-  const photoRoute = req.file.path; // Asumiendo que usas multer para subir fotos
+
+  // Verifica si se ha subido una foto
+  if (req.file) {
+    product.photo = req.file.path;
+  }
 
   try {
-    const result = await productsManager.saveProduct(product, photoRoute);
+    const result = await productsManager.saveProducts(product);
     res.json(result);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
+
 
 export const deleteProduct = async (req, res) => {
   const productId = req.params.id;
