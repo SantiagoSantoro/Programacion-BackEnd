@@ -46,9 +46,6 @@ router.get('/carts/:cartId', async (req, res) => {
 });
 
 
-
-
-
 // Ruta para la vista "Home"
 
 router.get('/home', async (req, res) => {
@@ -90,6 +87,7 @@ router.post('/logout', async (req, res) => {
     req.session.destroy();
     res.json({ message: 'Sesión cerrada con éxito.' });
 });
+
 
 
 

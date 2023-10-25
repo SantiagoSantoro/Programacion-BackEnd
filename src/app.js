@@ -65,7 +65,7 @@ app.set('view engine', 'handlebars');
 app.use('/', viewsRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/carts', cartRoutes);
-app.use('/api', messagesRoutes);
+app.use('/api/messages', messagesRoutes);
 app.use('/api/sessions', sessionsRoutes);
 
 

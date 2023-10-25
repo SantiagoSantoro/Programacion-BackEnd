@@ -6,6 +6,17 @@ const router = Router();
 
 // Rutas para mostrar las sessions
 
+// Ruta de la página de inicio después de iniciar sesión
+router.get('/', (req, res) => {
+    if (req.isAuthenticated()) {
+        // Si el usuario está autenticado, envía el usuario en formato JSON
+        res.json({ user: req.user });
+    } else {
+        res.status(401).json({ error: 'No está autenticado' });
+    }
+});
+
+
 router.post('/login', passport.authenticate('login', { failureRedirect: '/failLogin' }), async (req, res) => {
     if (!req.user) {
         return res.status(400).send({ status: "error", error: "Credenciales invalidas" });
