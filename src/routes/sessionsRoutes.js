@@ -1,81 +1,30 @@
-import { Router } from 'express';
-import passport from 'passport';
 
+import { Router } from 'express';
+import {
+  getHomePage,
+  login,
+  getFailLogin,
+  register,
+  getFailRegister,
+  logout,
+  getCurrentUser,
+  loginWithGithub,
+  githubCallback,
+} from '../controllers/sessionsController.js'; // Asegúrate de importar las funciones del controlador correctas
 
 const router = Router();
 
 // Rutas para mostrar las sessions
-
-// Ruta de la página de inicio después de iniciar sesión
-router.get('/', (req, res) => {
-    if (req.isAuthenticated()) {
-        // Si el usuario está autenticado, envía el usuario en formato JSON
-        res.json({ user: req.user });
-    } else {
-        res.status(401).json({ error: 'No está autenticado' });
-    }
-});
-
-
-router.post('/login', passport.authenticate('login', { failureRedirect: '/failLogin' }), async (req, res) => {
-    if (!req.user) {
-        return res.status(400).send({ status: "error", error: "Credenciales invalidas" });
-    }
-    delete req.user.password
-    req.session.user = req.user;
-    res.send({ status: "success", payload: req.user })
-});
-
-router.get('/failLogin', async (req, res) => {
-    res.send({ error: "Failed login" })
-})
-
-router.post('/register', passport.authenticate('register', { failureRedirect: '/failRegister' }), async (req, res) => {
-    res.send({ status: 'success', message: 'Usuario registrado' })
-});
-
-router.get('/failRegister', async (req, res) => {
-    console.log('Fallo la estrategia')
-    res.send({ error: "Failed register" })
-})
-
-
-
-// Ruta para cerrar sesión
-router.post('/logout', (req, res) => {
-    req.session.destroy((err) => {
-        if (err) {
-            console.error("Error al destruir la sesión:", err);
-        }
-        res.redirect('/login'); // Redirige al usuario a la página de inicio 
-    });
-});
-
-
-router.get('/current', (req, res) => {
-    console.log(req.user)
-     
-    if (req.isAuthenticated()) {
-        
-        // Si el usuario está autenticado a través de sessions, obtén el usuario desde req.user
-        const currentUser = req.user;
-        
-        res.json({ user: currentUser });
-    } else {
-        // Si no está autenticado o estás utilizando JWT, maneja ese caso aquí
-        res.status(401).json({ error: 'No está autenticado' });
-    }
-});
+router.get('/', getHomePage);
+router.post('/login', login);
+router.get('/failLogin', getFailLogin);
+router.post('/register', register);
+router.get('/failRegister', getFailRegister);
+router.post('/logout', logout);
+router.get('/current', getCurrentUser);
 
 // Rutas para logueo con Github
-
-router.get('/github', passport.authenticate('github', { scope: ['user.email'] }), async (req, res) => { });
-router.get('/githubCallback', passport.authenticate('github', { failureRedirect: '/loginFailed' }), async (req, res) => {
-    req.session.user = req.user;
-    res.redirect('/home')
-});
-
-
-
+router.get('/github', loginWithGithub);
+router.get('/githubCallback', githubCallback);
 
 export default router;

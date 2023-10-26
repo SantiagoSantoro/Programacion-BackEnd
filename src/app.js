@@ -14,7 +14,9 @@ import MongoStore from 'connect-mongo';
 import sessionsRoutes from './routes/sessionsRoutes.js';
 import passport from 'passport';
 import { initializePassport } from './config/passport.js';
-import { config } from './config/config.js'
+import { config } from './config/config.js';
+import nodemailer from 'nodemailer';
+import twilio from 'twilio';
 
 
 
