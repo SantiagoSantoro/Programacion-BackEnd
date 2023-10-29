@@ -1,4 +1,3 @@
-
 import { Router } from 'express';
 import {
   getHomePage,
@@ -10,7 +9,7 @@ import {
   getCurrentUser,
   loginWithGithub,
   githubCallback,
-} from '../controllers/sessionsController.js'; // Asegúrate de importar las funciones del controlador correctas
+} from '../controllers/sessionsController.js'; 
 
 const router = Router();
 
