@@ -15,6 +15,7 @@ import sessionsRoutes from './routes/sessionsRoutes.js';
 import passport from 'passport';
 import { initializePassport } from './config/passport.js';
 import { config } from './config/config.js';
+import ticketsRoutes from './routes/ticketsRoutes.js';
 import nodemailer from 'nodemailer';
 import twilio from 'twilio';
 
@@ -69,6 +70,7 @@ app.use('/api/products', productRoutes);
 app.use('/api/carts', cartRoutes);
 app.use('/api/messages', messagesRoutes);
 app.use('/api/sessions', sessionsRoutes);
+app.use('/api/tickets', ticketsRoutes);
 
 
 // Configurar Socket.IO para manejar conexiones WebSocket

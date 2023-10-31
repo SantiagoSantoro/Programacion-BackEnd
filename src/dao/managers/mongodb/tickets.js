@@ -30,9 +30,5 @@ export default class Tickets {
             throw error;
         }
     }
-
-    // Otras funciones como actualizar y eliminar tickets aquí
-
-    // Puedes agregar más métodos según las necesidades de tu aplicación
 }
 

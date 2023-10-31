@@ -1,9 +1,10 @@
 import Carts from '../dao/managers/mongodb/carts.js';
-import Tickets from '../dao/managers/mongodb/tickets.js';
+import { createTicket } from '../controllers/ticketsController.js'; // Importa la función de creación de tickets
+
 
 
 const cartsManager = new Carts();
-const ticketsManager = new Tickets();
+
 
 export const getAllCarts = async (req, res) => {
   try {
@@ -86,29 +87,28 @@ export const removeAllProductsFromCart = async (req, res) => {
 
 export const finalizePurchase = async (req, res) => {
   try {
-    const cartId = req.params.cartId;
-    const cart = await cartsManager.getCartById(cartId);
+      const cartId = req.params.cartId;
+      const cart = await cartsManager.getCartById(cartId);
 
-    // Verificar el stock de los productos en el carrito y realizar otras operaciones necesarias.
-    // ...
+      // Verificar el stock de los productos en el carrito y realizar otras operaciones necesarias.
+      // ...
 
-    // Crear un ticket con los datos de la compra
-    const ticketData = {
-      code: generateUniqueTicketCode(), // Debes implementar una función para generar un código único
-      purchase_datetime: new Date(),
-      amount: calculateTotalAmount(cart), // Debes implementar una función para calcular el monto total
-      purchaser: req.session.user.email, // El correo del usuario asociado al carrito
-    };
+      // Crear un ticket con los datos de la compra utilizando la función importada
+      const ticketData = {
+          code: generateUniqueTicketCode(), // Debes implementar una función para generar un código único
+          purchase_datetime: new Date(),
+          amount: calculateTotalAmount(cart), // Debes implementar una función para calcular el monto total
+          purchaser: req.session.user.email, // El correo del usuario asociado al carrito
+      };
 
-    // Guardar el ticket en la base de datos
-    const ticket = await ticketsManager.saveTicket(ticketData);
+      // Utilizar la función de creación de tickets
+      const ticket = await createTicket(ticketData);
 
-    // Actualizar el carrito (puedes eliminar los productos que se compraron)
-    await cartsManager.updateCartAfterPurchase(cartId, updatedCartData);
+      // Actualizar el carrito (puedes eliminar los productos que se compraron)
+      await cartsManager.updateCartAfterPurchase(cartId, updatedCartData);
 
-    res.json({ message: 'Compra finalizada con éxito', ticket });
+      res.json({ message: 'Compra finalizada con éxito', ticket });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+      res.status(500).json({ error: error.message });
   }
 };
-

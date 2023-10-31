@@ -10,6 +10,7 @@ import {
   removeAllProductsFromCart,
   finalizePurchase, 
 } from '../controllers/cartsController.js'; 
+import { isUser } from '../middleware/authorization.js'
 
 const router = Router();
 const cartsManager = new Carts();
@@ -18,11 +19,11 @@ const cartsManager = new Carts();
 router.get('/', getAllCarts);
 router.post('/', createCart);
 router.get('/:cartId', getCartById);
-router.post('/:cartId/product/:productId', addProductToCart);
+router.post('/:cartId/product/:productId', isUser, addProductToCart);
 router.put('/:cartId/product/:productId', updateProductInCart);
-router.delete('/:cartId/product/:productId', removeProductFromCart);
+router.delete('/:cartId/product/:productId', isUser, removeProductFromCart);
 router.delete('/:cartId', removeAllProductsFromCart);
-router.post('/:cartId/finalizePurchase', finalizePurchase);
+router.post('/:cartId/finalizePurchase', isUser, finalizePurchase);
 
 
 export default router;

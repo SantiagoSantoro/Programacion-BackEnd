@@ -11,6 +11,7 @@ import {
   getProductsByAvailability,
   saveProduct
 } from '../controllers/productsController.js';
+import { isAdmin } from '../middleware/authorization.js'
 
 
 const router = Router();
@@ -23,13 +24,13 @@ router.get('/', getPaginatedProducts, getAllProducts);
 router.get('/:pid', getProductById)
 
 // Ruta para agregar un nuevo producto con foto
-router.post('/', uploader.single('thumbnail'), saveProduct);
+router.post('/', isAdmin, uploader.single('thumbnail'), saveProduct);
 
 // Ruta para actualizar un producto
-router.put('/:pid', updateProduct)
+router.put('/:pid', isAdmin, updateProduct)
 
 // Ruta para eliminar un producto
-router.delete('/:pid', deleteProduct)
+router.delete('/:pid', isAdmin, deleteProduct)
 
 // Ruta para buscar productos por categoría
 router.get('/category/:category', getProductsByCategory);
