@@ -16,8 +16,9 @@ import passport from 'passport';
 import { initializePassport } from './config/passport.js';
 import { config } from './config/config.js';
 import ticketsRoutes from './routes/ticketsRoutes.js';
-import nodemailer from 'nodemailer';
-import twilio from 'twilio';
+import nodemailer from 'nodemailer'; // Sino la utilizo , desinstalar
+import twilio from 'twilio'; // Sino la utilizo , desinstalar
+import compression from 'express-compression'
 
 
 
@@ -58,11 +59,16 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
 
+//Middleware para trabajar con compression. Ver si usar brotli o no.
+app.use(compression({
+  brotli: {enabled: true, zlib: {}}
+}));
 
 //Configuro Handlebars, motor y enlace
 app.engine('handlebars', handlebars.engine());
 app.set('views', __dirname + '/views');
 app.set('view engine', 'handlebars');
+
 
 // Importo vistas
 app.use('/', viewsRoutes);

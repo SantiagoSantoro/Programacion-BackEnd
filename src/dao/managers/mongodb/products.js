@@ -72,6 +72,17 @@ export default class Products {
         } catch (error) {
             throw error;
         }
-
     }
+    getProductPrice = async (productId) => {
+        try {
+          const product = await productsModel.findById(productId);
+          if (!product) {
+            throw new Error('Producto no encontrado.');
+          }
+          return product.price; // Esto te dará el precio del producto.
+        } catch (error) {
+          throw error;
+        }
+      }
+      
 }

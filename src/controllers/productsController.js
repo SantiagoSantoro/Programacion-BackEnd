@@ -143,3 +143,15 @@ export const updateProduct = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+export const getProductPrice = async (productId) => {
+  try {
+    const product = await productsModel.findById(productId);
+    if (!product) {
+      throw new Error('Producto no encontrado');
+    }
+    return product.price;
+  } catch (error) {
+    throw new Error('Error al obtener el precio del producto: ' + error.message);
+  }
+};
