@@ -13,7 +13,9 @@ export const getAllTickets = async (req, res) => {
 
 export const createTicket = async (req, res) => {
     try {
-        const newTicket = await ticketsManager.createTicket(req.body); // Utilizo req.body para obtener los datos del ticket
+        const code = await ticketsManager.generateUniqueTicketCode(); // Generar código único
+        req.body.code = code; // Agregar el código generado al cuerpo de la solicitud
+        const newTicket = await ticketsManager.createTicket(req.body); // Crear el ticket
         res.json(newTicket);
     } catch (error) {
         res.status(500).json({ error: 'Error al crear el ticket' });
@@ -31,4 +33,10 @@ export const getTicketById = async (req, res) => {
     }
 };
 
-// Otros controladores relacionados con tickets aquí
+
+export const generateUniqueTicketCode = () => {
+    const timestamp = Date.now();
+    const randomPart = Math.floor(Math.random() * 10000);
+    return `TICKET-${timestamp}-${randomPart}`;
+};
+

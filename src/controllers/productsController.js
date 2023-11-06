@@ -144,14 +144,18 @@ export const updateProduct = async (req, res) => {
   }
 };
 
-export const getProductPrice = async (productId) => {
+export const getProductPrice = async (req, res) => {
+  const productId = req.params.pid;
   try {
-    const product = await productsModel.findById(productId);
-    if (!product) {
-      throw new Error('Producto no encontrado');
+    const price = await productsManager.getProductPrice(productId);
+    if (price) {
+      res.json({ price });
+    } else {
+      res.status(404).json({ error: 'Producto no encontrado' });
     }
-    return product.price;
   } catch (error) {
-    throw new Error('Error al obtener el precio del producto: ' + error.message);
+    res.status(500).json({ error: error.message });
   }
 };
+
+

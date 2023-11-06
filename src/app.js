@@ -17,8 +17,8 @@ import { initializePassport } from './config/passport.js';
 import { config } from './config/config.js';
 import ticketsRoutes from './routes/ticketsRoutes.js';
 import nodemailer from 'nodemailer'; // Sino la utilizo , desinstalar
-import twilio from 'twilio'; // Sino la utilizo , desinstalar
-import compression from 'express-compression'
+import compression from 'express-compression';
+import mockingRoutes  from './routes/mockingRoutes.js';
 
 
 
@@ -77,6 +77,7 @@ app.use('/api/carts', cartRoutes);
 app.use('/api/messages', messagesRoutes);
 app.use('/api/sessions', sessionsRoutes);
 app.use('/api/tickets', ticketsRoutes);
+app.use('/api/moking', mockingRoutes)
 
 
 // Configurar Socket.IO para manejar conexiones WebSocket

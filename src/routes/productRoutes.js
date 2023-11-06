@@ -9,7 +9,8 @@ import {
   deleteProduct,
   getProductsByCategory,
   getProductsByAvailability,
-  saveProduct
+  saveProduct,
+  getProductPrice,
 } from '../controllers/productsController.js';
 import { isAdmin } from '../middleware/authorization.js'
 
@@ -37,6 +38,11 @@ router.get('/category/:category', getProductsByCategory);
 
 // Ruta para buscar productos por disponibilidad
 router.get('/availability/:availability', getProductsByAvailability);
+
+// Ruta para obtener el precio de un producto por su ID
+router.get('/:pid/price', getProductPrice);
+
+
 
 
 

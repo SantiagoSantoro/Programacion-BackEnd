@@ -30,13 +30,13 @@ export default class Products {
 
     getByAvailability = async (availability) => {
         try {
-          const productsByAvailability = await productsModel.find({ stock: availability });
-          return productsByAvailability.map(product => product.toObject());
+            const productsByAvailability = await productsModel.find({ stock: availability });
+            return productsByAvailability.map(product => product.toObject());
         } catch (error) {
-          throw error;
+            throw error;
         }
-      }
-      
+    }
+
 
 
     saveProducts = async (product, photoRoute) => {
@@ -75,14 +75,14 @@ export default class Products {
     }
     getProductPrice = async (productId) => {
         try {
-          const product = await productsModel.findById(productId);
-          if (!product) {
-            throw new Error('Producto no encontrado.');
-          }
-          return product.price; // Esto te dará el precio del producto.
+            const product = await productsModel.findById(productId);
+            if (!product) {
+                throw new Error('Producto no encontrado.');
+            }
+            return product.price; // Esto te dará el precio del producto.
         } catch (error) {
-          throw error;
+            throw error;
         }
-      }
-      
+    }
+
 }
