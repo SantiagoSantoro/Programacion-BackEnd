@@ -1,8 +1,6 @@
 import Carts from '../dao/managers/mongodb/carts.js';
 
 
-
-
 const cartsManager = new Carts();
 
 
