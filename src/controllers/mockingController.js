@@ -1,19 +1,23 @@
-// Función para generar datos simulados de productos
+import faker from 'faker';
+
+
 export const generateMockProducts = (count) => {
-    const mockProducts = [];
-    for (let i = 0; i < count; i++) {
-      const product = {
-        id: i + 1, // Agregamos un campo 'id'
-        title: `Producto ${i + 1}`,
-        description: `Descripción del producto ${i + 1}`,
-        code: `product${i + 1}`,
-        price: Math.floor(Math.random() * 100) + 1,
-        status: true,
-        stock: Math.floor(Math.random() * 100) + 1,
-        category: 'Category',
-        thumbnail: 'https://example.com/thumbnail.png',
-      };
-      mockProducts.push(product);
-    }
+  const mockProducts = [];
+
+  for (let i = 0; i < count; i++) {
+    const product = {
+      id: i + 1,
+      title: faker.commerce.productName(), // Utiliza faker para el nombre del producto
+      description: faker.lorem.sentence(), // Utiliza faker para la descripción
+      code: `producto${i + 1}`,
+      price: faker.commerce.price(), // Utiliza faker para el precio
+      status: true,
+      stock: Math.floor(Math.random() * 100) + 1,
+      category: faker.commerce.department(), // Utiliza faker para la categoría
+      thumbnail: faker.image.imageUrl(), // Utiliza faker para la URL de la imagen
+    };
+
+    mockProducts.push(product);
+  }
     return mockProducts;
   };
