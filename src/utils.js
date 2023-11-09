@@ -3,8 +3,11 @@ import { fileURLToPath } from 'url';
 import multer from "multer"; // Importo Multer
 import bcryptjs from 'bcryptjs'; // Importo Bcryptjs
 
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
+
 
 // Configuración de Multer 
 
@@ -25,4 +28,9 @@ export const uploader = multer({storage})
 export const createHash = (password) => bcryptjs.hashSync(password, bcryptjs.genSaltSync(10));
 export const isValidPassword = (userPasswordHash, password) => bcryptjs.compareSync(password, userPasswordHash);
 
+
+
 export default  __dirname ;
+
+
+

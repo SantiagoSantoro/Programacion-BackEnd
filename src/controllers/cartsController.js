@@ -1,4 +1,5 @@
 import Carts from '../dao/managers/mongodb/carts.js';
+import { errorDictionary, handleError } from '../test/errorHandler.js';
 
 
 const cartsManager = new Carts();
@@ -9,20 +10,33 @@ export const getAllCarts = async (req, res) => {
     const carts = await cartsManager.getAll();
     res.json(carts);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    const errorMessage = handleError(error.message);
+    if (error.message === 'CARTS_NOT_FOUND') {
+      res.status(404).json({ error: errorMessage });
+    } else {
+      res.status(500).json({ error: errorMessage });
+    }
   }
 };
 
 export const createCart = async (req, res) => {
   try {
     const data = req.body; // Datos para crear un carrito
+    if (!data || !data.userId) {
+      throw new Error('INVALID_CART_DATA');
+    }
     const newCart = await cartsManager.saveCart(data);
     res.json({
       message: 'Carrito creado con éxito',
       cart: newCart
     });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    const errorMessage = handleError(error.message);
+    if (error.message === 'INVALID_CART_DATA') {
+      res.status(400).json({ error: errorMessage })
+    } else {
+      res.status(500).json({ error: errorMessage });
+    }
   }
 };
 
@@ -40,7 +54,7 @@ export const getCartById = async (req, res) => {
 export const addProductToCart = async (req, res) => {
   try {
     const cartId = req.params.cartId; //CHEQUEAR QUE AGREGA CUALQUIER ID RANDOM AL CARRITO Y NO UNO ESPECIFICO
-    const productId = req.body.productId; 
+    const productId = req.body.productId;
     const quantity = req.body.quantity;
     await cartsManager.addProductToCart(cartId, productId, quantity);
     res.json({ message: 'Producto agregado al carrito con éxito.' });
