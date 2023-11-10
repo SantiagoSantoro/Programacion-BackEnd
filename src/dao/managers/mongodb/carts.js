@@ -21,15 +21,13 @@ export default class Carts {
 
   getCartById = async (cartId) => {
     try {
-      const cart = await cartsModel.findById(cartId).populate('products'); //Utilizo método "Populate"
-      if (!cart) {
-        throw new Error('Carrito no encontrado.');
-      }
-      return cart.toObject();
+      const cart = await cartsModel.findById(cartId).populate('products');
+      return cart ? cart.toObject() : null;
     } catch (error) {
       throw error;
     }
   }
+  
 
   addProductToCart = async (cartId, productId, quantity) => {
     try {

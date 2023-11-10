@@ -42,13 +42,24 @@ export const createCart = async (req, res) => {
 
 export const getCartById = async (req, res) => {
   try {
-    const cartId = req.params.cartId; // Obtener el ID del carrito desde los parámetros de la solicitud
+    const cartId = req.params.cartId;
     const cart = await cartsManager.getCartById(cartId);
+    if (!cart) {
+      throw new Error('INVALID_CART_ID');
+    }
     res.json({ message: 'Carrito encontrado con éxito', cart });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    const errorMessage = handleError(error.message);
+    if (error.message === 'INVALID_CART_ID') {
+      res.status(400).json({ error: errorMessage });
+    } else {
+      res.status(500).json({ error: errorMessage });
+    }
   }
 };
+
+
+
 
 
 export const addProductToCart = async (req, res) => {
