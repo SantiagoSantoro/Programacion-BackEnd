@@ -83,13 +83,16 @@ export const addProductToCart = async (req, res) => {
     res.json({ message: 'Producto agregado al carrito con éxito.' });
   } catch (error) {
     const errorMessage = handleError(error.message);
-    if (error.message === 'INVALID_CART_ID') {
+    if (error.message === 'INVALID_CART_ID' || error.message === 'INVALID_PRODUCT_ID' || error.message === 'INVALID_QUANTITY') {
       res.status(400).json({ error: errorMessage });
     } else {
       res.status(500).json({ error: errorMessage });
     }
   }
 };
+
+
+
 
 
 

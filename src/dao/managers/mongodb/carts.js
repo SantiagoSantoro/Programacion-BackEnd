@@ -1,6 +1,8 @@
 import { cartsModel } from '../../models/carts.js';
+import { productsModel } from '../../models/products.js';
 import { createTicket, generateUniqueTicketCode } from '../../../controllers/ticketsController.js';
 import { getProductPrice } from '../../../controllers/productsController.js'
+
 
 
 export default class Carts {
@@ -34,22 +36,28 @@ export default class Carts {
     try {
       const cart = await cartsModel.findById(cartId);
       if (!cart) {
-        throw new Error('Carrito no encontrado.');
+        throw new Error('INVALID_CART_ID');
       }
-
+  
+      const product = await productsModel.findById(productId);
+      if (!product) {
+        throw new Error('INVALID_PRODUCT_ID');
+      }
+  
       // Agregar el producto al carrito
       cart.products.push({
-        product: productId,
+        product: product._id,
         quantity: quantity
-
       });
-
+  
       await cart.save();
       return;
     } catch (error) {
       throw error;
     }
-  }
+  };
+  
+  
   updateProductInCart = async (cartId, productId, quantity) => {
     try {
       const cart = await cartsModel.findById(cartId);
