@@ -1,4 +1,6 @@
 import Products from '../dao/managers/mongodb/products.js';
+import { errorDictionary, handleError } from '../test/errorHandler.js';
+import { isValidCart, isValidProduct, isValidQuantity } from '../utils/validation.js';
 
 
 const productsManager = new Products();
@@ -67,42 +69,61 @@ export const getAllProducts = async (req, res) => {
     const products = await productsManager.getAll();
     res.json(products);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    const errorMessage = handleError(error.message);
+    if (error.message === 'ERROR_GETTING_PRODUCTS') {
+      res.status(400).json({ error: errorMessage });
+    } else {
+      res.status(500).json({ error: errorMessage });
+    }
   }
 };
 
 export const getProductById = async (req, res) => {
   const productId = req.params.pid; 
-
   try {
     const product = await productsManager.getProductById(productId);
+     if (!product) {
+      res.status(400).json({ error: 'INVALID_PRODUCT_ID' });
+      return;
+    }
     res.json(product);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
-export const getProductsByCategory = async (req, res) => {
-  const category = req.params.category;
-
-  try {
-    const products = await productsManager.getByCategory(category);
-    res.json(products);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
 
 export const getProductsByAvailability = async (req, res) => {
   const availability = req.params.availability;
-
   try {
-    const products = await productsManager.getByAvailability(availability); // Obtenemos la disponibilidad de los parámetros de la URL
+    const products = await productsManager.getByAvailability(availability);
+    if (products.length === 0) {
+      const errorMessage = handleError('PRODUCTS_NOT_FOUND_FOR_AVAILABILITY');
+      return res.status(404).json({ error: errorMessage });
+    }
     res.json(products);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    const errorMessage = handleError(error.message);
+    res.status(500).json({ error: errorMessage });
   }
 };
+
+
+export const getProductsByCategory = async (req, res) => {
+  const category = req.params.category;
+  try {
+    const products = await productsManager.getByCategory(category);
+    if (products.length === 0) {
+      const errorMessage = handleError('ERROR_GETTING_PRODUCTS_BY_CATEGORY');
+      return res.status(404).json({ error: errorMessage });
+    }
+    res.json(products);
+  } catch (error) {
+    const errorMessage = handleError(error.message);
+    res.status(500).json({ error: errorMessage });
+  }
+};
+
 
 export const saveProduct = async (req, res) => {
   const product = req.body;

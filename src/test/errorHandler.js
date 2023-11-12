@@ -1,6 +1,9 @@
 export const errorDictionary = {
   INVALID_PRODUCT: 'El producto no es válido.',
   PRODUCT_NOT_FOUND: 'El producto no se encuentra.',
+  ERROR_GETTING_PRODUCTS: 'Error al obtener los productos.',
+  ERROR_GETTING_PRODUCTS_BY_CATEGORY: 'Error al obtener los productos por categoría',
+  PRODUCTS_NOT_FOUND_FOR_AVAILABILITY: 'No se encontraron productos para la disponibilidad dada.',
   INSUFFICIENT_STOCK: 'No hay suficiente stock disponible para el producto solicitado.',
   DUPLICATE_PRODUCT: 'El producto ya está en el carrito.',
   CART_EMPTY: 'El carrito de compras está vacío.',

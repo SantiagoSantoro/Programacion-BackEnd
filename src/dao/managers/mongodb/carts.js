@@ -30,7 +30,7 @@ export default class Carts {
       throw error;
     }
   }
-  
+
 
   addProductToCart = async (cartId, productId, quantity) => {
     try {
@@ -38,28 +38,34 @@ export default class Carts {
       if (!cart) {
         throw new Error('INVALID_CART_ID');
       }
-  
+
       const product = await productsModel.findById(productId);
       if (!product) {
         throw new Error('INVALID_PRODUCT_ID');
       }
-  
+
+      // Validar la cantidad
+      if (quantity <= 0) {
+        throw new Error('INVALID_QUANTITY');
+      }
+
       // Agregar el producto al carrito
       cart.products.push({
         product: product._id,
         quantity: quantity
       });
-  
+
       await cart.save();
       return;
     } catch (error) {
       throw error;
     }
   };
-  
-  
+
+
   updateProductInCart = async (cartId, productId, quantity) => {
     try {
+      // Busca el carrito por su ID
       const cart = await cartsModel.findById(cartId);
       if (!cart) {
         throw new Error('Carrito no encontrado.');
@@ -70,13 +76,15 @@ export default class Carts {
       if (productIndex !== -1) {
         cart.products[productIndex].quantity = quantity;
         await cart.save();
+      } else {
+        throw new Error('INVALID_PRODUCT_ID');
       }
-
       return;
     } catch (error) {
       throw error;
     }
-  }
+  };
+
 
   removeProductFromCart = async (cartId, productId, quantity) => {
     try {
@@ -88,7 +96,7 @@ export default class Carts {
       // Busca el producto en el carrito por su ID y actualiza la cantidad
       const productIndex = cart.products.findIndex(product => product.product == productId);
       if (productIndex !== -1) {
-        cart.products[productIndex].quantity -= quantity; // Usar "-=" para restar la cantidad
+        cart.products[productIndex].quantity -= quantity; 
         await cart.save();
       }
 

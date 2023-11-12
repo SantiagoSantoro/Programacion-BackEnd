@@ -62,7 +62,7 @@ export const getCartById = async (req, res) => {
 
 export const addProductToCart = async (req, res) => {
   try {
-    const cartId = req.params.cartId; 
+    const cartId = req.params.cartId;
     const productId = req.body.productId;
     const quantity = req.body.quantity;
 
@@ -70,15 +70,12 @@ export const addProductToCart = async (req, res) => {
     if (!isValidCart(cartId)) {
       throw new Error('INVALID_CART_ID');
     }
-
     if (!isValidProduct(productId)) {
       throw new Error('INVALID_PRODUCT_ID');
     }
-
     if (!isValidQuantity(quantity)) {
       throw new Error('INVALID_QUANTITY');
     }
-
     await cartsManager.addProductToCart(cartId, productId, quantity);
     res.json({ message: 'Producto agregado al carrito con éxito.' });
   } catch (error) {
@@ -92,21 +89,45 @@ export const addProductToCart = async (req, res) => {
 };
 
 
-
-
-
-
 export const updateProductInCart = async (req, res) => {
   try {
     const cartId = req.params.cartId;
     const productId = req.body.productId;
     const quantity = req.body.quantity;
+
+    // Validar el ID del carrito, el ID del producto y la cantidad
+    if (!isValidCart(cartId)) {
+      throw new Error('INVALID_CART_ID');
+    }
+    
+    if (!isValidProduct(productId)) {
+      throw new Error('INVALID_PRODUCT_ID');
+    }
+
+    if (!isValidQuantity(quantity)) {
+      throw new Error('INVALID_QUANTITY');
+    }
+
     await cartsManager.updateProductInCart(cartId, productId, quantity);
     res.json({ message: 'Cantidad del producto actualizada con éxito.' });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    const errorMessage = handleError(error.message);
+    if (error.message === 'INVALID_CART_ID') {
+      res.status(404).json({ error: 'Carrito no encontrado.' });
+    } else if (
+      error.message === 'INVALID_PRODUCT_ID' ||
+      error.message === 'INVALID_QUANTITY'
+    ) {
+      res.status(400).json({ error: errorMessage });
+    } else {
+      res.status(500).json({ error: errorMessage });
+    }
   }
 };
+
+
+
+
 
 export const removeProductFromCart = async (req, res) => {
   try {
