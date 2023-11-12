@@ -19,6 +19,8 @@ import ticketsRoutes from './routes/ticketsRoutes.js';
 import nodemailer from 'nodemailer'; // Sino la utilizo , desinstalar
 import compression from 'express-compression';
 import mockingRoutes  from './routes/mockingRoutes.js';
+import  { addLogger } from './utils/logger.js';
+import loggerTestRoutes from './routes/loggerTestRoutes.js'
 
 
 const app = express();
@@ -63,6 +65,9 @@ app.use(compression({
   brotli: {enabled: true, zlib: {}}
 }));
 
+//Middleware para trabajar con winston
+app.use(addLogger);
+
 //Configuro Handlebars, motor y enlace
 app.engine('handlebars', handlebars.engine());
 app.set('views', __dirname + '/views');
@@ -76,7 +81,8 @@ app.use('/api/carts', cartRoutes);
 app.use('/api/messages', messagesRoutes);
 app.use('/api/sessions', sessionsRoutes);
 app.use('/api/tickets', ticketsRoutes);
-app.use('/api/moking', mockingRoutes)
+app.use('/api/moking', mockingRoutes);
+app.use('/api/loggerTest', loggerTestRoutes);
 
 
 // Configurar Socket.IO para manejar conexiones WebSocket

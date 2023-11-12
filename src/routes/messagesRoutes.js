@@ -7,8 +7,8 @@ const router = Router();
 const messagesManager = new Messages();
 
 
-router.get('/messages', getAllMessages);
-router.post('/messages', isUser, saveMessage);
+router.get('/', getAllMessages);
+router.post('/', isUser, saveMessage);
 
 
 

@@ -126,9 +126,6 @@ export const updateProductInCart = async (req, res) => {
 };
 
 
-
-
-
 export const removeProductFromCart = async (req, res) => {
   try {
     const cartId = req.params.cartId;
