@@ -2,6 +2,7 @@ import { cartsModel } from '../../models/carts.js';
 import { createTicket, generateUniqueTicketCode } from '../../../controllers/ticketsController.js';
 import { getProductPrice } from '../../../controllers/productsController.js'
 
+
 export default class Carts {
   constructor() { }
 

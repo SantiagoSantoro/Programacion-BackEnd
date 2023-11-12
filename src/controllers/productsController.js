@@ -72,7 +72,7 @@ export const getAllProducts = async (req, res) => {
 };
 
 export const getProductById = async (req, res) => {
-  const productId = req.params.pid; // Cambiar a req.params.pid
+  const productId = req.params.pid; 
 
   try {
     const product = await productsManager.getProductById(productId);

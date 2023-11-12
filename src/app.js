@@ -6,7 +6,7 @@ import viewsRoutes from './routes/viewsRoutes.js'
 import productRoutes from './routes/productRoutes.js';
 import cartRoutes from './routes/cartRoutes.js';
 import messagesRoutes from './routes/messagesroutes.js';
-import __dirname from './utils.js';
+import __dirname from './utils/utils.js';
 import mongoose from 'mongoose';
 import { messagesModel } from './dao/models/messages.js';
 import session from 'express-session';
