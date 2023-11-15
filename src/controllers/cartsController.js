@@ -9,17 +9,10 @@ const cartsManager = new Carts();
 
 export const getAllCarts = async (req, res) => {
   try {
-    req.logger.info('Intentando obtener todos los carritos');
-
     const carts = await cartsManager.getAll();
-
-    req.logger.info('Obtención exitosa de todos los carritos');
     res.json(carts);
   } catch (error) {
     const errorMessage = handleError(error.message);
-
-    req.logger.error(`Error al obtener todos los carritos: ${errorMessage}`);
-
     if (error.message === 'CARTS_NOT_FOUND') {
       res.status(404).json({ error: errorMessage });
     } else {
@@ -27,7 +20,6 @@ export const getAllCarts = async (req, res) => {
     }
   }
 };
-
 
 export const createCart = async (req, res) => {
   try {

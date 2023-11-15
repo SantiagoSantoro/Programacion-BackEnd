@@ -11,13 +11,13 @@ import {
   finalizePurchase, 
 } from '../controllers/cartsController.js'; 
 import { isUser } from '../middleware/authorization.js'
-import  { addLogger }  from '../utils/logger.js'
+
 
 const router = Router();
 const cartsManager = new Carts();
 
 
-router.get('/', addLogger, getAllCarts);
+router.get('/', getAllCarts);
 router.post('/', createCart);
 router.get('/:cartId', getCartById);
 router.post('/:cartId/product/:productId', isUser, addProductToCart);

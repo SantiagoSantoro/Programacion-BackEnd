@@ -1,6 +1,6 @@
 import { Router } from "express";
 import Products from "../dao/managers/mongodb/products.js";
-import { uploader } from "../utils/utils.js";
+import { uploader } from "../utils.js";
 import {
   getPaginatedProducts,
   getAllProducts,

@@ -3,23 +3,22 @@ import winston from 'winston';
 // Configuración de winston
 
 const levels = {
-    silly: 6,
+    fatal: 0,
+    error: 1,
+    warning: 2,
+    info: 3,
+    http: 4,
     debug: 5,
-    verbose: 4,
-    http: 3,
-    info: 2,
-    warn: 1,
-    error: 0
+    
 };
 
 winston.addColors({
-    silly: 'magenta',
-    debug: 'blue',
-    verbose: 'cyan',
-    http: 'green',
+    fatal: 'magenta',
+    error: 'red',
+    warning: 'yellow',
     info: 'green',
-    warn: 'yellow',
-    error: 'red'
+    http: 'cyan',
+    debug: 'blue'
 });
 
 const devLogger = winston.createLogger({
