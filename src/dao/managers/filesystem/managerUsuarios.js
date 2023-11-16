@@ -1,3 +1,5 @@
+import { logger } from '../utils/logger.js'
+
 const fs = require('fs');
 const crypto = require('crypto')
 const path = 'Usuarios.json'
@@ -26,15 +28,15 @@ class ManagerUsuarios {
         const usuarios = await this.consultarUsuarios();
         const usuariosIndex = usuarios.findIndex(user => user.nombreUsuario === nombreUsuario);
         if (usuariosIndex === -1) {
-            console.log('Error: el usuario no se encontro');
+            logger.info('Error: el usuario no se encontro');
             return;
         }
         const usuario = usuarios[usuariosIndex]
         const newHash = crypto.createHmac('sha256', usuario.salt).update(contrasena).digest('hex');
         if (newHash === usuario.contrasena) {
-            console.log('Usuario logueado');
+            logger.info('Usuario logueado');
         } else {
-            console.log('Contraseña incorrecta');
+            logger.error('Contraseña incorrecta');
         }
     }
 }

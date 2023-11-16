@@ -1,4 +1,5 @@
 import { promises as fs } from 'fs';
+import { logger } from '../../../utils/utils.js'
 
 class ProductManager {
   constructor(path) {
@@ -15,7 +16,7 @@ class ProductManager {
       this.productId = this.calculateNextId();
     } catch (error) {
       // Si el archivo no existe o está vacío, se creará un archivo vacío
-      console.error("Error al leer el archivo:", error);
+      logger.error("Error al leer el archivo:", error);
     }
 
   }
@@ -45,7 +46,7 @@ class ProductManager {
     product.id = this.productId++;
     this.products.push(product);
     await this.saveProductsToFile();
-    console.log("Producto agregado exitosamente.");
+    logger.info("Producto agregado exitosamente.");
   }
 
   async getProducts() {
@@ -63,12 +64,12 @@ class ProductManager {
 
   async updateProduct(id, updatedFields) {
     const productIndex = this.products.findIndex((p) => p.id === id);
-    console.log("ID del producto a actualizar:", id);
+    logger.info("ID del producto a actualizar:", id);
 
     const updatedProduct = { ...this.products[productIndex], ...updatedFields };
     this.products[productIndex] = updatedProduct;
     await this.saveProductsToFile();
-    console.log("Producto actualizado exitosamente.");
+    logger.info("Producto actualizado exitosamente.");
   }
 
   async deleteProduct(id) {
@@ -79,7 +80,7 @@ class ProductManager {
 
     this.products.splice(productIndex, 1);
     await this.saveProductsToFile();
-    console.log("Producto eliminado exitosamente.");
+    logger.info("Producto eliminado exitosamente.");
   }
 }
 

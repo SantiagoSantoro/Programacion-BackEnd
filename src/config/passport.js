@@ -3,6 +3,7 @@ import local from 'passport-local';
 import { usersModel } from '../dao/models/users.js';
 import { createHash, isValidPassword } from '../utils.js';
 import GitHubStrategy from 'passport-github2';
+import { logger, addLogger } from '../utils/logger.js'
 
 const LocalStrategy = local.Strategy;
 
@@ -15,7 +16,7 @@ export const initializePassport = () => {
         try {
             const exists = await usersModel.findOne({ email });
             if (exists) {
-                console.log('El usuario ya existe')
+                logger.warning('El usuario ya existe')
                 return done(null, false);
             }
             const newUser = {
@@ -38,23 +39,23 @@ export const initializePassport = () => {
         try {
             const user = await usersModel.findOne({ email: username });
     
-            console.log('Usuario encontrado:', user); // Agregado para verificar el usuario encontrado
+            logger.info('Usuario encontrado:', user); // Agregado para verificar el usuario encontrado
     
             if (!user) {
-                console.log('Usuario no encontrado');
+                logger.info('Usuario no encontrado');
                 return done(null, false, { message: 'Usuario no encontrado' });
             }
     
             const isValid = isValidPassword(user.password, password);
     
-            console.log('Contraseña válida:', isValid); // Agregado para verificar si la contraseña es válida
+            logger.info('Contraseña válida', isValid); // Agregado para verificar si la contraseña es válida
     
             if (!isValid) {
-                console.log('Contraseña incorrecta');
+                logger.error('Contraseña incorrecta');
                 return done(null, false, { message: 'Contraseña incorrecta' });
             }
     
-            console.log('Inicio de sesión exitoso');
+            logger.info('Inicio de sesión exitoso');
             return done(null, user);
         } catch (error) {
             console.error('Error durante la autenticación:', error); // Agregado para capturar errores
@@ -71,7 +72,7 @@ export const initializePassport = () => {
         callbackURL: "http://localhost:8080/api/sessions/githubCallback"
     }, async (accessToken, refreshToken, profile, done) => {
         try {
-            console.log(profile);
+            logger.info(profile);
             let user = await usersModel.findOne({ userName: profile._json.login });
             if (!user) {
                 let newUser = { first_name: profile._json.name, userName: profile._json.login };
