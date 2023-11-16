@@ -87,12 +87,12 @@ app.use('/api/loggerTest', loggerTestRoutes);
 
 // Configurar Socket.IO para manejar conexiones WebSocket
 io.on('connection', (socket) => {
-  console.log('Cliente conectado a través de WebSocket');
+  logger.info('Cliente conectado a través de WebSocket');
   let productIdCounter = 1;
   // Manejar el evento cuando se agrega un producto
   socket.on('productAdded', (product) => {
     product.id = productIdCounter++;
-    console.log('Evento productAdded emitido:', product);
+    logger.info('Evento productAdded emitido:', product);
     io.emit('updateProducts', product);
   });
 
@@ -117,12 +117,12 @@ io.on('connection', (socket) => {
       // Guardar el mensaje en la base de datos
       const savedMessage = await nuevoMensaje.save();
 
-      console.log("Mensaje guardado en MongoDB");
+      logger.info("Mensaje guardado en MongoDB");
 
       // Emitir un evento para informar al cliente que el mensaje se guardó con éxito
       io.emit("messageSaved", savedMessage);
     } catch (error) {
-      console.error("Error al guardar el mensaje en MongoDB:", error);
+      logger.error("Error al guardar el mensaje en MongoDB:", error);
 
       // Emitir un evento de error al cliente si no se pudo guardar el mensaje
       io.emit("messageError", { error: "No se pudo guardar el mensaje." });

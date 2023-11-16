@@ -1,4 +1,5 @@
 import passport from 'passport';
+import { logger, addLogger } from '../utils/logger.js'
 
 export const getHomePage = (req, res) => {
   if (req.isAuthenticated()) {
@@ -30,14 +31,14 @@ export const register = (req, res) => {
 };
 
 export const getFailRegister = (req, res) => {
-  console.log('Fallo la estrategia');
+  logger.error('Fallo la estrategia');
   res.send({ error: 'Failed register' });
 };
 
 export const logout = (req, res) => {
   req.session.destroy((err) => {
     if (err) {
-      console.error('Error al destruir la sesión:', err);
+      logger.error('Error al destruir la sesión:', err);
     }
     res.redirect('/login');
   });
