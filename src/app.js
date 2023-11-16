@@ -19,7 +19,7 @@ import ticketsRoutes from './routes/ticketsRoutes.js';
 import nodemailer from 'nodemailer'; // Sino la utilizo , desinstalar
 import compression from 'express-compression';
 import mockingRoutes  from './routes/mockingRoutes.js';
-import  { addLogger } from './utils/logger.js';
+import  { logger, addLogger } from './utils/logger.js';
 import loggerTestRoutes from './routes/loggerTestRoutes.js'
 
 
@@ -132,7 +132,7 @@ io.on('connection', (socket) => {
 
 // Levanto servidor
 server.listen(port, () => {
-  console.log(`Servidor corriendo en http://localhost:${port}`);
+  logger.info(`Servidor corriendo en http://localhost:${port}`);
 });
 
 export default app;
