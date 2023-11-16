@@ -2,6 +2,7 @@ import { Router } from "express";
 import Products from "../dao/managers/mongodb/products.js";
 import Carts from "../dao/managers/mongodb/carts.js";
 import Messages from "../dao/managers/mongodb/messages.js";
+import logger from "../utils/logger.js"
 
 const router = Router();
 const productsManager = new Products();
@@ -40,7 +41,7 @@ router.get('/carts/:cartId', async (req, res) => {
 
         res.render('cart', { cart, totalPrice });
     } catch (error) {
-        console.error('Error:', error);
+        logger.error('Error:', error);
         res.status(404).json({ error: 'Carrito no encontrado.' });
     }
 });

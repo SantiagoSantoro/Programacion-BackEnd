@@ -3,7 +3,7 @@ import local from 'passport-local';
 import { usersModel } from '../dao/models/users.js';
 import { createHash, isValidPassword } from '../utils.js';
 import GitHubStrategy from 'passport-github2';
-import { logger, addLogger } from '../utils/logger.js'
+import { logger } from '../utils/logger.js'
 
 const LocalStrategy = local.Strategy;
 
@@ -58,7 +58,7 @@ export const initializePassport = () => {
             logger.info('Inicio de sesión exitoso');
             return done(null, user);
         } catch (error) {
-            console.error('Error durante la autenticación:', error); // Agregado para capturar errores
+            logger.error('Error durante la autenticación:', error); // Agregado para capturar errores
             return done(error);
         }
     }));
