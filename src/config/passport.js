@@ -35,9 +35,10 @@ export const initializePassport = () => {
 
             // Envía un correo electrónico después de la creación exitosa del usuario
             await mailer.sendSimpleMail({
+                from: "CoderTest",
                 to: "santiagosantoro10@gmail.com",
                 subject: 'Bienvenido a nuestro servicio',
-                text: 'Gracias por registrarte en nuestro servicio.'
+                html: '<div><h1>Usuario registrado</h1></div>'
             });
 
             return done(null, result);

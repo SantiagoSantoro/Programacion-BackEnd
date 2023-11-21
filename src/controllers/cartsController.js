@@ -77,17 +77,35 @@ export const addProductToCart = async (req, res) => {
     if (!isValidQuantity(quantity)) {
       throw new Error('INVALID_QUANTITY');
     }
+
+    // Obtener el usuario de la sesión
+    const user = req.session.user;
+
+    // Verificar si el producto pertenece al usuario
+    const product = await productsModel.findById(productId);
+    if (product.owner.toString() === user._id.toString()) {
+      throw new Error('PRODUCT_BELONGS_TO_USER');
+    }
+
+    // Agregar el producto al carrito
     await cartsManager.addProductToCart(cartId, productId, quantity);
+
     res.json({ message: 'Producto agregado al carrito con éxito.' });
   } catch (error) {
     const errorMessage = handleError(error.message);
-    if (error.message === 'INVALID_CART_ID' || error.message === 'INVALID_PRODUCT_ID' || error.message === 'INVALID_QUANTITY') {
+    if (
+      error.message === 'INVALID_CART_ID' ||
+      error.message === 'INVALID_PRODUCT_ID' ||
+      error.message === 'INVALID_QUANTITY' ||
+      error.message === 'PRODUCT_BELONGS_TO_USER'
+    ) {
       res.status(400).json({ error: errorMessage });
     } else {
       res.status(500).json({ error: errorMessage });
     }
   }
 };
+
 
 
 export const updateProductInCart = async (req, res) => {

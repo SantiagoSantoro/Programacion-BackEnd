@@ -10,7 +10,7 @@ import {
   removeAllProductsFromCart,
   finalizePurchase, 
 } from '../controllers/cartsController.js'; 
-import { isUser } from '../middleware/authorization.js'
+import { isUser, isPremiumUser } from '../middleware/authorization.js'
 
 
 const router = Router();
@@ -20,9 +20,9 @@ const cartsManager = new Carts();
 router.get('/', getAllCarts);
 router.post('/', createCart);
 router.get('/:cartId', getCartById);
-router.post('/:cartId/product/:productId', isUser, addProductToCart);
-router.put('/:cartId/product/:productId', isUser, updateProductInCart);
-router.delete('/:cartId/product/:productId', isUser, removeProductFromCart);
+router.post('/:cartId/product/:productId', isUser, isPremiumUser, addProductToCart); 
+router.put('/:cartId/product/:productId', isUser, isPremiumUser, updateProductInCart); 
+router.delete('/:cartId/product/:productId', isUser, isPremiumUser, removeProductFromCart); 
 router.delete('/:cartId', removeAllProductsFromCart);
 router.post('/:cartId/finalizePurchase', isUser, finalizePurchase);
 
