@@ -2,7 +2,7 @@ import { Router } from "express";
 import Products from "../dao/managers/mongodb/products.js";
 import Carts from "../dao/managers/mongodb/carts.js";
 import Messages from "../dao/managers/mongodb/messages.js";
-import logger from "../utils/logger.js"
+import { logger } from "../utils/logger.js"
 
 const router = Router();
 const productsManager = new Products();

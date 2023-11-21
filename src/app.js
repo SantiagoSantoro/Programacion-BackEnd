@@ -16,7 +16,7 @@ import passport from 'passport';
 import { initializePassport } from './config/passport.js';
 import { config } from './config/config.js';
 import ticketsRoutes from './routes/ticketsRoutes.js';
-import nodemailer from 'nodemailer'; // Sino la utilizo , desinstalar
+import nodemailer from 'nodemailer'; 
 import compression from 'express-compression';
 import mockingRoutes  from './routes/mockingRoutes.js';
 import  { logger, addLogger } from './utils/logger.js';

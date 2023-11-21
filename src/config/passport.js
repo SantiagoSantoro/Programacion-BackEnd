@@ -4,7 +4,9 @@ import { usersModel } from '../dao/models/users.js';
 import { createHash, isValidPassword } from '../utils.js';
 import GitHubStrategy from 'passport-github2';
 import { logger } from '../utils/logger.js'
+import MailingService from '../services/mailing.js'
 
+const mailer = new MailingService();
 const LocalStrategy = local.Strategy;
 
 export const initializePassport = () => {
@@ -16,9 +18,10 @@ export const initializePassport = () => {
         try {
             const exists = await usersModel.findOne({ email });
             if (exists) {
-                logger.warning('El usuario ya existe')
+                logger.warning('El usuario ya existe');
                 return done(null, false);
             }
+
             const newUser = {
                 first_name,
                 last_name,
@@ -26,14 +29,25 @@ export const initializePassport = () => {
                 age,
                 password: createHash(userPassword),
                 role: 'user', // O 'admin' si es un administrador
-                
             };
-            let result = await usersModel.create(newUser);
-            return done(null, result)
+
+            const result = await usersModel.create(newUser);
+
+            // Envía un correo electrónico después de la creación exitosa del usuario
+            await mailer.sendSimpleMail({
+                to: "santiagosantoro10@gmail.com",
+                subject: 'Bienvenido a nuestro servicio',
+                text: 'Gracias por registrarte en nuestro servicio.'
+            });
+
+            return done(null, result);
         } catch (error) {
-            return done('Error al crear el usuario:' + error)
+            logger.error('Error al crear el usuario:', error);
+            return done('Error al crear el usuario:' + error);
         }
     }));
+
+
 
     passport.use('login', new LocalStrategy({ usernameField: 'email' }, async (username, password, done) => {
         try {

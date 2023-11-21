@@ -26,13 +26,13 @@ export const getFailLogin = (req, res) => {
 
 export const register = (req, res) => {
   passport.authenticate('register', { failureRedirect: '/failRegister' })(req, res, async () => {
-    res.send({ status: 'success', message: 'Usuario registrado' });
+    res.send({ status: 'success', message: 'Usuario registrado'});
   });
 };
 
 export const getFailRegister = (req, res) => {
   logger.error('Fallo la estrategia');
-  res.send({ error: 'Failed register' });
+  res.send({ error: 'Failed register'});
 };
 
 export const logout = (req, res) => {
