@@ -1,5 +1,6 @@
 import passport from 'passport';
-import { logger, addLogger } from '../utils/logger.js'
+import { logger } from '../utils/logger.js';
+
 
 export const getHomePage = (req, res) => {
   if (req.isAuthenticated()) {
@@ -24,16 +25,6 @@ export const getFailLogin = (req, res) => {
   res.send({ error: 'Failed login' });
 };
 
-export const register = (req, res) => {
-  passport.authenticate('register', { failureRedirect: '/failRegister' })(req, res, async () => {
-    res.send({ status: 'success', message: 'Usuario registrado'});
-  });
-};
-
-export const getFailRegister = (req, res) => {
-  logger.error('Fallo la estrategia');
-  res.send({ error: 'Failed register'});
-};
 
 export const logout = (req, res) => {
   req.session.destroy((err) => {
@@ -61,3 +52,5 @@ export const githubCallback = (req, res) => {
     res.redirect('/home');
   });
 };
+
+

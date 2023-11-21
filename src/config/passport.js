@@ -28,7 +28,7 @@ export const initializePassport = () => {
                 email,
                 age,
                 password: createHash(userPassword),
-                role: 'user', // O 'admin' si es un administrador
+                role: req.body.role || 'user',
             };
 
             const result = await usersModel.create(newUser);
@@ -47,8 +47,6 @@ export const initializePassport = () => {
             return done('Error al crear el usuario:' + error);
         }
     }));
-
-
 
     passport.use('login', new LocalStrategy({ usernameField: 'email' }, async (username, password, done) => {
         try {
