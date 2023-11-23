@@ -16,12 +16,12 @@ import passport from 'passport';
 import { initializePassport } from './config/passport.js';
 import { config } from './config/config.js';
 import ticketsRoutes from './routes/ticketsRoutes.js';
-import mailer from 'nodemailer'; 
 import compression from 'express-compression';
 import mockingRoutes  from './routes/mockingRoutes.js';
 import  { logger, addLogger } from './utils/logger.js';
 import loggerTestRoutes from './routes/loggerTestRoutes.js'
 import usersRoutes from './routes/usersRoutes.js';
+import passwordResetRoutes from './routes/passwordResetRoutes.js'
 
 
 const app = express();
@@ -85,6 +85,7 @@ app.use('/api/tickets', ticketsRoutes);
 app.use('/api/moking', mockingRoutes);
 app.use('/api/loggerTest', loggerTestRoutes);
 app.use('/api/users', usersRoutes);
+app.use('/api/password-reset', passwordResetRoutes);
 
 
 // Configurar Socket.IO para manejar conexiones WebSocket

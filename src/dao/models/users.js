@@ -10,7 +10,9 @@ const usersSchema = mongoose.Schema({
     password: String, 
     cart: { type: mongoose.Schema.Types.ObjectId, ref: 'Carts' }, // Referencia al modelo Carts
     role: { type: String }, // Por defecto, los usuarios tienen el rol 'user'
-    premiumExpiry: Date // Fecha de vencimiento de la membresía "Premium"
+    premiumExpiry: Date, // Fecha de vencimiento de la membresía "Premium"
+    resetPasswordToken: String,
+    resetPasswordExpires: Date
 });
 
 export const usersModel = mongoose.model(usersCollection, usersSchema);

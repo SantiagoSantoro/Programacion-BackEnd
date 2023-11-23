@@ -1,5 +1,3 @@
-import { logger } from '../../utils/logger.js'
-
 const form = document.getElementById('loginForm');
 
 form.addEventListener('submit', e => {
@@ -15,7 +13,7 @@ form.addEventListener('submit', e => {
             'Content-Type': 'application/json'
         },
     }).then(result => {
-        logger.info(result.status)
+        console.log(result.status)
         if (result.status === 200) {
             window.location.replace('/profile')
         }

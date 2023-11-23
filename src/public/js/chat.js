@@ -1,5 +1,3 @@
-import { logger } from '../../utils/logger.js'
-
 const socket = io();
 const input = document.getElementById('message');
 const form = document.getElementById('chatForm');
@@ -18,7 +16,7 @@ form.addEventListener('submit', (evt) => {
 
 // Agrega este código al cliente para escuchar eventos de mensajes guardados en el servidor y actualizar la vista
 socket.on('messageSaved', (savedMessage) => {
-    logger.info('Mensaje guardado en el servidor:', savedMessage);
+    console.log('Mensaje guardado en el servidor:', savedMessage);
     // Agrega el mensaje a la vista utilizando JavaScript o Handlebars, por ejemplo:
     const chatList = document.querySelector('#chat ul');
     const li = document.createElement('li');
@@ -29,7 +27,7 @@ socket.on('messageSaved', (savedMessage) => {
 
 // Agrega este código para escuchar eventos de error de mensajes (opcional)
 socket.on('messageError', (error) => {
-    logger.error('Error al guardar el mensaje en el servidor:', error);
+   console.log('Error al guardar el mensaje en el servidor:', error);
 });
 
 
