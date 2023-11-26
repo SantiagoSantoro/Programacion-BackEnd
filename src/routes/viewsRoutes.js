@@ -3,6 +3,13 @@ import Products from "../dao/managers/mongodb/products.js";
 import Carts from "../dao/managers/mongodb/carts.js";
 import Messages from "../dao/managers/mongodb/messages.js";
 import { logger } from "../utils/logger.js"
+import {
+  renderForgotPassword,
+  handleForgotPassword,
+  renderResetPassword,
+  handleResetPassword,
+} from '../controllers/passwordResetController.js';
+
 
 const router = Router();
 const productsManager = new Products();
@@ -88,6 +95,11 @@ router.post('/logout', async (req, res) => {
     req.session.destroy();
     res.json({ message: 'Sesión cerrada con éxito.' });
 });
+
+router.get('/forgot-password', renderForgotPassword);
+router.post('/forgot-password', handleForgotPassword);
+router.get('/reset-password/:token', renderResetPassword);
+router.post('/reset-password/:token', handleResetPassword);
 
 
 

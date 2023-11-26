@@ -85,7 +85,7 @@ app.use('/api/tickets', ticketsRoutes);
 app.use('/api/moking', mockingRoutes);
 app.use('/api/loggerTest', loggerTestRoutes);
 app.use('/api/users', usersRoutes);
-app.use('/api/password-reset', passwordResetRoutes);
+app.use('/password-reset', passwordResetRoutes);
 
 
 // Configurar Socket.IO para manejar conexiones WebSocket
