@@ -1,7 +1,8 @@
 import { usersModel } from '../dao/models/users.js';
 import { generateResetToken } from '../utils/password.js';
-import { createHash } from '../utils.js';
+import { createHash, isValidPassword } from '../utils.js';
 import MailingService from '../services/mailing.js';
+import { logger } from '../utils/logger.js'
 
 
 
@@ -37,7 +38,7 @@ export const handleForgotPassword = async (req, res) => {
         // Renderizar la vista con un mensaje de éxito
         res.render('reset-email-sent');
     } catch (error) {
-        console.error(error);
+        logger.error(error);
         res.render('error-page');
     }
 };
@@ -58,7 +59,7 @@ export const renderResetPassword = async (req, res) => {
         // Renderizar la vista de restablecimiento de contraseña con el token válido
         res.render('reset-password', { token: req.params.token });
     } catch (error) {
-        console.error(error);
+        logger.error(error);
         // Renderizar la vista de error
         res.render('error-page');
     }
@@ -77,7 +78,9 @@ export const handleResetPassword = async (req, res) => {
         }
 
         // Verificar que la nueva contraseña no sea igual a la anterior
-        if (req.body.newPassword === req.body.oldPassword) {
+        if (isValidPassword(user.password, req.body.newPassword)) {
+            // Imprimir mensaje en la consola
+            logger.warning('La nueva contraseña no puede ser la misma que la anterior');
             // Renderizar la vista con un mensaje de error si la nueva contraseña es igual a la anterior
             return res.render('reset-password', { token: req.params.token, error: 'La nueva contraseña no puede ser la misma que la anterior' });
         }
@@ -91,9 +94,8 @@ export const handleResetPassword = async (req, res) => {
         // Renderizar la vista de éxito
         res.redirect('/login');
     } catch (error) {
-        console.error(error);
+        logger.error(error);
         // Renderizar la vista de error
         res.render('error-page');
     }
 };
-
