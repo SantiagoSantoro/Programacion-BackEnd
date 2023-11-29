@@ -21,7 +21,9 @@ import mockingRoutes  from './routes/mockingRoutes.js';
 import  { logger, addLogger } from './utils/logger.js';
 import loggerTestRoutes from './routes/loggerTestRoutes.js'
 import usersRoutes from './routes/usersRoutes.js';
-import passwordResetRoutes from './routes/passwordResetRoutes.js'
+import passwordResetRoutes from './routes/passwordResetRoutes.js';
+import { swaggerUi, swaggerSpecs } from './config/swagger.js';
+
 
 
 const app = express();
@@ -50,6 +52,8 @@ app.use(
   })
 );
 
+// Swagger
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs)); 
 
 //Midleware para trabajar con passport
 initializePassport();
@@ -76,6 +80,7 @@ app.set('view engine', 'handlebars');
 
 
 // Importo vistas
+
 app.use('/', viewsRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/carts', cartRoutes);
@@ -86,6 +91,8 @@ app.use('/api/moking', mockingRoutes);
 app.use('/api/loggerTest', loggerTestRoutes);
 app.use('/api/users', usersRoutes);
 app.use('/password-reset', passwordResetRoutes);
+
+
 
 
 // Configurar Socket.IO para manejar conexiones WebSocket
