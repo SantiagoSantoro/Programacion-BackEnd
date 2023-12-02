@@ -1,0 +1,118 @@
+swagger: "2.0"
+info:
+  title: "Documentación de la API de Productos"
+  version: "1.0.0"
+
+
+paths:
+  /api/products :
+    get:
+      summary: "Obtener productos paginados"
+      description: "Devuelve una lista paginada de productos."
+      parameters:
+        - name: "page"
+          in: "query"
+          description: "Número de página para la paginación"
+          required: false
+          type: "integer"
+      responses:
+        200:
+          description: "Éxito. Devuelve una lista paginada de productos."
+
+    post:
+      summary: "Agregar un nuevo producto con foto"
+      description: "Añade un nuevo producto con la información proporcionada y una foto."
+      parameters:
+        - name: "thumbnail"
+          in: "formData"
+          description: "Foto del producto"
+          required: false
+          type: "file"
+      responses:
+        201:
+          description: "Creado con éxito. Devuelve información del nuevo producto."
+
+  /api/products/{pid}:
+    get:
+      summary: "Obtener información de un producto por ID"
+      description: "Devuelve detalles de un producto según su ID."
+      parameters:
+        - name: "pid"
+          in: "path"
+          description: "ID del producto"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "Éxito. Devuelve información del producto solicitado."
+
+    put:
+      summary: "Actualizar un producto"
+      description: "Actualiza un producto según su ID con la información proporcionada."
+      parameters:
+        - name: "pid"
+          in: "path"
+          description: "ID del producto"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "Éxito. Producto actualizado exitosamente."
+
+    delete:
+      summary: "Eliminar un producto"
+      description: "Elimina un producto según su ID."
+      parameters:
+        - name: "pid"
+          in: "path"
+          description: "ID del producto"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "Éxito. Producto eliminado exitosamente."
+
+  /api/products/category/{category}:
+    get:
+      summary: "Buscar productos por categoría"
+      description: "Devuelve una lista de productos según la categoría."
+      parameters:
+        - name: "category"
+          in: "path"
+          description: "Categoría de productos"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "Éxito. Devuelve una lista de productos según la categoría."
+
+  /api/products/availability/{availability}:
+    get:
+      summary: "Buscar productos por disponibilidad"
+      description: "Devuelve una lista de productos según la disponibilidad."
+      parameters:
+        - name: "availability"
+          in: "path"
+          description: "Disponibilidad de productos (true/false)"
+          required: true
+          type: "boolean"
+      responses:
+        200:
+          description: "Éxito. Devuelve una lista de productos según la disponibilidad."
+
+  /api/products/{pid}/price:
+    get:
+      summary: "Obtener el precio de un producto por su ID"
+      description: "Devuelve el precio de un producto según su ID."
+      parameters:
+        - name: "pid"
+          in: "path"
+          description: "ID del producto"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "Éxito. Devuelve el precio del producto solicitado."
+
+
+
