@@ -19,6 +19,8 @@ paths:
 
     post:
       summary: "Agregar un nuevo producto con foto"
+      tags: 
+        - Products
       description: "Añade un nuevo producto con la información proporcionada y una foto."
       parameters:
         - name: "thumbnail"
@@ -35,6 +37,8 @@ paths:
   /api/products/{pid}:
     get:
       summary: "Obtener información de un producto por ID"
+      tags: 
+        - Products
       description: "Devuelve detalles de un producto según su ID."
       parameters:
         - name: "pid"
@@ -51,6 +55,8 @@ paths:
 
     put:
       summary: "Actualizar un producto"
+      tags: 
+        - Products
       description: "Actualiza un producto según su ID con la información proporcionada."
       parameters:
         - name: "pid"
@@ -66,6 +72,8 @@ paths:
 
     delete:
       summary: "Eliminar un producto"
+      tags: 
+        - Products
       description: "Elimina un producto según su ID."
       parameters:
         - name: "pid"
@@ -82,6 +90,8 @@ paths:
   /api/products/category/{category}:
     get:
       summary: "Buscar productos por categoría"
+      tags: 
+        - Products
       description: "Devuelve una lista de productos según la categoría."
       parameters:
         - name: "category"
@@ -98,6 +108,8 @@ paths:
   /api/products/availability/{availability}:
     get:
       summary: "Buscar productos por disponibilidad"
+      tags: 
+        - Products
       description: "Devuelve una lista de productos según la disponibilidad."
       parameters:
         - name: "availability"
@@ -114,6 +126,8 @@ paths:
   /api/products/{pid}/price:
     get:
       summary: "Obtener el precio de un producto por su ID"
+      tags: 
+        - Products
       description: "Devuelve el precio de un producto según su ID."
       parameters:
         - name: "pid"
