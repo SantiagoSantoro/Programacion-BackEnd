@@ -2,6 +2,15 @@ import passport from 'passport';
 import { usersModel } from '../dao/models/users.js';
 import { logger } from '../utils/logger.js'
 
+export const getAllUsers = async (req, res) => {
+  try {
+      const allUsers = await usersModel.find();
+      res.json(allUsers);
+  } catch (error) {
+      res.status(500).json({ error: error.message });
+  }
+};
+
 export const register = (req, res) => {
     passport.authenticate('register', { failureRedirect: '/failRegister' })(req, res, async () => {
         res.send({ status: 'success', message: 'Usuario registrado' });

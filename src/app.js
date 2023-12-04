@@ -52,7 +52,7 @@ app.use(
   })
 );
 
-// Swagger
+//Midleware para trabajar con swagger
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs)); 
 
 //Midleware para trabajar con passport

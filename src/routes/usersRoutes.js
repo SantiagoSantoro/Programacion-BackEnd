@@ -1,10 +1,11 @@
 import { Router } from 'express';
-import { register, getFailRegister, changeUserRole } from '../controllers/usersController.js';
+import { getAllUsers, register, getFailRegister, changeUserRole } from '../controllers/usersController.js';
 
 
 
 const router = Router();
 
+router.get('/getAllUsers', getAllUsers);
 router.post('/register', register);
 router.get('/failRegister', getFailRegister);
 
