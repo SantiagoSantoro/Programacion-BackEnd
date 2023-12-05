@@ -24,16 +24,16 @@ describe('Testing de Carts con supertest', () => {
             expect(body).to.be.an('object');
             expect(body).to.have.property('cart');      
         });
-        
+
         it('El endpoint GET /api/carts/:cartId debe devolver un carrito por su ID', async () => {
-            const cartId = '656f6e2c9241ff98a3fcf92b';  // Reemplaza con el ID real de un carrito existente en tu base de datos
-
+            const cartId = '656f6e2c9241ff98a3fcf92b'; 
             const { statusCode, ok, body } = await requester.get(`/api/carts/${cartId}`).send();
-
             expect(statusCode).to.equal(200);
             expect(ok).to.be.true;
             expect(body).to.be.an('object');
-            expect(body.cart._id).to.equal(cartId); 
+            expect(body).to.have.property('cart');  
+            expect(body.cart).to.be.an('object');  
+            expect(body.cart._id).to.equal(cartId);  
         });
 
         after(async () => {
