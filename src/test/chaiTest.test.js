@@ -34,7 +34,7 @@ describe('Set de test con chai', () => {
         const passwordHarsh = createHash(mockUser.password);
 
 
-        expect(mockUser.password).to.be.not.equals(passwordHarsh);
+        expect(mockUser.password).to.be.not.equals(passwordHash);
     });
 
 })
