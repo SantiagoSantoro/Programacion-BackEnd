@@ -34,12 +34,13 @@ export default class Carts {
 
   addProductToCart = async (cartId, productId, quantity) => {
     try {
-      const cart = await cartsModel.findById(cartId);
+        const cart = await cartsModel.findById(cartId);
       if (!cart) {
         throw new Error('INVALID_CART_ID');
       }
 
       const product = await productsModel.findById(productId);
+      
       if (!product) {
         throw new Error('INVALID_PRODUCT_ID');
       }
@@ -58,6 +59,7 @@ export default class Carts {
       await cart.save();
       return;
     } catch (error) {
+     
       throw error;
     }
   };
@@ -96,7 +98,7 @@ export default class Carts {
       // Busca el producto en el carrito por su ID y actualiza la cantidad
       const productIndex = cart.products.findIndex(product => product.product == productId);
       if (productIndex !== -1) {
-        cart.products[productIndex].quantity -= quantity; 
+        cart.products[productIndex].quantity -= quantity;
         await cart.save();
       }
 

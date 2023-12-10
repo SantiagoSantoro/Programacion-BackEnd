@@ -1,5 +1,6 @@
 // Middleware para verificar si el usuario es un administrador
 export const isAdmin = (req, res, next) => {
+  const user = req.session.user;
   if (req.user && req.user.role === 'admin') {
     // Si el usuario es un administrador, continúa con la siguiente acción
     return next();
@@ -11,6 +12,7 @@ export const isAdmin = (req, res, next) => {
 
 // Middleware para verificar si el usuario es un usuario común
 export const isUser = (req, res, next) => {
+  const user = req.session.user;
   if (req.user && req.user.role === 'user') {
     // Si el usuario es un usuario común, continúa con la siguiente acción
     return next();
@@ -23,13 +25,16 @@ export const isUser = (req, res, next) => {
 // Middleware para verificar si el usuario está autenticado y es premium
 export const isPremiumUser = (req, res, next) => {
   const user = req.session.user;
-
-  if (user && user.role === 'premium') {
-    // El usuario es premium, permite la acción
-    next();
+  // Verificar si el usuario está autenticado y si es premium
+  if (req.user && req.user.role === 'premium') {
+   return next();
   } else {
-    // El usuario no es premium, devuelve un error
-    res.status(403).json({ error: 'Acceso no autorizado para usuarios no premium.' });
+    return res.status(403).json({ error: 'Acceso no autorizado para usuarios no premium.' });
   }
 };
+
+
+
+
+
 

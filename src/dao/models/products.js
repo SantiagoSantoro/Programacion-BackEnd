@@ -29,6 +29,10 @@ const productsSchema = mongoose.Schema({
   thumbnail: String,
   owner: { type: mongoose.Schema.Types.ObjectId, ref: 'Users' }, // Referencia al modelo Users
   premiumOnly: { type: Boolean, default: false }, // Por defecto, un producto no es exclusivo para usuarios "Premium"
+  products: { // Nueva propiedad
+    type: Array,
+    required: true,
+  },
 });
 
 // Creo y exporto el modelo para la colección "products"

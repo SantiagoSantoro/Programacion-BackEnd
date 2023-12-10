@@ -10,7 +10,7 @@ import {
   removeAllProductsFromCart,
   finalizePurchase, 
 } from '../controllers/cartsController.js'; 
-import { isUser, isPremiumUser } from '../middleware/authorization.js'
+import { isUser, isPremiumUser} from '../middleware/authorization.js'
 
 
 const router = Router();

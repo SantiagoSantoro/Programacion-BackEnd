@@ -1,6 +1,8 @@
 import Carts from '../dao/managers/mongodb/carts.js';
 import { errorDictionary, handleError } from '../test/errorHandler.js';
 import { isValidCart, isValidProduct, isValidQuantity } from '../utils/validation.js';
+import { productsModel } from '../dao/models/products.js'
+
 
 
 
@@ -12,6 +14,7 @@ export const getAllCarts = async (req, res) => {
     const carts = await cartsManager.getAll();
     res.json(carts);
   } catch (error) {
+    console.error('Controller Error:', error);
     const errorMessage = handleError(error.message);
     if (error.message === 'CARTS_NOT_FOUND') {
       res.status(404).json({ error: errorMessage });
@@ -63,6 +66,7 @@ export const getCartById = async (req, res) => {
 
 export const addProductToCart = async (req, res) => {
   try {
+    
     const cartId = req.params.cartId;
     const productId = req.body.productId;
     const quantity = req.body.quantity;
@@ -81,17 +85,22 @@ export const addProductToCart = async (req, res) => {
     // Obtener el usuario de la sesión
     const user = req.session.user;
 
-    // Verificar si el producto pertenece al usuario
-    const product = await productsModel.findById(productId);
-    if (product.owner.toString() === user._id.toString()) {
-      throw new Error('PRODUCT_BELONGS_TO_USER');
-    }
+    // // Verificar si el producto pertenece al usuario
+    // const product = await productsModel.findById(productId);
+    // console.log('Product:', product);
+
+    // // Verificar si el producto está definido y pertenece al usuario
+    // if (!product || !product.owner || product.owner.toString() === user._id.toString()) {
+    //   throw new Error('PRODUCT_BELONGS_TO_USER');
+    // }
+
 
     // Agregar el producto al carrito
     await cartsManager.addProductToCart(cartId, productId, quantity);
 
     res.json({ message: 'Producto agregado al carrito con éxito.' });
   } catch (error) {
+    console.error('Controller Error:', error);
     const errorMessage = handleError(error.message);
     if (
       error.message === 'INVALID_CART_ID' ||
@@ -118,7 +127,7 @@ export const updateProductInCart = async (req, res) => {
     if (!isValidCart(cartId)) {
       throw new Error('INVALID_CART_ID');
     }
-    
+
     if (!isValidProduct(productId)) {
       throw new Error('INVALID_PRODUCT_ID');
     }
