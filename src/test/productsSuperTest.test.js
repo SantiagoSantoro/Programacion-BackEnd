@@ -62,11 +62,6 @@ describe('Testing de Products con supertest', () => {
         }
     });
 
-
-
-
-
-
     after(async () => {
         await mongoose.connection.close();
     });

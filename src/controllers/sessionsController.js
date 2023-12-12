@@ -49,7 +49,7 @@ export const loginWithGithub = passport.authenticate('github', { scope: ['user.e
 export const githubCallback = (req, res) => {
   passport.authenticate('github', { failureRedirect: '/loginFailed' })(req, res, async () => {
     req.session.user = req.user;
-    res.redirect('/home');
+    res.redirect('/products');
   });
 };
 
