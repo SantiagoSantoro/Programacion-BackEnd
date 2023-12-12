@@ -1,7 +1,7 @@
 import chai from 'chai';
 import supertest from 'supertest';
 import mongoose from 'mongoose';
-import passport from 'passport';
+
 
 const expect = chai.expect;
 const requester = supertest('http://localhost:8080');
