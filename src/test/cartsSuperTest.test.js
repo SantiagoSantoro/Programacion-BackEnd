@@ -16,7 +16,7 @@ describe('Testing de Carts con supertest', () => {
 
         it('El endpoint POST /api/carts debe crear un nuevo carrito asociado a un usuario', async () => {
             const newCart = {
-                userId: '65244be5a4a3dcc99aadf677',
+                userId: '652336b3922641f0698102d4',
             };
             const { statusCode, ok, body } = await requester.post('/api/carts').send(newCart);
             expect(statusCode).to.equal(200);  
@@ -35,6 +35,28 @@ describe('Testing de Carts con supertest', () => {
             expect(body.cart).to.be.an('object');  
             expect(body.cart._id).to.equal(cartId);  
         });
+
+        it('Debería permitir agregar un producto al carrito si el usuario está logueado', async () => {
+            const authResponse = await requester.post('/api/sessions/login')
+              .send({ email: 'santiagosantoro10@gmail.com', password: 'milo2016' });
+            const sessionCookie = authResponse.headers['set-cookie'];  
+            const cartId = '656f6e2c9241ff98a3fcf92b';
+            const productId = '65031c6eec0feafb55eb7094';    
+            const { statusCode, ok, body } = await requester
+              .post(`/api/carts/${cartId}/product/${productId}`)
+              .set('Cookie', sessionCookie)
+              .send({
+                productId: '65031cc5ec0feafb55eb7096',
+                quantity: 1
+              });
+      
+            expect(statusCode).to.equal(200);
+            expect(ok).to.be.true;
+            expect(body).to.be.an('object');
+            expect(body).to.have.property('message');
+            expect(body.message).to.equal('Producto agregado al carrito con éxito.');
+          });
+    
 
         after(async () => {
             await mongoose.connection.close();

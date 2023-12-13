@@ -27,11 +27,25 @@ export const isPremiumUser = (req, res, next) => {
   const user = req.session.user;
   // Verificar si el usuario está autenticado y si es premium
   if (req.user && req.user.role === 'premium') {
-   return next();
+    return next();
   } else {
     return res.status(403).json({ error: 'Acceso no autorizado para usuarios no premium.' });
   }
 };
+
+
+// Middleware para verificar si el usuario está autenticado
+export const isLogin = (req, res, next) => {
+  const user = req.session.user;
+  // Verificar si el usuario está autenticado y permitir el acceso
+  if (user) {
+    next();
+  } else {
+    res.status(403).json({ error: 'Acceso no autorizado para usuarios no autenticados.' });
+  }
+};
+
+
 
 
 

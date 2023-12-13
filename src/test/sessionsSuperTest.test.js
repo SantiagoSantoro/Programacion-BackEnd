@@ -11,8 +11,8 @@ describe('Testing de Sessions con supertest', () => {
     describe('Testing de Sessions', () => {
         it('El endpoint POST /api/sessions/login debe devolver un código de estado 200 si el inicio de sesión es exitoso', async () => {
             const user = {
-                email: 'santoroosvaldo@hotmail.com',
-                password: 'yopuedo',
+                email: 'santiagosantoro10@gmail.com',
+                password: 'milo2016',
             };
             const { statusCode, ok, body } = await requester.post('/api/sessions/login').send(user);
             expect(statusCode).to.equal(200);

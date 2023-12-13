@@ -48,7 +48,8 @@ export const logger = (() => {
                         winston.format.colorize(),
                         winston.format.simple()
                     )
-                })
+                }),
+                new winston.transports.File({ filename: './src/test/errors.log', level: 'error' })
             ]
         });
     }
