@@ -27,7 +27,6 @@ export default class Products {
             throw error;
         }
     }
-
     getByAvailability = async (availability) => {
         try {
             const productsByAvailability = await productsModel.find({ stock: availability });
@@ -36,9 +35,6 @@ export default class Products {
             throw error;
         }
     }
-
-
-
     saveProducts = async (product, photoRoute) => {
         try {
             product.photo = photoRoute;
@@ -84,5 +80,4 @@ export default class Products {
             throw error;
         }
     }
-
 }
