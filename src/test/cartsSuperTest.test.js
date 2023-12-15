@@ -91,7 +91,11 @@ describe('Testing de Carts con supertest', () => {
                 // Realiza la solicitud de eliminar producto del carrito con la cookie de sesión
                 const { statusCode, ok, body } = await requester
                     .delete(`/api/carts/${cartId}/product/${productId}`)
-                    .set('Cookie', sessionCookie);
+                    .set('Cookie', sessionCookie)
+                    .send({
+                        productId: '65031c6eec0feafb55eb7094',
+                        quantity: 3 // Nueva cantidad deseada
+                    });
 
                 expect(statusCode).to.equal(200);
                 expect(ok).to.be.true;
