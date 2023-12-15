@@ -111,8 +111,6 @@ describe('Testing de Carts con supertest', () => {
                     .send({ email: 'santiagosantoro10@gmail.com', password: 'milo2016' });
                 const sessionCookie = authResponse.headers['set-cookie'];
                 const cartId = '656f6e2c9241ff98a3fcf92b';
-
-                // Realiza la solicitud de eliminar todos los productos del carrito con la cookie de sesión
                 const { statusCode, ok, body } = await requester
                     .delete(`/api/carts/${cartId}`)
                     .set('Cookie', sessionCookie);
