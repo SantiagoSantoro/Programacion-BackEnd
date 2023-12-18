@@ -122,10 +122,30 @@ describe('Testing de Carts con supertest', () => {
                 expect(body.message).to.equal('Todos los productos del carrito eliminados con éxito.');
             });
 
-            after(async () => {
-                await mongoose.connection.close();
+            describe('Testing de finalizePurchase endpoint', () => {
+                it('Debería finalizar la compra y crear un ticket', async () => {
+                    const authResponse = await requester.post('/api/sessions/login')
+                        .send({ email: 'santiagosantoro10@gmail.com', password: 'milo2016' });
+                    const sessionCookie = authResponse.headers['set-cookie'];
+                    const cartId = '656f6e2c9241ff98a3fcf92b';
+                    const { statusCode, body } = await requester
+                        .post(`/api/carts/${cartId}/finalizePurchase`)
+                        .set('Cookie', sessionCookie)
+                        .send();
+                    if (statusCode !== 200) {
+                        console.error('Error en la respuesta:', body);
+                    }
+
+                    expect(statusCode).to.equal(200);
+                    expect(body).to.be.an('object');
+                    expect(body).to.have.property('message');
+                    expect(body.message).to.equal('Compra finalizada con éxito.');
+                });
+
+                after(async () => {
+                    await mongoose.connection.close();
+                });
             });
         });
     });
 });
-
