@@ -86,7 +86,7 @@ describe('Testing de Products con supertest', () => {
 
         describe('Test de la ruta de eliminación de Products', () => {
             it('El endpoint DELETE /api/products/:productId debe permitir eliminar un producto si el usuario está logueado como administrador', async () => {
-                const productId = '65031c6eec0feafb55eb7094';
+                // const productId = '65031c6eec0feafb55eb7094'; // OJO con éste test porque elimina el producto en la BD
                 const authResponse = await requester
                     .post('/api/sessions/login')
                     .send({ email: 'admincoder@coder.com', password: 'CoderSecret' });
