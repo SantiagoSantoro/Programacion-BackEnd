@@ -180,8 +180,8 @@ export const finalizePurchase = async (req, res) => {
   try {
     const cartId = req.params.cartId;
     const user = req.session.user; // Obtén el usuario de la sesión
-    const updatedCartData = await cartsManager.finalizePurchase(cartId, user); // Pasa el usuario como argumento
-    res.json({ message: 'Compra finalizada con éxito', updatedCartData });
+    const ticket = await cartsManager.finalizePurchase(cartId, user); // Pasa el usuario como argumento
+    res.json({ message: 'Compra finalizada con éxito', ticket });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

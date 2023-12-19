@@ -1,7 +1,8 @@
 import { cartsModel } from '../../models/carts.js';
 import { productsModel } from '../../models/products.js';
-import { createTicket, generateUniqueTicketCode } from '../../../controllers/ticketsController.js';
-import { getProductPrice } from '../../../controllers/productsController.js'
+import { generateUniqueTicketCode } from '../../../utils/generateUniqueTicketCode.js'; 
+import { ticketsModel } from '../../models/tickets.js'
+
 
 
 
@@ -129,48 +130,42 @@ export default class Carts {
     try {
       let totalAmount = 0;
 
-      for (const item of cart.items) {
+      for (const item of cart.products) {
         const productId = item.product;
-        const productPrice = await getProductPrice(productId); // Utiliza la función para obtener el precio del producto
-        totalAmount += productPrice * item.quantity;
+        const { price } = await productsModel.findById(productId); // Utiliza la función para obtener el precio del producto
+    
+        totalAmount += price * item.quantity;
       }
 
       return totalAmount;
     } catch (error) {
-      throw error; // No necesitas envolver el error en otro Error
+      throw error; 
     }
   }
 
 
-  finalizePurchase = async (cartId) => {
+  finalizePurchase = async (cartId, user) => {
     const cart = await this.getCartById(cartId);
-
     // Verificar el stock de los productos en el carrito y realizar otras operaciones necesarias.
-    for (const item of cart.items) {
+    for (const item of cart.products) {
       const productId = item.product;
-      const product = await getProductById(productId);
+      const product = await productsModel.findById(productId);
       if (product.stock < item.quantity) {
         throw new Error(`No hay suficiente stock para el producto: ${product.name}`);
       }
     }
 
-    // Ahora que has verificado el stock, puedes continuar con la compra.
-
     // Crear un ticket con los datos de la compra utilizando la función importada
     const ticketData = {
       code: generateUniqueTicketCode(),
       purchase_datetime: new Date(),
-      amount: await calculateTotalAmount(cart), // Utiliza "await" para obtener el resultado
-      purchaser: req.session.user.email,
+      amount: await this.calculateTotalAmount(cart), // Utiliza "await" para obtener el resultado
+      purchaser: user.email,
     };
 
-    // Utilizar la función de creación de tickets
-    const ticket = await createTicket(ticketData);
-
-    // Actualizar el carrito (puedes eliminar los productos que se compraron)
-    // Implementa esta función según tus necesidades
-
-    return updatedCartData; // Devuelve los datos actualizados del carrito
+    const ticket = await ticketsModel.create(ticketData);
+   
+    return ticket; 
   };
 
 
