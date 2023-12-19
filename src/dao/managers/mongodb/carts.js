@@ -4,8 +4,6 @@ import { generateUniqueTicketCode } from '../../../utils/generateUniqueTicketCod
 import { ticketsModel } from '../../models/tickets.js'
 
 
-
-
 export default class Carts {
   constructor() { }
 
@@ -142,7 +140,6 @@ export default class Carts {
       throw error; 
     }
   }
-
 
   finalizePurchase = async (cartId, user) => {
     const cart = await this.getCartById(cartId);

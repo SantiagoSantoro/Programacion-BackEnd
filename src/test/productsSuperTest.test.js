@@ -12,7 +12,6 @@ describe('Testing de Products con supertest', () => {
             expect(statusCode).to.equal(200);
             expect(ok).to.be.true;
             expect(body).to.not.have.property('products')
-            // console.log(body);
         });
     });
 
@@ -71,12 +70,10 @@ describe('Testing de Products con supertest', () => {
             const updatedProductData = {
                 price: 300, // Nuevo precio del producto
             };
-            // Inicia sesión como administrador para obtener una cookie de sesión
             const authResponse = await requester
                 .post('/api/sessions/login')
                 .send({ email: 'admincoder@coder.com', password: 'CoderSecret' });
             const sessionCookie = authResponse.headers['set-cookie'];
-            // Realiza la solicitud PUT a la ruta del producto específico, incluyendo la cookie de sesión
             const response = await requester
                 .put(`/api/products/${productId}`)
                 .set('Cookie', sessionCookie)
@@ -87,14 +84,9 @@ describe('Testing de Products con supertest', () => {
             expect(response.body.message).to.equal('Producto actualizado exitosamente.');
         });
 
-
-        // Descripción del test
         describe('Test de la ruta de eliminación de Products', () => {
             it('El endpoint DELETE /api/products/:productId debe permitir eliminar un producto si el usuario está logueado como administrador', async () => {
-                // Supongamos que tienes un producto existente con un ID válido
                 const productId = '65031c6eec0feafb55eb7094';
-
-                // Inicia sesión como administrador para obtener una cookie de sesión
                 const authResponse = await requester
                     .post('/api/sessions/login')
                     .send({ email: 'admincoder@coder.com', password: 'CoderSecret' });

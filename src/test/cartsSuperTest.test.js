@@ -123,7 +123,7 @@ describe('Testing de Carts con supertest', () => {
             });
 
             describe('Testing de finalizePurchase endpoint', () => {
-                it('Debería finalizar la compra y crear un ticket', async () => {
+                it('Debe finalizar la compra y crear un ticket', async () => {
                     const authResponse = await requester.post('/api/sessions/login')
                         .send({ email: 'santiagosantoro10@gmail.com', password: 'milo2016' });
                     const sessionCookie = authResponse.headers['set-cookie'];
@@ -139,7 +139,7 @@ describe('Testing de Carts con supertest', () => {
                     expect(statusCode).to.equal(200);
                     expect(body).to.be.an('object');
                     expect(body).to.have.property('message');
-                    expect(body.message).to.equal('Compra finalizada con éxito.');
+                    expect(body.message).to.equal('Compra finalizada con éxito');
                 });
 
                 after(async () => {
