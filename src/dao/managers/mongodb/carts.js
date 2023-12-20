@@ -1,6 +1,6 @@
 import { cartsModel } from '../../models/carts.js';
 import { productsModel } from '../../models/products.js';
-import { generateUniqueTicketCode } from '../../../utils/generateUniqueTicketCode.js'; 
+import { generateUniqueTicketCode } from '../../../utils/generateUniqueTicketCode.js';
 import { ticketsModel } from '../../models/tickets.js'
 
 
@@ -33,13 +33,13 @@ export default class Carts {
 
   addProductToCart = async (cartId, productId, quantity) => {
     try {
-        const cart = await cartsModel.findById(cartId);
+      const cart = await cartsModel.findById(cartId);
       if (!cart) {
         throw new Error('INVALID_CART_ID');
       }
 
       const product = await productsModel.findById(productId);
-      
+
       if (!product) {
         throw new Error('INVALID_PRODUCT_ID');
       }
@@ -49,19 +49,27 @@ export default class Carts {
         throw new Error('INVALID_QUANTITY');
       }
 
-      // Agregar el producto al carrito
-      cart.products.push({
-        product: product._id,
-        quantity: quantity
-      });
+      // Verificar si el producto ya está en el carrito
+      const existingProduct = cart.products.find(item => item.product.equals(productId));
+
+      if (existingProduct) {
+        // Si el producto ya está en el carrito, actualizar la cantidad
+        existingProduct.quantity += quantity;
+      } else {
+        // Si el producto no está en el carrito, agregarlo
+        cart.products.push({
+          product: product._id,
+          quantity: quantity
+        });
+      }
 
       await cart.save();
       return;
     } catch (error) {
-     
       throw error;
     }
   };
+
 
 
   updateProductInCart = async (cartId, productId, quantity) => {
@@ -131,13 +139,13 @@ export default class Carts {
       for (const item of cart.products) {
         const productId = item.product;
         const { price } = await productsModel.findById(productId); // Utiliza la función para obtener el precio del producto
-    
+
         totalAmount += price * item.quantity;
       }
 
       return totalAmount;
     } catch (error) {
-      throw error; 
+      throw error;
     }
   }
 
@@ -161,8 +169,8 @@ export default class Carts {
     };
 
     const ticket = await ticketsModel.create(ticketData);
-   
-    return ticket; 
+
+    return ticket;
   };
 
 

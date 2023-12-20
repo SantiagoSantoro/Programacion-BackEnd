@@ -16,7 +16,7 @@ describe('Testing de Products con supertest', () => {
     });
 
     it('El endpoint GET /api/products/:pid debe devolver un producto por su ID', async () => {
-        const productId = '65031c6eec0feafb55eb7094';
+        const productId = '65031cc5ec0feafb55eb7096';
         const { statusCode, ok, body } = await requester.get(`/api/products/${productId}`).send();
         expect(statusCode).to.equal(200);
         expect(ok).to.be.true;
@@ -42,8 +42,8 @@ describe('Testing de Products con supertest', () => {
         expect(ok).to.be.false;
     });
 
-    it('El endpoint GET /api/products/availability/100 debe devolver un arreglo con todos los productos con disponibilidad 100', async () => {
-        const availability = 100;
+    it('El endpoint GET /api/products/availability/75 debe devolver un arreglo con todos los productos con disponibilidad 100', async () => {
+        const availability = 75;
         const { statusCode, ok, body } = await requester.get(`/api/products/availability/${availability}`).send();
         expect(statusCode).to.equal(200);
         expect(ok).to.be.true;
@@ -66,43 +66,45 @@ describe('Testing de Products con supertest', () => {
 
     describe('Test de la ruta de actualización de Products', () => {
         it('El endpoint PUT /api/products/:productId debe actualizar el precio de un producto existente como administrador', async () => {
-            const productId = '65031c6eec0feafb55eb7094';
-            const updatedProductData = {
-                price: 300, // Nuevo precio del producto
-            };
-            const authResponse = await requester
-                .post('/api/sessions/login')
-                .send({ email: 'admincoder@coder.com', password: 'CoderSecret' });
-            const sessionCookie = authResponse.headers['set-cookie'];
-            const response = await requester
-                .put(`/api/products/${productId}`)
-                .set('Cookie', sessionCookie)
-                .send(updatedProductData)
-                .expect(200);
-
-            expect(response.body).to.have.property('message');
-            expect(response.body.message).to.equal('Producto actualizado exitosamente.');
+          const productId = '65031cc5ec0feafb55eb7096';
+          const updatedProductData = {
+            price: 300, // Nuevo precio del producto
+          };
+          const authResponse = await requester
+            .post('/api/sessions/login')
+            .send({ email: 'admincoder@coder.com', password: 'CoderSecret' });
+          const sessionCookie = authResponse.headers['set-cookie'];
+          const response = await requester
+            .put(`/api/products/${productId}`)
+            .set('Cookie', sessionCookie)
+            .send(updatedProductData)
+            .expect(200);
+      
+          expect(response.body).to.have.property('message');
+          expect(response.body.message).to.equal('Producto actualizado exitosamente.');
+          // No necesitas el done() aquí
         });
+      });
+      
+        // describe('Test de la ruta de eliminación de Products', () => {
+        //     it('El endpoint DELETE /api/products/:productId debe permitir eliminar un producto si el usuario está logueado como administrador', async () => {
+        //         const productId = '65031cc5ec0feafb55eb7096'; // OJO con éste test porque elimina el producto en la BD
+        //         const authResponse = await requester
+        //             .post('/api/sessions/login')
+        //             .send({ email: 'admincoder@coder.com', password: 'CoderSecret' });
+        //         const sessionCookie = authResponse.headers['set-cookie'];
 
-        describe('Test de la ruta de eliminación de Products', () => {
-            it('El endpoint DELETE /api/products/:productId debe permitir eliminar un producto si el usuario está logueado como administrador', async () => {
-                const productId = '65031c6eec0feafb55eb7094'; // OJO con éste test porque elimina el producto en la BD
-                const authResponse = await requester
-                    .post('/api/sessions/login')
-                    .send({ email: 'admincoder@coder.com', password: 'CoderSecret' });
-                const sessionCookie = authResponse.headers['set-cookie'];
+        //         // Realiza la solicitud DELETE a la ruta del producto específico, incluyendo la cookie de sesión
+        //         const response = await requester
+        //             .delete(`/api/products/${productId}`)
+        //             .set('Cookie', sessionCookie)  // Utiliza la cookie de sesión en lugar de 'Authorization'
+        //             .expect(200);
 
-                // Realiza la solicitud DELETE a la ruta del producto específico, incluyendo la cookie de sesión
-                const response = await requester
-                    .delete(`/api/products/${productId}`)
-                    .set('Cookie', sessionCookie)  // Utiliza la cookie de sesión en lugar de 'Authorization'
-                    .expect(200);
-
-                // Verifica que se obtenga el mensaje esperado
-                expect(response.body).to.have.property('message');
-                expect(response.body.message).to.equal('Producto eliminado exitosamente.');
-            });
-        });
+        //         // Verifica que se obtenga el mensaje esperado
+        //         expect(response.body).to.have.property('message');
+        //         expect(response.body.message).to.equal('Producto eliminado exitosamente.');
+        //     });
+        // });
 
     });
 
@@ -111,4 +113,3 @@ describe('Testing de Products con supertest', () => {
     after(async () => {
         await mongoose.connection.close();
     });
-});

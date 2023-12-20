@@ -42,12 +42,12 @@ describe('Testing de Carts con supertest', () => {
                     .send({ email: 'santiagosantoro10@gmail.com', password: 'milo2016' });
                 const sessionCookie = authResponse.headers['set-cookie'];
                 const cartId = '656f6e2c9241ff98a3fcf92b';
-                const productId = '65031c6eec0feafb55eb7094';
+                const productId = '65031cc5ec0feafb55eb7096';
                 const { statusCode, ok, body } = await requester
                     .post(`/api/carts/${cartId}/product/${productId}`)
                     .set('Cookie', sessionCookie)
                     .send({
-                        productId: '65031c6eec0feafb55eb7094',
+                        productId: '65031cc5ec0feafb55eb7096',
                         quantity: 1
                     });
 
@@ -64,12 +64,12 @@ describe('Testing de Carts con supertest', () => {
                     .send({ email: 'santiagosantoro10@gmail.com', password: 'milo2016' });
                 const sessionCookie = authResponse.headers['set-cookie'];
                 const cartId = '656f6e2c9241ff98a3fcf92b';
-                const productId = '65031c6eec0feafb55eb7094';
+                const productId = '65031cc5ec0feafb55eb7096';
                 const { statusCode, ok, body } = await requester
                     .put(`/api/carts/${cartId}/product/${productId}`)
                     .set('Cookie', sessionCookie)
                     .send({
-                        productId: '65031c6eec0feafb55eb7094',
+                        productId: '65031cc5ec0feafb55eb7096',
                         quantity: 4 // Nueva cantidad deseada
                     });
 
@@ -87,12 +87,12 @@ describe('Testing de Carts con supertest', () => {
                         .send({ email: 'santiagosantoro10@gmail.com', password: 'milo2016' });
                     const sessionCookie = authResponse.headers['set-cookie'];
                     const cartId = '656f6e2c9241ff98a3fcf92b';
-                    const productId = '65031c6eec0feafb55eb7094';
+                    const productId = '65031cc5ec0feafb55eb7096';
                     const { statusCode, ok, body } = await requester
                         .delete(`/api/carts/${cartId}/product/${productId}`)
                         .set('Cookie', sessionCookie)
                         .send({
-                            productId: '65031c6eec0feafb55eb7094',
+                            productId: '65031cc5ec0feafb55eb7096',
                             quantity: 3 // Nueva cantidad deseada
                         });
 
