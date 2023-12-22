@@ -13,7 +13,7 @@ router.get('/failRegister', getFailRegister);
 // Ruta para cambiar el rol de un usuario a "premium"
 router.post('/premium/:uid', changeUserRole);
 // Ruta para subir documentos
-router.post('/:uid/documents', uploader.array('document'), uploadDocuments);
+router.post('/:uid/documents', uploader.single('document'), uploadDocuments);
 
 
 export default router;
