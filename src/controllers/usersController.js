@@ -1,6 +1,7 @@
 import passport from 'passport';
 import { usersModel } from '../dao/models/users.js';
-import { logger } from '../utils/logger.js'
+import { logger } from '../utils/logger.js';
+import { uploader } from '../utils.js'
 
 export const getAllUsers = async (req, res) => {
   try {
@@ -44,4 +45,35 @@ export const changeUserRole = async (req, res) => {
       res.status(500).json({ error: error.message });
     }
   };
+
+  export const uploadDocuments = async (req, res) => {
+    try {
+        const userId = req.params.uid;
+
+        const user = await usersModel.findById(userId);
+
+        if (!user) {
+            return res.status(404).json({ error: 'Usuario no encontrado' });
+        }
+
+        const uploadedDocuments = req.files;
+
+        if (!uploadedDocuments || uploadedDocuments.length === 0) {
+            return res.status(400).json({ error: 'No se han subido documentos' });
+        }
+
+        user.documents = uploadedDocuments.map(doc => ({
+            name: doc.originalname,
+            reference: doc.filename
+        }));
+
+        user.last_connection = new Date();
+
+        await user.save();
+
+        res.json({ message: 'Documentos subidos correctamente' });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
   
