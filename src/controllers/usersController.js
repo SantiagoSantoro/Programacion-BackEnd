@@ -1,12 +1,44 @@
 import passport from 'passport';
 import { usersModel } from '../dao/models/users.js';
 import { logger } from '../utils/logger.js';
-import { uploader } from '../utils.js'
+import MailingService from '../services/mailing.js'
+
+
+
 
 export const getAllUsers = async (req, res) => {
   try {
     const allUsers = await usersModel.find();
     res.json(allUsers);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+export const deleteInactiveUsers = async (req, res) => {
+  try {
+    // Obtener la fecha actual menos 2 días
+    const twoDaysAgo = new Date();
+    twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
+
+    // Encontrar y eliminar usuarios inactivos
+    const inactiveUsers = await usersModel.find({ last_connection: { $lt: twoDaysAgo } });
+    await usersModel.deleteMany({ last_connection: { $lt: twoDaysAgo } });
+
+    // Enviar correos de notificación a los usuarios eliminados
+    
+    inactiveUsers.forEach(async (user) => {
+      const mailingService = new MailingService();
+      await mailingService.sendSimpleMail({
+        from: 'CoderTest', 
+        to: user.email, 
+        subject: 'Eliminación de cuenta por inactividad',
+        text: 'Tu cuenta ha sido eliminada por inactividad en los últimos 2 días.',
+      });
+
+    });
+
+    res.json({ message: 'Usuarios inactivos eliminados y notificaciones enviadas correctamente.' });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -27,8 +59,6 @@ export const changeUserRole = async (req, res) => {
   try {
     const userId = req.params.uid;
 
-    // Puedes validar aquí que el usuario existe y realizar otras verificaciones necesarias
-
     const user = await usersModel.findById(userId);
 
     if (!user) {
@@ -47,7 +77,6 @@ export const changeUserRole = async (req, res) => {
 };
 
 export const uploadDocuments = async (req, res) => {
-  console.log('Entro a la función uploadDocuments'); // Nuevo console.log
   try {
     const userId = req.params.uid;
 
@@ -57,13 +86,12 @@ export const uploadDocuments = async (req, res) => {
       return res.status(404).json({ error: 'Usuario no encontrado' });
     }
 
-    const uploadedDocuments = req.files;
+    const uploadedDocuments = req.file;
 
     if (!uploadedDocuments || uploadedDocuments.length === 0) {
       return res.status(400).json({ error: 'No se han subido documentos' });
     }
-    // Log para verificar el nombre del archivo antes de guardarlo
-    console.log('Nombre del archivo:', `${Date.now()}-Tercera entrega.txt`);
+    
     user.documents = uploadedDocuments.map(doc => ({
       name: doc.originalname,
       reference: doc.filename

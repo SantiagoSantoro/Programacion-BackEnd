@@ -10,18 +10,17 @@ const __dirname = dirname(__filename);
 
 
 // Configuración de Multer 
-
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        let uploadFolder = 'public/images'; // Carpeta predeterminada
+        let uploadFolder = 'public'; // Carpeta predeterminada
 
         // Determinar la carpeta de destino según el tipo de archivo
-        if (file.fieldname === 'profileImage') {
-            uploadFolder = 'public/profiles';
-        } else if (file.fieldname === 'productImage') {
-            uploadFolder = 'public/products';
-        } else if (file.fieldname === 'document') {
-            uploadFolder = 'public/documents';
+        if (req.body.type === 'profile') {
+            uploadFolder = join(__dirname, 'public', 'profiles');
+        } else if (req.body.type === 'product') {
+            uploadFolder = join(__dirname, 'public', 'products');
+        } else if (req.body.type === 'document') {
+            uploadFolder = join(__dirname, 'public', 'documents');
         }
 
         cb(null, uploadFolder);

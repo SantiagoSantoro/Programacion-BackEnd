@@ -4,8 +4,6 @@ import { isValidCart, isValidProduct, isValidQuantity } from '../utils/validatio
 import { productsModel } from '../dao/models/products.js'
 
 
-
-
 const cartsManager = new Carts();
 
 
