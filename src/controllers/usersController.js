@@ -21,28 +21,34 @@ export const deleteInactiveUsers = async (req, res) => {
     const twoDaysAgo = new Date();
     twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
 
-    // Encontrar y eliminar usuarios inactivos
+    // Encontrar usuarios inactivos
     const inactiveUsers = await usersModel.find({ last_connection: { $lt: twoDaysAgo } });
+
+    // Log para verificar usuarios inactivos
+    console.log('Usuarios inactivos:', inactiveUsers);
+
+    // Eliminar usuarios inactivos
     await usersModel.deleteMany({ last_connection: { $lt: twoDaysAgo } });
 
     // Enviar correos de notificación a los usuarios eliminados
-    
+    const mailingService = new MailingService();
     inactiveUsers.forEach(async (user) => {
-      const mailingService = new MailingService();
       await mailingService.sendSimpleMail({
         from: 'CoderTest', 
         to: user.email, 
         subject: 'Eliminación de cuenta por inactividad',
         text: 'Tu cuenta ha sido eliminada por inactividad en los últimos 2 días.',
       });
-
     });
 
     res.json({ message: 'Usuarios inactivos eliminados y notificaciones enviadas correctamente.' });
   } catch (error) {
+    console.error('Error en deleteInactiveUsers:', error);
     res.status(500).json({ error: error.message });
   }
 };
+
+
 
 export const register = (req, res) => {
   passport.authenticate('register', { failureRedirect: '/failRegister' })(req, res, async () => {
@@ -106,4 +112,3 @@ export const uploadDocuments = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-

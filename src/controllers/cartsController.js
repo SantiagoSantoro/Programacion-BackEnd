@@ -1,7 +1,7 @@
 import Carts from '../dao/managers/mongodb/carts.js';
-import { errorDictionary, handleError } from '../test/errorHandler.js';
+import { handleError } from '../test/errorHandler.js';
 import { isValidCart, isValidProduct, isValidQuantity } from '../utils/validation.js';
-import { productsModel } from '../dao/models/products.js'
+
 
 
 const cartsManager = new Carts();
