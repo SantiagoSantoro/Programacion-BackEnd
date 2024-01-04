@@ -10,7 +10,7 @@ import {
   handleResetPassword,
 } from '../controllers/passwordResetController.js';
 import { changeUserRole } from '../controllers/usersController.js';
-import { isAdmin } from '../middleware/authorization.js'
+import { isLogin, isAdmin } from '../middleware/authorization.js'
 
 
 const router = Router();
@@ -104,7 +104,7 @@ router.get('/modify-role', async (req, res) => {
 });
 
 // Ruta para procesar el cambio de rol (POST)
-router.post('/modify-role', isAdmin, changeUserRole);
+router.post('/modify-role', isLogin, isAdmin, changeUserRole);
 
 
 router.get('/forgot-password', renderForgotPassword);

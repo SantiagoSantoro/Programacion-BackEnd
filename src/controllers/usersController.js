@@ -63,9 +63,10 @@ export const getFailRegister = (req, res) => {
 
 export const changeUserRole = async (req, res) => {
   try {
-    const userId = req.params.uid;
+    const userId = req.body.userId;
 
     const user = await usersModel.findById(userId);
+    console.log('ID del usuario:', userId);
 
     if (!user) {
       return res.status(404).json({ error: 'Usuario no encontrado' });
