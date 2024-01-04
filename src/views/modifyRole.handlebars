@@ -4,20 +4,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/styles/modifyRole.css">
   <title>Modificar Rol de Usuario</title>
 </head>
 
 <body>
   <h1>Modificar Rol de Usuario</h1>
-  <form method="POST" action="/modify-role">
+  <form method="POST" action="/modify-role" class="modify-role-form">
     <label for="userId">ID de Usuario:</label>
     <input type="text" name="userId" id="userId" required>
+    <br>
     <label for="newRole">Nuevo Rol:</label>
     <select name="newRole" id="newRole">
       <option value="user">Usuario</option>
       <option value="premium">Premium</option>
       <option value="admin">Administrador</option>
     </select>
+    <br>
     <button type="submit">Modificar Rol</button>
   </form>
   <a href="/">Volver a la Lista de Usuarios</a>

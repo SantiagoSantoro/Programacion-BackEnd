@@ -67,6 +67,7 @@ export const changeUserRole = async (req, res) => {
 
     const user = await usersModel.findById(userId);
     console.log('ID del usuario:', userId);
+    console.log('Usuario antes de renderizar:', user); // <-- Agrega este console.log
 
     if (!user) {
       return res.status(404).json({ error: 'Usuario no encontrado' });
