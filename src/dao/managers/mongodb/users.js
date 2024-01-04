@@ -9,7 +9,7 @@ export default class Users {
         const users = await usersModel.find();
         return users.map(user => user.toObject());
     }
-    
+
     deleteInactiveUsers = async (inactivePeriodInDays = 2) => {
         try {
             // Obtener la fecha actual menos el período de inactividad permitido
@@ -25,6 +25,6 @@ export default class Users {
         }
     };
 
-
+    
 
 }

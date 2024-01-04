@@ -34,8 +34,8 @@ export const deleteInactiveUsers = async (req, res) => {
     const mailingService = new MailingService();
     inactiveUsers.forEach(async (user) => {
       await mailingService.sendSimpleMail({
-        from: 'CoderTest', 
-        to: user.email, 
+        from: 'CoderTest',
+        to: user.email,
         subject: 'Eliminación de cuenta por inactividad',
         text: 'Tu cuenta ha sido eliminada por inactividad en los últimos 2 días.',
       });
@@ -71,16 +71,23 @@ export const changeUserRole = async (req, res) => {
       return res.status(404).json({ error: 'Usuario no encontrado' });
     }
 
-    // Cambiar el rol opuesto al actual
-    const newRole = user.role === 'user' ? 'premium' : 'user';
+    // Obtener el nuevo rol desde el cuerpo de la solicitud
+    const newRole = req.body.newRole;
+
+    // Verificar que el nuevo rol sea válido
+    if (newRole !== 'user' && newRole !== 'premium' && newRole !== 'admin') {
+      return res.status(400).json({ error: 'Rol no válido' });
+    }
 
     await usersModel.findByIdAndUpdate(userId, { role: newRole });
 
-    res.json({ message: `Rol de usuario cambiado a ${newRole}` });
+    // Redirige a una nueva vista con un mensaje de éxito
+    res.render('roleChanged', { user, newRole });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
+
 
 export const uploadDocuments = async (req, res) => {
   try {
@@ -97,7 +104,7 @@ export const uploadDocuments = async (req, res) => {
     if (!uploadedDocuments || uploadedDocuments.length === 0) {
       return res.status(400).json({ error: 'No se han subido documentos' });
     }
-    
+
     user.documents = uploadedDocuments.map(doc => ({
       name: doc.originalname,
       reference: doc.filename

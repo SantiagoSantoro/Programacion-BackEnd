@@ -9,6 +9,8 @@ import {
   renderResetPassword,
   handleResetPassword,
 } from '../controllers/passwordResetController.js';
+import { changeUserRole } from '../controllers/usersController.js';
+import { isAdmin } from '../middleware/authorization.js'
 
 
 const router = Router();
@@ -95,6 +97,15 @@ router.post('/logout', async (req, res) => {
     req.session.destroy();
     res.json({ message: 'Sesión cerrada con éxito.' });
 });
+
+// Ruta para la vista "Modificar Rol de Usuario"
+router.get('/modify-role', async (req, res) => {
+    res.render('modifyRole');
+});
+
+// Ruta para procesar el cambio de rol (POST)
+router.post('/modify-role', isAdmin, changeUserRole);
+
 
 router.get('/forgot-password', renderForgotPassword);
 router.post('/forgot-password', handleForgotPassword);
