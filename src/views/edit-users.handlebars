@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/styles/edit-users.css">
+  <title>Editar Usuarios</title>
+</head>
+
+<body>
+  <div class="users-list">
+    <h1>Lista de Usuarios</h1>
+    <div class="user-cards-container">
+      {{#each allUsers}}
+        <div class="user-card">
+          <p>ID: {{this._id}}</p>
+          <p>Nombre completo: {{this.first_name}} {{this.last_name}}</p>
+          <p>Email: {{this.email}}</p>
+        </div>
+      {{/each}}
+    </div>
+  </div>
+
+  <div class="modify-role-container">
+    <h1>Modificar Rol de Usuario</h1>
+    <form method="POST" action="/modify-role" class="modify-role-form">
+      <label for="userId">ID de Usuario:</label>
+      <input type="text" name="userId" id="userId" required>
+      <br>
+      <label for="newRole">Nuevo Rol:</label>
+      <select name="newRole" id="newRole">
+        <option value="user">Usuario</option>
+        <option value="premium">Premium</option>
+        <option value="admin">Administrador</option>
+      </select>
+      <button type="submit">Modificar Rol</button>
+    </form>
+  
+  </div>
+</body>
+
+</html>
+
+
+</html>

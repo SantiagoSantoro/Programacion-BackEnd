@@ -1,7 +1,7 @@
 import passport from 'passport';
 import { usersModel } from '../dao/models/users.js';
 import { logger } from '../utils/logger.js';
-import MailingService from '../services/mailing.js'
+import MailingService from '../services/mailing.js';
 
 
 
@@ -66,8 +66,7 @@ export const changeUserRole = async (req, res) => {
     const userId = req.body.userId;
 
     const user = await usersModel.findById(userId);
-    console.log('ID del usuario:', userId);
-    console.log('Usuario antes de renderizar:', user); // <-- Agrega este console.log
+    
 
     if (!user) {
       return res.status(404).json({ error: 'Usuario no encontrado' });

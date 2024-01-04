@@ -74,9 +74,11 @@ app.use(compression({
 app.use(addLogger);
 
 //Configuro Handlebars, motor y enlace
+
 app.engine('handlebars', handlebars.engine());
 app.set('views', __dirname + '/views');
 app.set('view engine', 'handlebars');
+
 
 
 // Importo vistas

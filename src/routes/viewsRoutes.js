@@ -10,7 +10,8 @@ import {
   handleResetPassword,
 } from '../controllers/passwordResetController.js';
 import { changeUserRole } from '../controllers/usersController.js';
-import { isLogin, isAdmin } from '../middleware/authorization.js'
+import { isLogin, isAdmin } from '../middleware/authorization.js';
+import { usersModel } from "../dao/models/users.js";
 
 
 const router = Router();
@@ -98,10 +99,16 @@ router.post('/logout', async (req, res) => {
     res.json({ message: 'Sesión cerrada con éxito.' });
 });
 
-// Ruta para la vista "Modificar Rol de Usuario"
-router.get('/modify-role', async (req, res) => {
-    res.render('modifyRole');
-});
+// Ruta para la vista "Editar Usuarios"
+router.get('/edit-users', async (req, res) => {
+    try {
+      const allUsers = await usersModel.find().lean();
+      res.render('edit-users', { allUsers });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  });
+  
 
 // Ruta para procesar el cambio de rol (POST)
 router.post('/modify-role', isLogin, isAdmin, changeUserRole);
