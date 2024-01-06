@@ -1,0 +1,69 @@
+/* Estilos generales */
+body {
+    background: linear-gradient(to bottom, #222, #000);
+    font-family: Arial, sans-serif;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 20px;
+}
+
+p {
+    font-size: 1.2rem;
+}
+
+a {
+    color: #007BFF;
+    text-decoration: none;
+    margin-top: 10px;
+}
+
+/* Estilos específicos de la vista roleChanged.handlebars */
+body {
+    background: linear-gradient(to bottom, #222, #000);
+    font-family: Arial, sans-serif;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 20px;
+}
+
+p {
+    font-size: 1.2rem;
+}
+
+a {
+    color: #007BFF;
+    text-decoration: none;
+    margin-top: 10px;
+}

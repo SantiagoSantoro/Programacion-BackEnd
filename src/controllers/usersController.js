@@ -66,7 +66,7 @@ export const changeUserRole = async (req, res) => {
   try {
     const userId = req.body.userId;
 
-    const user = await usersModel.findById(userId);
+    const user = await usersModel.findById(userId).lean();
 
 
     if (!user) {
@@ -92,24 +92,28 @@ export const changeUserRole = async (req, res) => {
 
 export const deleteUser = async (req, res) => {
   try {
-    const userId = req.body.userId; // Mismo nombre que el campo HTML
+      const userId = req.body.userId; // Mismo nombre que el campo HTML
 
-    const user = await usersModel.findById(userId);
+      const user = await usersModel.findById(userId).lean();
 
-    if (!user) {
-      return res.status(404).json({ error: 'Usuario no encontrado' });
-    }
+      if (!user) {
+          return res.status(404).json({ error: 'Usuario no encontrado' });
+      }
 
-    // Eliminar el usuario
-    await usersModel.findByIdAndDelete(userId);
+      const deletedUser = { user }; // Crear un objeto con los datos necesarios
 
-    // Redirige a la página de lista de usuarios (o a donde desees)
-    res.redirect('/edit-users');
+      // Eliminar el usuario
+      await usersModel.findByIdAndDelete(userId);
+
+      // Renderiza la vista de usuario eliminado
+      res.render('delete-user', deletedUser);
+
   } catch (error) {
-    // Manejar errores y enviar una respuesta JSON
-    res.status(500).json({ error: error.message });
+      // Manejar errores y enviar una respuesta JSON
+      res.status(500).json({ error: error.message });
   }
 };
+
 
 
 export const uploadDocuments = async (req, res) => {

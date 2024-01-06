@@ -1,0 +1,52 @@
+/* Estilos generales */
+body {
+    background: linear-gradient(to bottom, #222, #000);
+    font-family: Arial, sans-serif;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+p {
+    font-size: 1.2rem;
+}
+
+a {
+    color: #007BFF;
+    text-decoration: none;
+    margin-top: 10px;
+}
+
+/* Estilos específicos para delete-user */
+.container {
+    max-width: 400px;
+}
+
+/* Añadido nuevo estilo para botones */
+button {
+    padding: 10px;
+    background: #dc3545; /* Cambiado el color a rojo */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    margin-top: 10px;
+}
