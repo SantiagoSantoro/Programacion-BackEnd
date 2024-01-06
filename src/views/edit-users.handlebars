@@ -13,14 +13,18 @@
     <h1>Lista de Usuarios</h1>
     <div class="user-cards-container">
       {{#each allUsers}}
+      <div class="user-card-container">
         <div class="user-card">
           <p>ID: {{this._id}}</p>
           <p>Nombre completo: {{this.first_name}} {{this.last_name}}</p>
           <p>Email: {{this.email}}</p>
+          <p>Role: {{this.role}}</p>
         </div>
+      </div>
       {{/each}}
     </div>
   </div>
+
 
   <div class="modify-role-container">
     <h1>Modificar Rol de Usuario</h1>
@@ -36,11 +40,15 @@
       </select>
       <button type="submit">Modificar Rol</button>
     </form>
-  
+    <h1>Eliminar Usuario</h1>
+    <form method="POST" action="/delete-user" class="delete-user-form">
+      <label for="userIdToDelete">ID de Usuario a Eliminar:</label>
+      <input type="text" name="userId" id="userIdToDelete" required>
+      <br>
+      <button type="submit">Eliminar Usuario</button>
+    </form>
+
   </div>
 </body>
-
-</html>
-
 
 </html>

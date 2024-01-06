@@ -2,6 +2,7 @@ import passport from 'passport';
 import { usersModel } from '../dao/models/users.js';
 import { logger } from '../utils/logger.js';
 import MailingService from '../services/mailing.js';
+import Swal from 'sweetalert2';
 
 
 
@@ -66,7 +67,7 @@ export const changeUserRole = async (req, res) => {
     const userId = req.body.userId;
 
     const user = await usersModel.findById(userId);
-    
+
 
     if (!user) {
       return res.status(404).json({ error: 'Usuario no encontrado' });
@@ -85,6 +86,27 @@ export const changeUserRole = async (req, res) => {
     // Redirige a una nueva vista con un mensaje de éxito
     res.render('roleChanged', { user, newRole });
   } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+export const deleteUser = async (req, res) => {
+  try {
+    const userId = req.body.userId; // Mismo nombre que el campo HTML
+
+    const user = await usersModel.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: 'Usuario no encontrado' });
+    }
+
+    // Eliminar el usuario
+    await usersModel.findByIdAndDelete(userId);
+
+    // Redirige a la página de lista de usuarios (o a donde desees)
+    res.redirect('/edit-users');
+  } catch (error) {
+    // Manejar errores y enviar una respuesta JSON
     res.status(500).json({ error: error.message });
   }
 };
