@@ -2,7 +2,7 @@ import passport from 'passport';
 import { usersModel } from '../dao/models/users.js';
 import { logger } from '../utils/logger.js';
 import MailingService from '../services/mailing.js';
-import Swal from 'sweetalert2';
+
 
 
 
