@@ -2,6 +2,7 @@ import passport from 'passport';
 import { usersModel } from '../dao/models/users.js';
 import { logger } from '../utils/logger.js';
 import MailingService from '../services/mailing.js';
+import { cartsModel } from '../dao/models/carts.js';
 
 
 
@@ -51,10 +52,43 @@ export const deleteInactiveUsers = async (req, res) => {
 
 
 
-export const register = (req, res) => {
-  passport.authenticate('register', { failureRedirect: '/failRegister' })(req, res, async () => {
-    res.send({ status: 'success', message: 'Usuario registrado' });
-  });
+export const register = async (req, res) => {
+  try {
+    passport.authenticate('register', { failureRedirect: '/failRegister' })(req, res, async () => {
+      // Verifica la estructura completa de req.user
+      console.log('Estructura completa de req.user:', req.user);
+
+      // Verificar si el usuario se creó correctamente
+      if (req.user) {
+        try {
+          // Crear un nuevo carrito
+          const newCart = await cartsModel.create({ products: [] });
+
+          // Asignar el ID del carrito al usuario
+          req.user.cart = newCart._id;
+
+          // Guardar el usuario en la base de datos con el ID del carrito
+          await req.user.save();
+
+          // Imprimir en la consola el ID del carrito
+          console.log(`Usuario creado con éxito. ID del carrito: ${req.user.cart}`);
+
+          // Resto del código de la función, si es necesario
+          res.send({ status: 'success', message: 'Usuario registrado' });
+        } catch (error) {
+          console.error('Error al asignar el ID del carrito al usuario:', error);
+          res.send({ status: 'error', message: 'Error al registrar el usuario' });
+        }
+      } else {
+        // Manejar el caso en que la creación del usuario falla
+        console.error('Error al crear el usuario');
+        res.send({ status: 'error', message: 'Error al registrar el usuario' });
+      }
+    });
+  } catch (error) {
+    console.error(error);
+    res.send({ status: 'error', message: 'Error al registrar el usuario' });
+  }
 };
 
 export const getFailRegister = (req, res) => {
