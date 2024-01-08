@@ -23,8 +23,16 @@ export default class Carts {
 
   getCartById = async (cartId) => {
     try {
-      const cart = await cartsModel.findById(cartId).populate('products');
-      return cart ? cart.toObject() : null;
+      const cart = await cartsModel.findById(cartId).populate('products.product');
+      const myCart = { products: [] };
+      if (cart) {     
+        cart.products.forEach(product => {
+          product.totalPrice = product.quantity * product.product.price;
+          const myProduct = { price: product.product.price, quantity: product.quantity, title: product.product.title, totalPrice: product.totalPrice };
+          myCart.products.push(myProduct)
+        });
+      }
+      return myCart ? myCart : null;
     } catch (error) {
       throw error;
     }

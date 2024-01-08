@@ -5,6 +5,7 @@ import MailingService from '../services/mailing.js';
 
 
 const cartsManager = new Carts();
+const mailer = new MailingService();
 
 
 export const getAllCarts = async (req, res) => {
@@ -47,6 +48,7 @@ export const getCartById = async (req, res) => {
   try {
     const cartId = req.params.cartId;
     const cart = await cartsManager.getCartById(cartId);
+   
     if (!cart) {
       throw new Error('INVALID_CART_ID');
     }
@@ -152,17 +154,41 @@ export const updateProductInCart = async (req, res) => {
 };
 
 
+
 export const removeProductFromCart = async (req, res) => {
   try {
     const cartId = req.params.cartId;
-    const productId = req.body.productId; // Obtener el ID del producto desde el body
+    const productId = req.body.productId;
     const quantity = req.body.quantity;
+
+    // Obtener información del usuario desde la sesión (asumo que está disponible)
+    const user = req.session.user;
+
+    // Eliminar el producto del carrito
     await cartsManager.removeProductFromCart(cartId, productId, quantity);
+
+    // Verificar si el usuario es premium y enviar un correo electrónico
+    if (user && user.role === 'premium') {
+      const userEmail = user.email;
+
+      // Lógica para obtener el nombre del producto eliminado (reemplaza con tu lógica)
+      const productName = "Nombre del Producto";
+
+      // Envía el correo electrónico
+      await mailer.sendSimpleMail({
+        from: "CoderTest",
+        to: userEmail,
+        subject: "Producto Eliminado",
+        html: `El producto ${productName} ha sido eliminado de tu carrito.`
+      });
+    }
+
     res.json({ message: 'Producto eliminado del carrito con éxito.' });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
+
 
 export const removeAllProductsFromCart = async (req, res) => {
   try {
