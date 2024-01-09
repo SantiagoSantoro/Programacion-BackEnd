@@ -17,7 +17,6 @@ describe('Testing Carts Dao', function () {
     });
 
     it('El get debe devolver un arreglo', async function () {
-        console.log(this.carts);
         const result = await this.carts.getAll();
         assert.strictEqual(Array.isArray(result), true);
     });

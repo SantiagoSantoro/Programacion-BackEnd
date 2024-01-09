@@ -73,8 +73,11 @@ export const register = async (req, res) => {
           // Imprimir en la consola el ID del carrito
           console.log(`Usuario creado con éxito. ID del carrito: ${req.user.cart}`);
 
-          // Resto del código de la función, si es necesario
-          res.send({ status: 'success', message: 'Usuario registrado' });
+          // Redirigir al usuario a la página de inicio o a la página deseada
+          res.redirect('/login');  // Cambia '/login' por la URL a la que deseas redirigir
+
+          // También puedes usar res.send para enviar una respuesta JSON si es necesario
+          // res.send({ status: 'success', message: 'Usuario registrado' });
         } catch (error) {
           console.error('Error al asignar el ID del carrito al usuario:', error);
           res.send({ status: 'error', message: 'Error al registrar el usuario' });
@@ -90,6 +93,7 @@ export const register = async (req, res) => {
     res.send({ status: 'error', message: 'Error al registrar el usuario' });
   }
 };
+
 
 export const getFailRegister = (req, res) => {
   logger.error('Fallo la estrategia');
