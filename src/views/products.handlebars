@@ -12,18 +12,33 @@
     <h1>Lista de Productos</h1>
     <ul class="product-grid">
         {{#each products}}
-        <li>
+        <li data-product-id="{{this._id}}">
             <h2>{{this.title}}</h2>
             <p>{{this.description}}</p>
             <p>Precio: ${{this.price}}</p>
             <p>Disponibilidad: {{this.stock}} en stock</p>
             <p>Categoría: {{this.category}}</p>
             <img src="{{this.thumbnail}}" alt="{{this.title}}" />
-            <button onclick="addToCart('{{this._id}}')">Agregar al Carrito</button>
+            <br>
+
+            <!-- Botones de incremento y decremento -->
+            <button onclick="decrementQuantity('{{this._id}}')">-</button>
+            <span id="quantity{{this._id}}">0</span>
+            <button onclick="incrementQuantity('{{this._id}}')">+</button>
+            <br>
+            <br>
+            <!-- Botón agregar al carrito -->
+            <button onclick="addProductToCart('{{this._id}}')">Agregar al Carrito</button>
         </li>
         {{/each}}
     </ul>
-    <a href="/carts/6531b43bd4a09ec70ee4cbe5">Ver Carrito</a>
+    <!-- Agrega este bloque en tu HTML para mostrar el carrito -->
+    <div id="cart-container">
+        <h2>Carrito</h2>
+        <ul id="cart-list"></ul>
+        <p>Total: $<span id="cart-total">0.00</span></p>
+        <button onclick="viewCart()">Ver Carrito</button>
+    </div>
 
 
     <script src="/js/products.js"></script>
