@@ -18,6 +18,7 @@ export const login = (req, res) => {
     delete req.user.password;
     req.session.user = req.user;
     res.send({ status: 'success', payload: req.user });
+    console.log(req.user)
   });
 };
 

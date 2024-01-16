@@ -23,7 +23,7 @@ const messagesManager = new Messages();
 // Ruta para la vista "Products"
 router.get('/products', async (req, res) => {
     const products = await productsManager.getAll();
-    res.render('products', { products });
+    res.render('products', { products, user:req.user });
 });
 
 
