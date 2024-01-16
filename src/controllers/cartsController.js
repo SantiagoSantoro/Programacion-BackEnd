@@ -46,6 +46,7 @@ export const createCart = async (req, res) => {
 
 export const getCartById = async (req, res) => {
   try {
+    const user = req.session.user;
     const cartId = req.params.cartId;
     const cart = await cartsManager.getCartById(cartId);
    
