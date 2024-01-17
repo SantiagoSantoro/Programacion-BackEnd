@@ -30,7 +30,7 @@ function addProductToCart(productId, cartId) {
 
     try {
     // Envía una solicitud al servidor para agregar el producto al carrito
-    fetch(`/api/carts/${cartId}/product/${productId}`, { // ${cartId} no me toma el cartId ni modificando a req.body, si se lo paso hardcodeado si
+    fetch(`/api/carts/${cartId}/product/${productId}`, {  // ${cartId} no me toma el cartId ni modificando a req.body, si se lo paso hardcodeado si
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
