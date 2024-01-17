@@ -67,9 +67,10 @@ export const getCartById = async (req, res) => {
 export const addProductToCart = async (req, res) => {
   try {
     
-    const cartId = req.params.cartId;
+    const cartId = req.session.user.cart;
     const productId = req.body.productId;
     const quantity = req.body.quantity;
+    
 
     // Validar el ID del carrito, el ID del producto y la cantidad
     if (!isValidCart(cartId)) {

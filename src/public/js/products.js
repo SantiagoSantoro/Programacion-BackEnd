@@ -23,21 +23,22 @@ function decrementQuantity(productId) {
         updateQuantityDisplay(productId, quantity);
     }
 }
+
 function addProductToCart(productId, cartId) {
     console.log('User Cart ID:', cartId);
     console.log('Adding product to cart with Product ID:', productId);
 
+    try {
     // Envía una solicitud al servidor para agregar el producto al carrito
-    fetch(`/api/carts/${cartId}/product/${productId}`, {
+    fetch(`/api/carts/${cartId}/product/${productId}`, { // ${cartId} no me toma el cartId ni modificando a req.body, si se lo paso hardcodeado si
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            quantity: 1,
-            cartId: cartId, // Agrega este parámetro
-            user: user.cart
-        }),
+            productId: productId,
+            quantity: 1
+          }),
     })
         .then(response => response.json())
         .then(data => {
@@ -55,7 +56,13 @@ function addProductToCart(productId, cartId) {
             console.error('Error en la solicitud al servidor:', error);
             // Maneja el error según tus necesidades
         });
+    }
+    catch (error) {
+        console.log(error);
+    }
 }
+
+
 
 
 
