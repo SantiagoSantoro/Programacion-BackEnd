@@ -23,39 +23,40 @@ function decrementQuantity(productId) {
         updateQuantityDisplay(productId, quantity);
     }
 }
-// Función para agregar un producto al carrito
 function addProductToCart(productId, cartId) {
-    console.log('User Cart ID:', cartId);  // Agrega este console.log para verificar el ID del carrito
+    console.log('User Cart ID:', cartId);
     console.log('Adding product to cart with Product ID:', productId);
-   
-    
 
     // Envía una solicitud al servidor para agregar el producto al carrito
-    const request = fetch(`/api/carts/${cartId}/product/${productId}`, {
+    fetch(`/api/carts/${cartId}/product/${productId}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            quantity: 1, // Puedes ajustar la cantidad según tus necesidades
+            quantity: 1,
+            cartId: cartId, // Agrega este parámetro
+            user: user.cart
         }),
-    });
-
-    // Loguea la respuesta del servidor
-    request
-        .then(response => {
-            console.log('Server Response:', response);
-            return response.json();
-        })
+    })
+        .then(response => response.json())
         .then(data => {
-            console.log('Fetch Data:', data);
-            // Resto del código...
+            // Actualiza la vista del carrito o realiza otras acciones necesarias
+            if (data.status === 'success') {
+                console.log('Producto agregado al carrito con éxito.');
+                // Actualiza la cantidad en la vista después de agregar al carrito
+                updateQuantityDisplay(productId, 1);
+            } else {
+                console.error('Error al agregar el producto al carrito:', data.error);
+                // Maneja el error según tus necesidades
+            }
         })
         .catch(error => {
-            console.error('Fetch Error:', error);
-            // Resto del código...
+            console.error('Error en la solicitud al servidor:', error);
+            // Maneja el error según tus necesidades
         });
 }
+
 
 
 
