@@ -12,6 +12,7 @@ import {
 import { changeUserRole, deleteUser } from '../controllers/usersController.js';
 import { isLogin, isAdmin } from '../middleware/authorization.js';
 import { usersModel } from "../dao/models/users.js";
+import { register } from '../controllers/usersController.js'
 
 
 const router = Router();
@@ -23,7 +24,7 @@ const messagesManager = new Messages();
 // Ruta para la vista "Products"
 router.get('/products', async (req, res) => {
     const products = await productsManager.getAll();
-    res.render('products', { products, user:req.user });
+    res.render('products', { products, user:req.session.user });
 });
 
 
@@ -81,6 +82,7 @@ router.get('/chat', async (req, res) => {
 
 router.get('/login', async (req, res) => {
     res.render('login');
+    console.log('Estructura completa de req.user:', req.user);
 })
 
 

@@ -29,7 +29,8 @@ export const initializePassport = () => {
                 age,
                 password: createHash(userPassword),
                 role: req.body.role || 'user',
-                last_connection: new Date(), 
+                last_connection: new Date(),
+                cart 
               };
               
 
