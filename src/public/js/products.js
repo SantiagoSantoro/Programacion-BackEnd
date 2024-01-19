@@ -24,6 +24,7 @@ function decrementQuantity(productId) {
     }
 }
 
+// Función para agregar el producto al carrito
 function addProductToCart(productId, cartId, stock) {
     const quantityElement = document.getElementById(`quantity${productId}`);
     const quantity = parseInt(quantityElement.textContent);
@@ -51,15 +52,18 @@ function addProductToCart(productId, cartId, stock) {
         })
             .then(response => response.json())
             .then(data => {
+                console.log(data)
+                console.log('Producto agregado al carrito con éxito.');
                 // Actualiza la vista del carrito o realiza otras acciones necesarias
-                if (data.status === 'success') {
-                    console.log('Producto agregado al carrito con éxito.');
-                    // Actualiza la cantidad en la vista después de agregar al carrito
-                    updateQuantityDisplay(productId, 0); // Reinicia la cantidad a 0
-                } else {
-                    console.error('Error al agregar el producto al carrito:', data.error);
-                    // Maneja el error según tus necesidades
-                }
+                updateQuantityDisplay(productId, 0); // Reinicia la cantidad a 0
+                // if (data.status === 'message') {
+                //     console.log('Producto agregado al carrito con éxito.');
+                //     // Actualiza la cantidad en la vista después de agregar al carrito
+                //     updateQuantityDisplay(productId, 0); // Reinicia la cantidad a 0
+                // } else {
+                //     console.error('Error al agregar el producto al carrito:', data.error);
+                //     // Maneja el error según tus necesidades
+                // }
             })
             .catch(error => {
                 console.error('Error en la solicitud al servidor:', error);
