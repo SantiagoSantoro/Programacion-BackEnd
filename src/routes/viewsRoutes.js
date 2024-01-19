@@ -25,6 +25,7 @@ const messagesManager = new Messages();
 router.get('/products', async (req, res) => {
     const products = await productsManager.getAll();
     res.render('products', { products, user:req.session.user });
+    console.log('Estructura completa de req.user:', req.session.user);
 });
 
 
@@ -82,7 +83,7 @@ router.get('/chat', async (req, res) => {
 
 router.get('/login', async (req, res) => {
     res.render('login');
-    console.log('Estructura completa de req.user:', req.user);
+    
 })
 
 
