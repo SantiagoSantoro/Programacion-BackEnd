@@ -32,7 +32,9 @@
         </li>
         {{/each}}
     </ul>
-    <button onclick="viewCart('{{user.cart}}')">Ver Carrito</button>
+    <div class="center-button">
+        <button class="cart-button" onclick="viewCart('{{user.cart}}')">Ver Carrito</button>
+    </div>
 
     <script src="/js/products.js"></script>
 </body>
