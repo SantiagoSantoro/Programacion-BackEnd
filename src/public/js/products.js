@@ -1,5 +1,3 @@
-
-
 // Función para actualizar la cantidad visualmente en la página
 function updateQuantityDisplay(productId, quantity) {
     const quantityElement = document.getElementById(`quantity${productId}`);
@@ -65,6 +63,10 @@ function addProductToCart(productId, cartId, stock) {
         console.log(error);
     }
 }
+function viewCart(cartId) {
+    window.location.href = `/carts/${cartId}`;
+}
+
 
 
 

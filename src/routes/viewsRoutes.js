@@ -4,15 +4,15 @@ import Carts from "../dao/managers/mongodb/carts.js";
 import Messages from "../dao/managers/mongodb/messages.js";
 import { logger } from "../utils/logger.js"
 import {
-  renderForgotPassword,
-  handleForgotPassword,
-  renderResetPassword,
-  handleResetPassword,
+    renderForgotPassword,
+    handleForgotPassword,
+    renderResetPassword,
+    handleResetPassword,
 } from '../controllers/passwordResetController.js';
 import { changeUserRole, deleteUser } from '../controllers/usersController.js';
 import { isLogin, isAdmin } from '../middleware/authorization.js';
 import { usersModel } from "../dao/models/users.js";
-import { register } from '../controllers/usersController.js'
+
 
 
 const router = Router();
@@ -24,7 +24,7 @@ const messagesManager = new Messages();
 // Ruta para la vista "Products"
 router.get('/products', async (req, res) => {
     const products = await productsManager.getAll();
-    res.render('products', { products, user:req.session.user });
+    res.render('products', { products, user: req.session.user });
     console.log('Estructura completa de req.user:', req.session.user);
 });
 
@@ -34,13 +34,11 @@ router.get('/carts/:cartId', async (req, res) => {
     const cartId = req.params.cartId;
     try {
         const cart = await cartsManager.getCartById(cartId);
-
         // Verifica si cart es indefinido o si cart.products no está definido
         if (!cart || !cart.products) {
             res.status(404).json({ error: 'Carrito no encontrado.' });
             return;
         }
-
         // Calcular el precio total en el controlador
         const totalPrice = cart.products.reduce((total, product) => {
             // Verifica si product.product está definido y si product.product.price está definido
@@ -50,8 +48,7 @@ router.get('/carts/:cartId', async (req, res) => {
                 return total;
             }
         }, 0);
-
-        res.render('cart', { cart, totalPrice });
+        res.render('cart', { cart, user: req.session.user, cartId, totalPrice });
     } catch (error) {
         logger.error('Error:', error);
         res.status(404).json({ error: 'Carrito no encontrado.' });
@@ -83,7 +80,7 @@ router.get('/chat', async (req, res) => {
 
 router.get('/login', async (req, res) => {
     res.render('login');
-    
+
 })
 
 
@@ -93,7 +90,7 @@ router.get('/register', async (req, res) => {
 
 router.get('/profile', async (req, res) => {
     res.render('profile', {
-        user:req.session.user
+        user: req.session.user
     })
 })
 
@@ -105,13 +102,13 @@ router.post('/logout', async (req, res) => {
 // Ruta para la vista "Editar Usuarios"
 router.get('/edit-users', async (req, res) => {
     try {
-      const allUsers = await usersModel.find().lean();
-      res.render('edit-users', { allUsers });
+        const allUsers = await usersModel.find().lean();
+        res.render('edit-users', { allUsers });
     } catch (error) {
-      res.status(500).json({ error: error.message });
+        res.status(500).json({ error: error.message });
     }
-  });
-  
+});
+
 
 // Ruta para procesar el cambio de rol (POST)
 router.post('/modify-role', isLogin, isAdmin, changeUserRole);
