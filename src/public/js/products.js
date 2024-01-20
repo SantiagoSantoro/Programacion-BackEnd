@@ -56,14 +56,6 @@ function addProductToCart(productId, cartId, stock) {
                 console.log('Producto agregado al carrito con éxito.');
                 // Actualiza la vista del carrito o realiza otras acciones necesarias
                 updateQuantityDisplay(productId, 0); // Reinicia la cantidad a 0
-                // if (data.status === 'message') {
-                //     console.log('Producto agregado al carrito con éxito.');
-                //     // Actualiza la cantidad en la vista después de agregar al carrito
-                //     updateQuantityDisplay(productId, 0); // Reinicia la cantidad a 0
-                // } else {
-                //     console.error('Error al agregar el producto al carrito:', data.error);
-                //     // Maneja el error según tus necesidades
-                // }
             })
             .catch(error => {
                 console.error('Error en la solicitud al servidor:', error);

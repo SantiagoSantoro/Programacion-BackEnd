@@ -1,0 +1,41 @@
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(45deg, #333, #000, #333, #666);
+}
+
+h1 {
+    text-align: center;
+    font-weight: bold;
+    color: whitesmoke;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+a {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    color: #fff;
+    background: #333;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+a:hover {
+    background: #666;
+}
+
+/* Agrega más estilos según tus necesidades */
