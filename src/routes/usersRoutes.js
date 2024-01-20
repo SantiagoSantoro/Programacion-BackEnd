@@ -17,7 +17,6 @@ router.post('/modify-role', isLogin, isAdmin, changeUserRole);
 // Nueva ruta para borrar un usuario
 router.post('/delete-user', isLogin, isAdmin, deleteUser);
 
-
 // Ruta para subir documentos
 router.post('/:uid/documents', uploader.single('document'), uploadDocuments);
 

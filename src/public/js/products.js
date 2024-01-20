@@ -50,8 +50,12 @@ function addProductToCart(productId, cartId, stock) {
         })
             .then(response => response.json())
             .then(data => {
-                console.log(data)
-                console.log('Producto agregado al carrito con éxito.');
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Producto agregado al carrito',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
                 // Actualiza la vista del carrito o realiza otras acciones necesarias
                 updateQuantityDisplay(productId, 0); // Reinicia la cantidad a 0
             })

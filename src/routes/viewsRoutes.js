@@ -55,7 +55,6 @@ router.get('/carts/:cartId', async (req, res) => {
     }
 });
 
-
 // Ruta para la vista "Home"
 
 router.get('/home', async (req, res) => {
@@ -82,7 +81,6 @@ router.get('/login', async (req, res) => {
     res.render('login');
 
 })
-
 
 router.get('/register', async (req, res) => {
     res.render('register');
@@ -113,7 +111,7 @@ router.get('/edit-users', async (req, res) => {
 // Ruta para procesar el cambio de rol (POST)
 router.post('/modify-role', isLogin, isAdmin, changeUserRole);
 // Nueva ruta para borrar un usuario
-router.post('/delete-user', isLogin, isAdmin, deleteUser)
+router.post('/delete-user', isLogin, isAdmin, deleteUser);
 
 
 router.get('/forgot-password', renderForgotPassword);
