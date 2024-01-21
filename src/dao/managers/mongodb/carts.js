@@ -156,7 +156,7 @@ export default class Carts {
   }
 
   finalizePurchase = async (cartId, user) => {
-    const cart = await this.getCartById(cartId);
+    const cart = await cartsModel.findById(cartId);
     // Verificar el stock de los productos en el carrito y realizar otras operaciones necesarias.
     for (const item of cart.products) {
       const productId = item.product;
