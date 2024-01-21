@@ -79,7 +79,6 @@ export default class Carts {
   };
 
 
-
   updateProductInCart = async (cartId, productId, quantity) => {
     try {
       // Busca el carrito por su ID
@@ -87,7 +86,6 @@ export default class Carts {
       if (!cart) {
         throw new Error('Carrito no encontrado.');
       }
-
       // Busca el producto en el carrito por su ID y actualiza la cantidad
       const productIndex = cart.products.findIndex(product => product.product == productId);
       if (productIndex !== -1) {
@@ -167,7 +165,6 @@ export default class Carts {
         throw new Error(`No hay suficiente stock para el producto: ${product.name}`);
       }
     }
-
     // Crear un ticket con los datos de la compra utilizando la función importada
     const ticketData = {
       code: generateUniqueTicketCode(),
@@ -180,7 +177,5 @@ export default class Carts {
 
     return ticket;
   };
-
-
 
 }

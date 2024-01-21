@@ -19,8 +19,8 @@
             <p>Precio total: ${{this.totalPrice}}</p>
         </li>
         {{/each}}
-
     </ul>
+    <button class="cart-button-finalize" onclick="finalizePurchase('{{cart._id}}')">Finalizar Compra</button>
     <a href="/products">Volver a la Lista de Productos</a>
     <script src="/js/cart.js"></script>
 </body>

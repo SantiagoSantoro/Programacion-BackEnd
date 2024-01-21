@@ -38,4 +38,20 @@ a:hover {
     background: #666;
 }
 
-/* Agrega más estilos según tus necesidades */
+/* Nuevo estilo para el botón "Finalizar Compra" */
+.cart-button-finalize {
+    display: block; /* Cambiado a "block" para ocupar el ancho completo del contenedor */
+    margin: 20px auto; /* Ajustado para centrar horizontalmente y agregar margen superior */
+    padding: 15px;
+    background: #28a745; /* Verde */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    text-decoration: none; /* Elimina el subrayado por defecto en el botón */
+}
+
+.cart-button-finalize:hover {
+    background: #218838; /* Cambia el tono de verde al pasar el ratón sobre el botón */
+}
