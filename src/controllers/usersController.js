@@ -55,9 +55,7 @@ export const deleteInactiveUsers = async (req, res) => {
 export const register = async (req, res) => {
   try {
     passport.authenticate('register', { failureRedirect: '/failRegister' })(req, res, async () => {
-      // Verifica la estructura completa de req.user
-      console.log('Estructura completa de req.user:', req.user);
-
+    
       // Verificar si el usuario se creó correctamente
       if (req.user) {
         try {

@@ -1,6 +1,6 @@
 function finalizePurchase(cartId) {
     // Realiza una solicitud al servidor para finalizar la compra
-    fetch(`/api/carts/${cartId}/finalizePurchase`, {
+    fetch(`/api/carts/${cartId}/finalizePurchase/`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

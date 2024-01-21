@@ -14,7 +14,7 @@ export const initializePassport = () => {
         passReqToCallback: true,
         usernameField: 'email'
     }, async (req, username, password, done) => {
-        const { first_name, last_name, email, age, password: userPassword } = req.body;
+        const { first_name, last_name, email, age, password: userPassword, cart } = req.body;
         try {
             const exists = await usersModel.findOne({ email });
             if (exists) {
@@ -39,7 +39,7 @@ export const initializePassport = () => {
             // Envía un correo electrónico después de la creación exitosa del usuario
             await mailer.sendSimpleMail({
                 from: "CoderTest",
-                to: "santiagosantoro10@gmail.com",
+                to: newUser.email,
                 subject: 'Bienvenido a nuestro servicio',
                 html: '<div><h1>Usuario registrado</h1></div>'
             });
