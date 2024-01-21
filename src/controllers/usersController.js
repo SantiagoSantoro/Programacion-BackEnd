@@ -6,8 +6,6 @@ import { cartsModel } from '../dao/models/carts.js';
 
 
 
-
-
 export const getAllUsers = async (req, res) => {
   try {
     const allUsers = await usersModel.find();

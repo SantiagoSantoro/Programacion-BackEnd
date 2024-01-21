@@ -176,6 +176,7 @@ export default class Carts {
     const ticket = await ticketsModel.create(ticketData);
 
     return ticket;
+    
   };
 
 }
