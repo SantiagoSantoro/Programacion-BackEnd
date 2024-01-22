@@ -9,6 +9,7 @@
 </head>
 
 <body>
+     
     <h1>Carrito de Compras</h1>
     <ul>
         {{#each cart.products}}
@@ -17,7 +18,7 @@
             <p>Cantidad: {{this.quantity}}</p>
             <p>Precio unitario: ${{this.price}}</p>
             <p>Precio total: ${{this.totalPrice}}</p>
-            <button onclick="removeProductFromCart('{{../user.cart}}', '{{this.productId._id}}')">Eliminar del Carrito</button>
+            <button onclick="removeProductFromCart('{{../user.cart}}', {{this._id}})">Eliminar del Carrito</button>
         </li>
         {{/each}}
     </ul>

@@ -39,6 +39,7 @@ router.get('/carts/:cartId', async (req, res) => {
             res.status(404).json({ error: 'Carrito no encontrado.' });
             return;
         }
+
         // Calcular el precio total en el controlador
         const totalPrice = cart.products.reduce((total, product) => {
             // Verifica si product.product está definido y si product.product.price está definido
@@ -48,7 +49,8 @@ router.get('/carts/:cartId', async (req, res) => {
                 return total;
             }
         }, 0);
-        res.render('cart', { cart, user: req.session.user, cartId, totalPrice });
+        const products = await productsManager.getAll();
+        res.render('cart', { cart, user: req.session.user, cartId, totalPrice, products });
     } catch (error) {
         logger.error('Error:', error);
         res.status(404).json({ error: 'Carrito no encontrado.' });

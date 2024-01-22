@@ -159,7 +159,7 @@ export const updateProductInCart = async (req, res) => {
 export const removeProductFromCart = async (req, res) => {
   try {
     const cartId = req.params.cartId;
-    const productId = req.body.productId;
+    const productId = req.params.productId;
     const quantity = req.body.quantity;
 
     // Obtener información del usuario desde la sesión (asumo que está disponible)
