@@ -17,12 +17,14 @@
             <p>Cantidad: {{this.quantity}}</p>
             <p>Precio unitario: ${{this.price}}</p>
             <p>Precio total: ${{this.totalPrice}}</p>
+            <button onclick="removeProductFromCart('{{../user.cart}}', '{{this.productId._id}}')">Eliminar del Carrito</button>
         </li>
         {{/each}}
     </ul>
     <button class="cart-button-finalize" onclick="finalizePurchase('{{user.cart}}')">Finalizar Compra</button>
     <a href="/products">Volver a la Lista de Productos</a>
     <script src="/js/cart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.28/dist/sweetalert2.all.min.js"></script>
 </body>
 
 </html>
