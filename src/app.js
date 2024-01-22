@@ -30,7 +30,7 @@ import { swaggerUi, swaggerSpecs } from './config/swagger.js';
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server); // Configura Socket.IO
-const port = 8080;
+const port = config.port || 8080;
 
 
 //Conecto a Mongoose
