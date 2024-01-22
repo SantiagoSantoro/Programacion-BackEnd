@@ -26,7 +26,7 @@ function removeProductFromCart(cartId, productId) {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
-    },
+    }, 
   })
     .then(response => response.json())
     .then(data => {

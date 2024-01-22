@@ -50,7 +50,9 @@ router.get('/carts/:cartId', async (req, res) => {
             }
         }, 0);
         const products = await productsManager.getAll();
+        
         res.render('cart', { cart, user: req.session.user, cartId, totalPrice, products });
+        
     } catch (error) {
         logger.error('Error:', error);
         res.status(404).json({ error: 'Carrito no encontrado.' });

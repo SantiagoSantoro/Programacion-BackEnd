@@ -55,3 +55,20 @@ a:hover {
 .cart-button-finalize:hover {
     background: #218838; /* Cambia el tono de verde al pasar el ratón sobre el botón */
 }
+
+
+/* Agrega estilos al botón de eliminar producto */
+.cart-remove-button {
+    color: #fff;
+    background-color: #dc3545; /* Color de fondo rojo (peligro) */
+    border: 1px solid #dc3545; /* Borde rojo */
+    padding: 8px 16px; /* Espaciado interno */
+    border-radius: 4px; /* Bordes redondeados */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+}
+
+/* Cambia el color del botón cuando se pasa el ratón sobre él */
+.cart-remove-button:hover {
+    background-color: #bd2130; /* Color de fondo rojo oscuro en hover */
+    border: 1px solid #bd2130; /* Borde rojo oscuro en hover */
+}
