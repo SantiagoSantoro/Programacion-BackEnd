@@ -1,0 +1,5 @@
+[build]
+  base = "src"
+  command = "npm run start"
+  publish = "app.js/dist"
+  functions = "does-not-exist"
