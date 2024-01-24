@@ -20,6 +20,12 @@ const productsManager = new Products();
 const cartsManager = new Carts();
 const messagesManager = new Messages();
 
+// Ruta para redirigir la raíz a /login
+router.get('/', (req, res) => {
+    res.redirect('/login');
+  });
+  
+
 
 // Ruta para la vista "Products"
 router.get('/products', async (req, res) => {
