@@ -19,7 +19,7 @@
             <p>Precio unitario: ${{this.price}}</p>
             <p>Precio total: ${{this.totalPrice}}</p>
             <button class="cart-remove-button"
-                onclick="removeProductFromCart('{{../user.cart}}', {{this._id}})">Eliminar del Carrito</button>
+                onclick="removeProductFromCart('{{../user.cart}}', '{{this._id}}')">Eliminar del Carrito</button>
         </li>
         {{/each}}
     </ul>

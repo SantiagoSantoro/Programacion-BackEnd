@@ -25,10 +25,16 @@ export default class Carts {
     try {
       const cart = await cartsModel.findById(cartId).populate('products.product');
       const myCart = { products: [] };
-      if (cart) {     
+      if (cart) {
         cart.products.forEach(product => {
           product.totalPrice = product.quantity * product.product.price;
-          const myProduct = { price: product.product.price, quantity: product.quantity, title: product.product.title, totalPrice: product.totalPrice };
+          const myProduct = {
+            _id: product.product._id,
+            price: product.product.price,
+            quantity: product.quantity,
+            title: product.product.title,
+            totalPrice: product.totalPrice
+          };
           myCart.products.push(myProduct)
         });
       }
@@ -176,7 +182,7 @@ export default class Carts {
     const ticket = await ticketsModel.create(ticketData);
 
     return ticket;
-    
+
   };
 
 }
