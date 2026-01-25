@@ -1,33 +1,69 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carrito de Compras</title>
-    <link rel="stylesheet" href="/styles/cart.css">
+    <title>Carrito</title>
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body>
+<body class="bg-gray-100 min-h-screen">
 
-    <h1>Carrito de Compras</h1>
-    <ul>
-        {{#each cart.products}}
-        <li>
-            <h2>{{this.title}}</h2>
-            <p>Cantidad: {{this.quantity}}</p>
-            <p>Precio unitario: ${{this.price}}</p>
-            <p>Precio total: ${{this.totalPrice}}</p>
-            <button class="cart-remove-button"
-                onclick="removeProductFromCart('{{../user.cart}}', '{{this._id}}')">Eliminar del Carrito</button>
-        </li>
-        {{/each}}
-    </ul>
-    <button class="cart-button-finalize" onclick="finalizePurchase('{{user.cart}}')">Finalizar Compra</button>
-    <a href="/products">Volver a la Lista de Productos</a>
+    <div class="max-w-5xl mx-auto p-6">
+
+        <h1 class="text-3xl font-bold mb-6 text-center">🛒 Tu carrito</h1>
+
+        {{#if cart.products.length}}
+        <div class="space-y-4">
+            {{#each cart.products}}
+            <div
+                class="bg-white rounded-xl shadow p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+
+                <div>
+                    <h2 class="text-xl font-semibold">{{this.title}}</h2>
+                    <p class="text-gray-600">Cantidad: <b>{{this.quantity}}</b></p>
+                    <p class="text-gray-600">Precio unitario: <b>${{this.price}}</b></p>
+                    <p class="text-gray-800 font-bold">Total: ${{this.totalPrice}}</p>
+                </div>
+
+                <div>
+                    <button class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition"
+                        onclick="removeProductFromCart('{{../user.cart}}', '{{this._id}}')">
+                        ❌ Quitar
+                    </button>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+
+        <div class="mt-8 flex flex-col md:flex-row justify-between gap-4">
+            <a href="/products" class="text-center bg-gray-200 hover:bg-gray-300 px-6 py-3 rounded-lg transition">
+                ⬅ Volver a productos
+            </a>
+
+            <button class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-bold transition"
+                onclick="finalizePurchase('{{user.cart}}')">
+                ✅ Finalizar compra
+            </button>
+        </div>
+
+        {{else}}
+        <div class="bg-white p-8 rounded-xl shadow text-center">
+            <p class="text-xl mb-4">😢 Tu carrito está vacío</p>
+            <a href="/products" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition">
+                Ir a productos
+            </a>
+        </div>
+        {{/if}}
+
+    </div>
+
     <script src="/js/cart.js"></script>
     <script src="/js/products.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.28/dist/sweetalert2.all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </body>
 

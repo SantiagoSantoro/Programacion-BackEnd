@@ -1,44 +1,95 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="es">
 <head>
     <meta charset="UTF-8">
+    <title>Productos</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Productos</title>
-    <link rel="stylesheet" href="/styles/products.css">
+
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body>
-    <h1>Lista de Productos</h1>
-    <ul class="product-grid">
-        {{#each products}}
-        <li data-product-id="{{this._id}}">
-            <h2>{{this.title}}</h2>
-            <p>{{this.description}}</p>
-            <p>Precio: ${{this.price}}</p>
-            <p>Disponibilidad: {{this.stock}} en stock</p>
-            <p>Categoría: {{this.category}}</p>
-            <img src="{{this.thumbnail}}" alt="{{this.title}}" />
-            <br>
+<body class="bg-gray-900 text-gray-100">
 
-            <!-- Botones de incremento y decremento -->
-            <button onclick="decrementQuantity('{{this._id}}')">-</button>
-            <span id="quantity{{this._id}}">0</span>
-            <button onclick="incrementQuantity('{{this._id}}')">+</button>
-            <br>
-            <br>
-            <!-- Botón agregar al carrito -->
-            <button onclick="addProductToCart('{{this._id}}', '{{../user.cart}}')">Agregar al Carrito</button>
-        </li>
-        {{/each}}
-    </ul>
-    <div class="center-button">
-        <button class="cart-button" onclick="viewCart('{{user.cart}}')">Ver Carrito</button>
+    <!-- HEADER -->
+    <header class="bg-gray-800 shadow sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+
+        <h1 class="text-2xl font-bold text-white">🛍️ Mi Tienda</h1>
+
+        <div class="flex items-center gap-4">
+
+            <button
+                onclick="viewCart('{{user.cart}}')"
+                class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-semibold transition shadow"
+            >
+                🛒 Carrito
+            </button>
+
+            <form action="/api/sessions/logout" method="POST">
+
+
+                <button
+                    type="submit"
+                    class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-semibold transition"
+                >
+                    🚪 Salir
+                </button>
+            </form>
+
+        </div>
+
     </div>
+</header>
 
+
+    <!-- CONTENIDO -->
+    <main class="max-w-7xl mx-auto p-6">
+
+        <h2 class="text-3xl font-bold mb-8 text-white">Productos</h2>
+
+        <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {{#each products}}
+            <li data-product-id="{{this._id}}" class="bg-gray-800 rounded-xl shadow-lg p-5 flex flex-col border border-gray-700">
+
+                <h3 class="text-xl font-bold text-white mb-2">{{this.title}}</h3>
+
+                <p class="text-gray-400 text-sm mb-3">{{this.description}}</p>
+
+                <p class="font-semibold">💲 Precio: ${{this.price}}</p>
+                <p class="text-sm text-gray-400">📦 Stock: {{this.stock}}</p>
+                <p class="text-sm text-gray-400 mb-3">🏷️ {{this.category}}</p>
+
+                <img src="{{this.thumbnail}}" alt="{{this.title}}" class="h-40 object-contain my-4 bg-white rounded p-2">
+
+                <!-- Contador -->
+                <div class="flex items-center justify-center gap-4 mb-4">
+                    <button
+                        class="bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded font-bold text-lg"
+                        onclick="decrementQuantity('{{this._id}}')">-</button>
+
+                    <span id="quantity{{this._id}}" class="font-bold text-lg text-white">0</span>
+
+                    <button
+                        class="bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded font-bold text-lg"
+                        onclick="incrementQuantity('{{this._id}}')">+</button>
+                </div>
+
+                <!-- Botón agregar -->
+                <button
+                    class="bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg font-semibold transition"
+                    onclick="addProductToCart('{{this._id}}', '{{../user.cart}}')">
+                    Agregar al carrito
+                </button>
+
+            </li>
+            {{/each}}
+        </ul>
+
+    </main>
+
+    <!-- JS -->
     <script src="/js/products.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.28/dist/sweetalert2.all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </body>
-
 </html>

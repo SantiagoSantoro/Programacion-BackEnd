@@ -11,19 +11,24 @@ export const getHomePage = (req, res) => {
 };
 
 export const login = (req, res) => {
-  passport.authenticate('login', { failureRedirect: '/failLogin' })(req, res, async () => {
+  passport.authenticate('login', { failureRedirect: '/login?error=1' })(req, res, async () => {
     if (!req.user) {
-      return res.status(400).send({ status: 'error', error: 'Credenciales inválidas' });
+      return res.redirect('/login?error=1');
     }
+
     delete req.user.password;
     req.session.user = req.user;
-    res.send({ status: 'success', payload: req.user });
+
+    // 👉 ACÁ ESTÁ LA CLAVE:
+    res.redirect('/products');
   });
 };
 
+
 export const getFailLogin = (req, res) => {
-  res.send({ error: 'Failed login' });
+  res.redirect('/login?error=1');
 };
+
 
 
 export const logout = (req, res) => {
