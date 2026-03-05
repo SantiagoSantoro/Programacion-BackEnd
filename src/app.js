@@ -50,6 +50,10 @@ app.use(
     resave: false,
     saveUninitialized: false,
     name: 'user-session',
+    cookie: {
+      secure: true,
+      sameSite: 'none'  //Para que cree carrito cuando está deployado
+    }
   })
 );
 
