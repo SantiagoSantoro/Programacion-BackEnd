@@ -30,7 +30,7 @@ router.get('/', (req, res) => {
 // Ruta para la vista "Products"
 router.get('/products', async (req, res) => {
     const products = await productsManager.getAll();
-    res.render('products', { products, user: req.user || req.session.user });// solucion?
+    res.render('products', { products, user: req.session.user });
     console.log('Estructura completa de req.user:', req.session.user);
 });
 
