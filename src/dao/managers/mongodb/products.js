@@ -5,7 +5,8 @@ export default class Products {
 
     }
     getAll = async () => {
-        const products = await productsModel.find()
+        // Sin sort, Mongo no garantiza orden estable
+        const products = await productsModel.find().sort({ _id: 1 })
         return products.map(product => product.toObject());
     }
     getProductById = async (productId) => {

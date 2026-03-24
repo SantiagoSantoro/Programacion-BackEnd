@@ -59,7 +59,12 @@
                 <p class="text-sm text-gray-400">📦 Stock: {{this.stock}}</p>
                 <p class="text-sm text-gray-400 mb-3">🏷️ {{this.category}}</p>
 
-                <img src="{{this.thumbnail}}" alt="{{this.title}}" class="h-40 object-contain my-4 bg-white rounded p-2">
+                {{!-- Imagen del producto (usa thumbnail si existe, sino una imagen por defecto) --}}
+                <img
+                    src="{{#if this.thumbnail}}{{this.thumbnail}}{{else}}https://via.placeholder.com/300x200?text=Sin+imagen{{/if}}"
+                    alt="{{this.title}}"
+                    class="h-40 object-contain my-4 bg-white rounded p-2"
+                >
 
                 <!-- Contador -->
                 <div class="flex items-center justify-center gap-4 mb-4">
