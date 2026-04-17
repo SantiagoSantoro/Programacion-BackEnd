@@ -13,18 +13,17 @@ form.addEventListener('submit', e => {
             'Content-Type': 'application/json'
         },
     }).then(result => {
-        // Verificar si la respuesta es exitosa (código de estado 200)
         if (result.ok) {
-            // Redirigir a la página de inicio de sesión
+            alert('✅ ¡Usuario creado con éxito!');  // 👈 esto se agrega
             window.location.href = '/login';
         } else {
-            // Manejar otros casos, como errores de validación, etc.
             return result.text().then(errorText => {
                 console.error('Error en la solicitud al servidor:', errorText);
+                alert('❌ Error al crear el usuario. Intentá de nuevo.'); // 👈 opcional pero útil
             });
         }
     }).catch(error => {
         console.error('Error en la solicitud al servidor:', error);
+        alert('❌ Error de conexión. Intentá de nuevo.'); // 👈 opcional pero útil
     });
 });
-
